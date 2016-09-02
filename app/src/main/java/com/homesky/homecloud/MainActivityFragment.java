@@ -20,6 +20,7 @@ import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewUserCommand;
+import com.homesky.homecloud.command.RegisterControllerCommand;
 
 import org.json.JSONObject;
 
@@ -29,10 +30,12 @@ public class MainActivityFragment extends Fragment {
     EditText mUsernameEditText;
     EditText mPasswordEditText;
     EditText mTokenEditText;
+    EditText mControllerIdEditText;
     Button mLoginButton;
     Button mLogoutButton;
     Button mNewUserButton;
     Button mNewAdminButton;
+    Button mRegisterControllerButton;
     TextView mResponseTextView;
 
     public static MainActivityFragment newInstance(){
@@ -56,6 +59,7 @@ public class MainActivityFragment extends Fragment {
         mUsernameEditText = (EditText)v.findViewById(R.id.username_edit_text);
         mPasswordEditText = (EditText)v.findViewById(R.id.password_edit_text);
         mTokenEditText = (EditText)v.findViewById(R.id.token_edit_text);
+        mControllerIdEditText = (EditText)v.findViewById(R.id.controller_id_edit_text);
 
         mLoginButton = (Button)v.findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +102,16 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 NewAdminCommand command =
                         new NewAdminCommand(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+                new RequestTask().execute(command);
+            }
+        });
+
+        mRegisterControllerButton = (Button)v.findViewById(R.id.register_controller_button);
+        mRegisterControllerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RegisterControllerCommand command =
+                        new RegisterControllerCommand(mControllerIdEditText.getText().toString());
                 new RequestTask().execute(command);
             }
         });

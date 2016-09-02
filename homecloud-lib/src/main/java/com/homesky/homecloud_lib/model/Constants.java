@@ -21,6 +21,10 @@ public class Constants {
             public static final String USERNAME = "username";
             public static final String PASSWORD = "password";
         }
+
+        public static class RegisterController{
+            public static final String CONTROLLER_ID = "controllerId";
+        }
     }
 
     public static class Values {
@@ -29,6 +33,7 @@ public class Constants {
             public static final String LOGOUT = "logout";
             public static final String NEW_USER = "newUser";
             public static final String NEW_ADMIN = "newAdmin";
+            public static final String REGISTER_CONTROLLER = "registerController";
         }
     }
 }
