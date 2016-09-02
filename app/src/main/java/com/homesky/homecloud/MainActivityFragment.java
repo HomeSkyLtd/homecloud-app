@@ -33,7 +33,10 @@ public class MainActivityFragment extends Fragment {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, (token == null) ? "null" : token);
 
-        HomecloudHolder.setInstance("http://192.168.1.33:3000/");
+        HomecloudHolder.setUrl("http://192.168.1.35:3000/");
+        HomecloudHolder.setUsername("admin1");
+        HomecloudHolder.setPassword("mypass");
+        HomecloudHolder.setToken("12345");
     }
 
     @Nullable
@@ -45,7 +48,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Login params
-                LoginCommand command = new LoginCommand("user", "pass", "12345");
+                LoginCommand command = new LoginCommand();
                 new RequestTask().execute(command);
             }
         });
