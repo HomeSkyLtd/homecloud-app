@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.homesky.homecloud_lib.model.LoginRequest;
 import com.homesky.homecloud_lib.model.LogoutRequest;
+import com.homesky.homecloud_lib.model.NewUserRequest;
 import com.homesky.homecloud_lib.model.RequestModel;
 
 import java.io.IOException;
@@ -52,9 +53,8 @@ public class Homecloud {
      * @return A JSON string following the conventions of the Homecloud protocol
      */
     public String login(){
-        RequestModel login = new LoginRequest(mUsername, mPassword, mToken);
-        return makeRequest(login);
-
+        RequestModel loginReq = new LoginRequest(mUsername, mPassword, mToken);
+        return makeRequest(loginReq);
     }
 
     /**
@@ -62,9 +62,15 @@ public class Homecloud {
      * @return A JSON string following the conventions of the Homecloud protocol
      */
     public String logout(){
-        RequestModel logout = new LogoutRequest(mToken);
+        RequestModel logoutReq = new LogoutRequest(mToken);
+        String res = makeRequest(logoutReq);
         mCookie = null;
-        return makeRequest(logout);
+        return res;
+    }
+
+    public String newUser(String username, String password){
+        RequestModel newUserReq = new NewUserRequest(username, password);
+        return makeRequest(newUserReq);
     }
 
     private String makeRequest(RequestModel request){

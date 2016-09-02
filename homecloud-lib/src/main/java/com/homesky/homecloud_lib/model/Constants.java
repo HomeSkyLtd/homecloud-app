@@ -16,12 +16,18 @@ public class Constants {
         public static class Logout{
             public static final String TOKEN = "token";
         }
+
+        public static class NewUser{
+            public static final String USERNAME = "username";
+            public static final String PASSWORD = "password";
+        }
     }
 
     public static class Values {
         public static class Functions {
             public static final String LOGIN = "login";
             public static final String LOGOUT = "logout";
+            public static final String NEW_USER = "newUser";
         }
     }
 }

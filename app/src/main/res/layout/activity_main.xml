@@ -24,6 +24,12 @@
             android:layout_height="wrap_content"
             android:text="Logout"/>
 
+        <Button
+            android:id="@+id/new_user_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New user"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="100dp"

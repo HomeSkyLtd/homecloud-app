@@ -15,6 +15,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.homesky.homecloud.command.Command;
 import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
+import com.homesky.homecloud.command.NewUserCommand;
 
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ public class MainActivityFragment extends Fragment {
 
     Button mLoginButton;
     Button mLogoutButton;
+    Button mNewUserButton;
     TextView mResponseTextView;
 
     public static MainActivityFragment newInstance(){
@@ -59,6 +61,15 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 LogoutCommand command = new LogoutCommand();
+                new RequestTask().execute(command);
+            }
+        });
+
+        mNewUserButton = (Button)v.findViewById(R.id.new_user_button);
+        mNewUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewUserCommand command = new NewUserCommand("user2", "userpass2");
                 new RequestTask().execute(command);
             }
         });
