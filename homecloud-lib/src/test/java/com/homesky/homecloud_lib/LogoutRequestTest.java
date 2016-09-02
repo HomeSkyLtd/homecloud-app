@@ -3,7 +3,7 @@ package com.homesky.homecloud_lib;
 import android.util.JsonWriter;
 
 import com.homesky.homecloud_lib.model.Constants;
-import com.homesky.homecloud_lib.model.LoginRequest;
+import com.homesky.homecloud_lib.model.LogoutRequest;
 import com.homesky.homecloud_lib.util.JSONComparator;
 
 import org.json.JSONException;
@@ -21,21 +21,19 @@ import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class LoginRequestTest {
+public class LogoutRequestTest {
 
     @Test
     public void json_isCorrect(){
-        LoginRequest request = new LoginRequest("user", "pass", "12345");
+        LogoutRequest request = new LogoutRequest("12345");
         StringWriter sw = new StringWriter();
         JsonWriter writer = new JsonWriter(sw);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: %s, %s: 'user', %s: 'pass', %s: '12345'}",
+        f.format("{%s: %s, %s: '12345'}",
                 Constants.Fields.Common.FUNCTION,
-                Constants.Values.Functions.LOGIN,
-                Constants.Fields.Login.USERNAME,
-                Constants.Fields.Login.PASSWORD,
+                Constants.Values.Functions.LOGOUT,
                 Constants.Fields.Login.TOKEN);
         JSONObject test = null, reference = null;
         try{
