@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "835528567526",
+    "firebase_url": "https://homecloud-app.firebaseio.com",
+    "project_id": "homecloud-app",
+    "storage_bucket": "homecloud-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835528567526:android:684016d84511fa02",
+        "android_client_info": {
+          "package_name": "com.homesky.homecloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835528567526-ch3f4hrva8k3g6pfqdk44gvlbg7p184n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4FF-Ri_powSNoBMnOLBjsLAXei6RiXaw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
