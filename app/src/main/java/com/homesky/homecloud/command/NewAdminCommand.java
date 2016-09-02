@@ -1,6 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
+import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 /**
  * Created by fabio on 02/09/2016.
@@ -14,7 +15,7 @@ public class NewAdminCommand implements Command {
         mPassword = password;
     }
     @Override
-    public String execute() {
+    public SimpleResponse execute() {
         return HomecloudHolder.getInstance().newAdmin(mUsername, mPassword);
     }
 }

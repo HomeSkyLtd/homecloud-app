@@ -5,6 +5,8 @@ public class Constants {
         public static class Common {
             public static final String FUNCTION = "function";
             public static final String PAYLOAD = "payload";
+            public static final String STATUS = "status";
+            public static final String ERROR_MESSAGE = "errorMessage";
         }
 
         public static class Login{

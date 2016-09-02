@@ -21,6 +21,7 @@ import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
+import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 import org.json.JSONObject;
 
@@ -120,22 +121,22 @@ public class MainActivityFragment extends Fragment {
         return v;
     }
 
-    private class RequestTask extends AsyncTask<Command, Void, String>{
+    private class RequestTask extends AsyncTask<Command, Void, SimpleResponse>{
 
 
         @Override
-        protected String doInBackground(Command... commands) {
+        protected SimpleResponse doInBackground(Command... commands) {
             return commands[0].execute();
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(SimpleResponse s) {
             super.onPostExecute(s);
 
             if(s == null)
                 mResponseTextView.setText("Error making request");
             else
-                mResponseTextView.setText(s);
+                mResponseTextView.setText(s.toString());
         }
     }
 }

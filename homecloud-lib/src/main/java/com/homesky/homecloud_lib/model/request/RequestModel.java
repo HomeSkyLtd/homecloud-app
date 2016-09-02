@@ -1,7 +1,9 @@
-package com.homesky.homecloud_lib.model;
+package com.homesky.homecloud_lib.model.request;
 
 import android.util.JsonWriter;
 import android.util.Log;
+
+import com.homesky.homecloud_lib.model.Constants;
 
 import java.io.IOException;
 import java.io.StringWriter;

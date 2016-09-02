@@ -3,7 +3,7 @@ package com.homesky.homecloud_lib;
 import android.util.JsonWriter;
 
 import com.homesky.homecloud_lib.model.Constants;
-import com.homesky.homecloud_lib.model.LoginRequest;
+import com.homesky.homecloud_lib.model.request.LoginRequest;
 import com.homesky.homecloud_lib.util.JSONComparator;
 
 import org.json.JSONException;

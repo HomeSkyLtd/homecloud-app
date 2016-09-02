@@ -1,24 +1,22 @@
 package com.homesky.homecloud_lib;
 
-import android.util.JsonWriter;
 import android.util.Log;
 
-import com.homesky.homecloud_lib.model.LoginRequest;
-import com.homesky.homecloud_lib.model.LogoutRequest;
-import com.homesky.homecloud_lib.model.NewAdminRequest;
-import com.homesky.homecloud_lib.model.NewUserRequest;
-import com.homesky.homecloud_lib.model.RegisterControllerRequest;
-import com.homesky.homecloud_lib.model.RequestModel;
+import com.homesky.homecloud_lib.model.request.LoginRequest;
+import com.homesky.homecloud_lib.model.request.LogoutRequest;
+import com.homesky.homecloud_lib.model.request.NewAdminRequest;
+import com.homesky.homecloud_lib.model.request.NewUserRequest;
+import com.homesky.homecloud_lib.model.request.RegisterControllerRequest;
+import com.homesky.homecloud_lib.model.request.RequestModel;
+import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.Buffer;
 
 
 public class Homecloud {
@@ -54,20 +52,21 @@ public class Homecloud {
      * Logs in with the server using the credentials provided on initialization
      * @return A JSON string following the conventions of the Homecloud protocol
      */
-    public String login(){
+    public SimpleResponse login(){
         RequestModel loginReq = new LoginRequest(mUsername, mPassword, mToken);
-        return makeRequest(loginReq);
+        String responseStr = makeRequest(loginReq);
+        return SimpleResponse.from(responseStr);
     }
 
     /**
      * Logs out the user. Subsequent calls to methods may require logging in again
      * @return A JSON string following the conventions of the Homecloud protocol
      */
-    public String logout(){
+    public SimpleResponse logout(){
         RequestModel logoutReq = new LogoutRequest(mToken);
-        String res = makeRequest(logoutReq);
+        String responseStr = makeRequest(logoutReq);
         mCookie = null;
-        return res;
+        return SimpleResponse.from(responseStr);
     }
 
     /**
@@ -76,9 +75,10 @@ public class Homecloud {
      * @param password The password associated to the new user
      * @return A JSON string following the conventions of the Homecloud protocol
      */
-    public String newUser(String username, String password){
+    public SimpleResponse newUser(String username, String password){
         RequestModel newUserReq = new NewUserRequest(username, password);
-        return makeRequest(newUserReq);
+        String responseStr = makeRequest(newUserReq);
+        return SimpleResponse.from(responseStr);
     }
 
     /**
@@ -87,14 +87,16 @@ public class Homecloud {
      * @param password The password associated to the new admin
      * @return A JSON string following the conventions of the Homecloud protocol
      */
-    public String newAdmin(String username, String password){
+    public SimpleResponse newAdmin(String username, String password){
         RequestModel newAdminReq = new NewAdminRequest(username, password);
-        return makeRequest(newAdminReq);
+        String responseStr = makeRequest(newAdminReq);
+        return SimpleResponse.from(responseStr);
     }
 
-    public String registerController(String controllerId){
+    public SimpleResponse registerController(String controllerId){
         RequestModel registerControllerReq = new RegisterControllerRequest(controllerId);
-        return makeRequest(registerControllerReq);
+        String responseStr = makeRequest(registerControllerReq);
+        return SimpleResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request){
@@ -121,7 +123,7 @@ public class Homecloud {
 
         OkHttpClient client = new OkHttpClient();
         Response response;
-        String responseBody = null;
+        String responseBody;
         try {
             response = client.newCall(httpRequest).execute();
             if(response.isSuccessful()) {
