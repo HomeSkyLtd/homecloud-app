@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,25 +11,99 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_margin="6dp">
 
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"/>
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Username"/>
 
-        <Button
-            android:id="@+id/logout_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/username_edit_text"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/new_user_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New user"/>
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Password"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/password_edit_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Token"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/token_edit_text"/>
+        </LinearLayout>
+
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            grid:columnCount="3">
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Login"/>
+
+            <Button
+                android:id="@+id/logout_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Logout"/>
+
+            <Button
+                android:id="@+id/new_user_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="fill_horizontal"
+                android:text="New user"/>
+
+            <Button
+                android:id="@+id/new_admin_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="fill_horizontal"
+                android:text="New admin"/>
+        </android.support.v7.widget.GridLayout>
+
+
 
         <TextView
             android:layout_width="match_parent"

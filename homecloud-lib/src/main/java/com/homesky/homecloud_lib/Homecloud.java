@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.homesky.homecloud_lib.model.LoginRequest;
 import com.homesky.homecloud_lib.model.LogoutRequest;
+import com.homesky.homecloud_lib.model.NewAdminRequest;
 import com.homesky.homecloud_lib.model.NewUserRequest;
 import com.homesky.homecloud_lib.model.RequestModel;
 
@@ -68,9 +69,20 @@ public class Homecloud {
         return res;
     }
 
+    /**
+     * Creates a new user associated to the same house as the admin invoking this function
+     * @param username The username associated to the new user
+     * @param password The password associated to the new user
+     * @return A JSON string following the conventions of the Homecloud protocol
+     */
     public String newUser(String username, String password){
         RequestModel newUserReq = new NewUserRequest(username, password);
         return makeRequest(newUserReq);
+    }
+
+    public String newAdmin(String username, String password){
+        RequestModel newAdminReq = new NewAdminRequest(username, password);
+        return makeRequest(newAdminReq);
     }
 
     private String makeRequest(RequestModel request){

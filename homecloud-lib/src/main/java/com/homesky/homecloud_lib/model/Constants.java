@@ -17,7 +17,7 @@ public class Constants {
             public static final String TOKEN = "token";
         }
 
-        public static class NewUser{
+        public static class NewAgent{
             public static final String USERNAME = "username";
             public static final String PASSWORD = "password";
         }
@@ -28,6 +28,7 @@ public class Constants {
             public static final String LOGIN = "login";
             public static final String LOGOUT = "logout";
             public static final String NEW_USER = "newUser";
+            public static final String NEW_ADMIN = "newAdmin";
         }
     }
 }

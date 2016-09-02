@@ -18,14 +18,20 @@ public class HomecloudHolder {
 
     public static void setUsername(String username) {
         HomecloudHolder.username = username;
+        if(instance != null)
+            instance.setUsername(username);
     }
 
     public static void setPassword(String password) {
         HomecloudHolder.password = password;
+        if(instance != null)
+            instance.setPassword(password);
     }
 
     public static void setToken(String token) {
         HomecloudHolder.token = token;
+        if(instance != null)
+            instance.setToken(token);
     }
 
     public static Homecloud getInstance(){

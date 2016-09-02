@@ -4,12 +4,12 @@ import android.util.JsonWriter;
 
 import java.io.IOException;
 
-public class NewUserRequest extends RequestModel {
+public class NewAdminRequest extends RequestModel {
     private String mUsername;
     private String mPassword;
 
-    public NewUserRequest(String username, String password) {
-        super(Constants.Values.Functions.NEW_USER);
+    public NewAdminRequest(String username, String password) {
+        super(Constants.Values.Functions.NEW_ADMIN);
         mUsername = username;
         mPassword = password;
     }

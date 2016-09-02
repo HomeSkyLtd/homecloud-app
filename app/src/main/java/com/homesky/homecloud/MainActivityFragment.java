@@ -4,17 +4,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.homesky.homecloud.command.Command;
 import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
+import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 
 import org.json.JSONObject;
@@ -22,9 +26,13 @@ import org.json.JSONObject;
 public class MainActivityFragment extends Fragment {
     private static final String TAG = "MainActivityFragment";
 
+    EditText mUsernameEditText;
+    EditText mPasswordEditText;
+    EditText mTokenEditText;
     Button mLoginButton;
     Button mLogoutButton;
     Button mNewUserButton;
+    Button mNewAdminButton;
     TextView mResponseTextView;
 
     public static MainActivityFragment newInstance(){
@@ -38,19 +46,28 @@ public class MainActivityFragment extends Fragment {
         Log.d(TAG, (token == null) ? "null" : token);
 
         HomecloudHolder.setUrl("http://192.168.1.35:3000/");
-        HomecloudHolder.setUsername("admin1");
-        HomecloudHolder.setPassword("mypass");
-        HomecloudHolder.setToken("12345");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_main, container, false);
+
+        mUsernameEditText = (EditText)v.findViewById(R.id.username_edit_text);
+        mPasswordEditText = (EditText)v.findViewById(R.id.password_edit_text);
+        mTokenEditText = (EditText)v.findViewById(R.id.token_edit_text);
+
         mLoginButton = (Button)v.findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String username = mUsernameEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                String token = mTokenEditText.getText().toString();
+                HomecloudHolder.getInstance().setUsername(username);
+                HomecloudHolder.getInstance().setPassword(password);
+                HomecloudHolder.getInstance().setToken(token);
+
                 LoginCommand command = new LoginCommand();
                 new RequestTask().execute(command);
             }
@@ -69,7 +86,18 @@ public class MainActivityFragment extends Fragment {
         mNewUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewUserCommand command = new NewUserCommand("user2", "userpass2");
+                NewUserCommand command =
+                        new NewUserCommand(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+                new RequestTask().execute(command);
+            }
+        });
+
+        mNewAdminButton = (Button)v.findViewById(R.id.new_admin_button);
+        mNewAdminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewAdminCommand command =
+                        new NewAdminCommand(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
                 new RequestTask().execute(command);
             }
         });
