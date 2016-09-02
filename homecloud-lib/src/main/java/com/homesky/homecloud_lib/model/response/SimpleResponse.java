@@ -17,12 +17,13 @@ public class SimpleResponse {
     private int mStatus;
     private String mErrorMessage;
 
-    public SimpleResponse(int status, String errorMessage) {
+    protected SimpleResponse(int status, String errorMessage) {
         this.mStatus = status;
         this.mErrorMessage = errorMessage;
     }
 
     public static SimpleResponse from(String jsonStr){
+        if(jsonStr == null) return null;
         try{
             JSONObject obj = new JSONObject(jsonStr);
             int status = obj.getInt(Constants.Fields.Common.STATUS);
@@ -33,11 +34,6 @@ public class SimpleResponse {
             Log.e(TAG, "Error parsing JSON", e);
             return null;
         }
-    }
-
-    public void setFrom(JSONObject obj) throws JSONException {
-        mStatus = obj.getInt(Constants.Fields.Common.STATUS);
-        mErrorMessage = obj.getString(Constants.Fields.Common.ERROR_MESSAGE);
     }
 
     public void writeJSON(JsonWriter writer) throws IOException{

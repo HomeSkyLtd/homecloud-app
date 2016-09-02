@@ -2,6 +2,7 @@ package com.homesky.homecloud_lib;
 
 import android.util.Log;
 
+import com.homesky.homecloud_lib.model.request.HouseStateRequest;
 import com.homesky.homecloud_lib.model.request.LoginRequest;
 import com.homesky.homecloud_lib.model.request.LogoutRequest;
 import com.homesky.homecloud_lib.model.request.NewAdminRequest;
@@ -9,6 +10,7 @@ import com.homesky.homecloud_lib.model.request.NewUserRequest;
 import com.homesky.homecloud_lib.model.request.RegisterControllerRequest;
 import com.homesky.homecloud_lib.model.request.RequestModel;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
+import com.homesky.homecloud_lib.model.response.StateResponse;
 
 import java.io.IOException;
 
@@ -97,6 +99,12 @@ public class Homecloud {
         RequestModel registerControllerReq = new RegisterControllerRequest(controllerId);
         String responseStr = makeRequest(registerControllerReq);
         return SimpleResponse.from(responseStr);
+    }
+
+    public StateResponse getHouseState(){
+        RequestModel getHouseStateReq = new HouseStateRequest();
+        String responseStr = makeRequest(getHouseStateReq);
+        return StateResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request){

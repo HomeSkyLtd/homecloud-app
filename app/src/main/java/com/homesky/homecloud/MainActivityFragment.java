@@ -16,12 +16,14 @@ import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.homesky.homecloud.command.Command;
+import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
+import com.homesky.homecloud_lib.model.response.StateResponse;
 
 import org.json.JSONObject;
 
@@ -37,6 +39,7 @@ public class MainActivityFragment extends Fragment {
     Button mNewUserButton;
     Button mNewAdminButton;
     Button mRegisterControllerButton;
+    Button mGetHouseStateButton;
     TextView mResponseTextView;
 
     public static MainActivityFragment newInstance(){
@@ -117,6 +120,15 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        mGetHouseStateButton = (Button)v.findViewById(R.id.get_house_state_button);
+        mGetHouseStateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GetHouseStateCommand command = new GetHouseStateCommand();
+                new RequestTask().execute(command);
+            }
+        });
+
         mResponseTextView = (TextView)v.findViewById(R.id.response_text_view);
         return v;
     }
@@ -135,8 +147,10 @@ public class MainActivityFragment extends Fragment {
 
             if(s == null)
                 mResponseTextView.setText("Error making request");
-            else
+            else{
                 mResponseTextView.setText(s.toString());
+            }
+
         }
     }
 }

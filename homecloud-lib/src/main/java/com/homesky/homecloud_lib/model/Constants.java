@@ -27,6 +27,14 @@ public class Constants {
         public static class RegisterController{
             public static final String CONTROLLER_ID = "controllerId";
         }
+
+        public static class GetHouseState{
+            public static final String STATE = "state";
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String DATA = "data";
+            public static final String COMMAND = "command";
+        }
     }
 
     public static class Values {
@@ -36,6 +44,7 @@ public class Constants {
             public static final String NEW_USER = "newUser";
             public static final String NEW_ADMIN = "newAdmin";
             public static final String REGISTER_CONTROLLER = "registerController";
+            public static final String GET_HOUSE_STATE = "getHouseState";
         }
     }
 }

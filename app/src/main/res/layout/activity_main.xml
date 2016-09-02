@@ -128,6 +128,15 @@
                 grid:layout_columnWeight="1"
                 grid:layout_gravity="center_vertical"
                 android:text="Register controller"/>
+
+            <Button
+                android:id="@+id/get_house_state_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Get house state"/>
+
         </android.support.v7.widget.GridLayout>
 
 
