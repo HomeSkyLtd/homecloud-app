@@ -4,7 +4,7 @@ import android.util.JsonWriter;
 
 import java.io.IOException;
 
-public class LoginRequest extends Request {
+public class LoginRequest extends RequestModel {
 
     String mUsername;
     String mPassword;

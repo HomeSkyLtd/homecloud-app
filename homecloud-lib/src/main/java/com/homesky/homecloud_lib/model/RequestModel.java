@@ -7,15 +7,12 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URLEncoder;
 
-/**
- * Created by fabio on 31/08/2016.
- */
-public abstract class Request {
+public abstract class RequestModel {
     private static final String TAG = "Request";
 
     String mFunction;
 
-    public Request(String function){
+    public RequestModel(String function){
         mFunction = function;
     }
 

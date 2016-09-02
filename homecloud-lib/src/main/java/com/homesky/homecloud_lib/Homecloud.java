@@ -4,6 +4,7 @@ import android.util.JsonWriter;
 import android.util.Log;
 
 import com.homesky.homecloud_lib.model.LoginRequest;
+import com.homesky.homecloud_lib.model.RequestModel;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -32,50 +33,46 @@ public class Homecloud {
 
     public String login(String username, String password, String token){
 
-        LoginRequest login = new LoginRequest(username, password, token);
-        String data = null;
+        RequestModel login = new LoginRequest(username, password, token);
+
+        return makeRequest(login);
+
+    }
+
+    private String makeRequest(RequestModel request){
+        String data;
         try {
-            data = login.getRequest();
+            data = request.getRequest();
         }
         catch (IOException e){
             Log.e(TAG, "Error writing JSON", e);
             return null;
         }
         RequestBody body = RequestBody.create(URLENCODED, data);
-        Request request = new Request.Builder()
+        Request httpRequest = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
 
-        return makeRequest(request);
-
-    }
-
-    private String makeRequest(Request request){
-        try{
-            Buffer b = new Buffer();
-            request.body().writeTo(b);
-            Log.d(TAG, "Sending " + b.readUtf8() + " to " + request.url());
-        }
-        catch (IOException e) {}
+        Log.d(TAG, "Sending " + data + " to " + httpRequest.url());
 
         OkHttpClient client = new OkHttpClient();
-        Response response = null;
-        String body;
+        Response response;
+        String responseBody = null;
         try {
-            response = client.newCall(request).execute();
+            response = client.newCall(httpRequest).execute();
             if(response.isSuccessful())
-                body = response.body().string();
+                responseBody = response.body().string();
             else {
                 Log.e(TAG, "Error: received response " + response.code());
-                body = null;
+                responseBody = null;
             }
         }
         catch(IOException e){
             Log.e(TAG, "Error making request", e);
             return null;
         }
-        return body;
+        return responseBody;
     }
 
 
