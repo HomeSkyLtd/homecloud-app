@@ -19,6 +19,7 @@ import com.homesky.homecloud.command.Command;
 import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
+import com.homesky.homecloud.command.NewActionCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
@@ -40,6 +41,7 @@ public class MainActivityFragment extends Fragment {
     Button mNewAdminButton;
     Button mRegisterControllerButton;
     Button mGetHouseStateButton;
+    Button mNewActionButton;
     TextView mResponseTextView;
 
     public static MainActivityFragment newInstance(){
@@ -69,6 +71,7 @@ public class MainActivityFragment extends Fragment {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearResponseTextView();
                 String username = mUsernameEditText.getText().toString();
                 String password = mPasswordEditText.getText().toString();
                 String token = mTokenEditText.getText().toString();
@@ -85,6 +88,7 @@ public class MainActivityFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearResponseTextView();
                 LogoutCommand command = new LogoutCommand();
                 new RequestTask().execute(command);
             }
@@ -94,6 +98,7 @@ public class MainActivityFragment extends Fragment {
         mNewUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearResponseTextView();
                 NewUserCommand command =
                         new NewUserCommand(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
                 new RequestTask().execute(command);
@@ -104,6 +109,7 @@ public class MainActivityFragment extends Fragment {
         mNewAdminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearResponseTextView();
                 NewAdminCommand command =
                         new NewAdminCommand(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
                 new RequestTask().execute(command);
@@ -114,6 +120,7 @@ public class MainActivityFragment extends Fragment {
         mRegisterControllerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearResponseTextView();
                 RegisterControllerCommand command =
                         new RegisterControllerCommand(mControllerIdEditText.getText().toString());
                 new RequestTask().execute(command);
@@ -124,13 +131,32 @@ public class MainActivityFragment extends Fragment {
         mGetHouseStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearResponseTextView();
                 GetHouseStateCommand command = new GetHouseStateCommand();
+                new RequestTask().execute(command);
+            }
+        });
+
+        mNewActionButton = (Button)v.findViewById(R.id.new_action_button);
+        mNewActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+                String nodeId = "1";
+                String controllerId = "2";
+                String commandId = "3";
+                String value = "4";
+                NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
                 new RequestTask().execute(command);
             }
         });
 
         mResponseTextView = (TextView)v.findViewById(R.id.response_text_view);
         return v;
+    }
+
+    private void clearResponseTextView(){
+        mResponseTextView.setText("");
     }
 
     private class RequestTask extends AsyncTask<Command, Void, SimpleResponse>{

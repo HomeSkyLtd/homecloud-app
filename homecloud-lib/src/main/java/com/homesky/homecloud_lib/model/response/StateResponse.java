@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the response from the getHouseState function
+ */
 public class StateResponse extends SimpleResponse {
     private static final String TAG = "SimpleResponse";
 
@@ -25,6 +28,11 @@ public class StateResponse extends SimpleResponse {
         mState = state;
     }
 
+    /**
+     * Builds a StateResponse object from a JSON string
+     * @param jsonStr The JSON string encoding the house's state
+     * @return a StateResponse object representing the house's state
+     */
     public static StateResponse from(String jsonStr){
         if(jsonStr == null) return null;
 
@@ -67,7 +75,7 @@ public class StateResponse extends SimpleResponse {
     }
 
     @Override
-    public void writeJSON(JsonWriter writer) throws IOException {
+    protected void writeJSON(JsonWriter writer) throws IOException {
         super.writeJSON(writer);
         writer.name(Constants.Fields.GetHouseState.STATE);
         writer.beginArray();

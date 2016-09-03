@@ -35,6 +35,14 @@ public class Constants {
             public static final String DATA = "data";
             public static final String COMMAND = "command";
         }
+
+        public static class NewAction{
+            public static final String ACTION = "action";
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String COMMAND_ID = "commandId";
+            public static final String VALUE = "value";
+        }
     }
 
     public static class Values {
@@ -45,6 +53,7 @@ public class Constants {
             public static final String NEW_ADMIN = "newAdmin";
             public static final String REGISTER_CONTROLLER = "registerController";
             public static final String GET_HOUSE_STATE = "getHouseState";
+            public static final String NEW_ACTION = "newAction";
         }
     }
 }

@@ -11,6 +11,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.StringWriter;
 
+/**
+ * Base class representing a response from the server.
+ */
 public class SimpleResponse {
     private static final String TAG = "SimpleResponse";
 
@@ -22,6 +25,11 @@ public class SimpleResponse {
         this.mErrorMessage = errorMessage;
     }
 
+    /**
+     * Builds a SimpleResponse object from a JSON string
+     * @param jsonStr The JSON string encoding the response
+     * @return a SimpleResponse object representing the response from the server
+     */
     public static SimpleResponse from(String jsonStr){
         if(jsonStr == null) return null;
         try{
@@ -36,11 +44,15 @@ public class SimpleResponse {
         }
     }
 
-    public void writeJSON(JsonWriter writer) throws IOException{
+    protected void writeJSON(JsonWriter writer) throws IOException{
         writer.name(Constants.Fields.Common.STATUS).value(mStatus);
         writer.name(Constants.Fields.Common.ERROR_MESSAGE).value(mErrorMessage);
     }
 
+    /**
+     * Gets the JSON representation of the response
+     * @return The JSON representation of the response
+     */
     @Override
     public String toString(){
         StringWriter sw = new StringWriter();

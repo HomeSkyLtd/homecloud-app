@@ -5,6 +5,7 @@ import android.util.Log;
 import com.homesky.homecloud_lib.model.request.HouseStateRequest;
 import com.homesky.homecloud_lib.model.request.LoginRequest;
 import com.homesky.homecloud_lib.model.request.LogoutRequest;
+import com.homesky.homecloud_lib.model.request.NewActionRequest;
 import com.homesky.homecloud_lib.model.request.NewAdminRequest;
 import com.homesky.homecloud_lib.model.request.NewUserRequest;
 import com.homesky.homecloud_lib.model.request.RegisterControllerRequest;
@@ -52,7 +53,7 @@ public class Homecloud {
 
     /**
      * Logs in with the server using the credentials provided on initialization
-     * @return A JSON string following the conventions of the Homecloud protocol
+     * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse login(){
         RequestModel loginReq = new LoginRequest(mUsername, mPassword, mToken);
@@ -62,7 +63,7 @@ public class Homecloud {
 
     /**
      * Logs out the user. Subsequent calls to methods may require logging in again
-     * @return A JSON string following the conventions of the Homecloud protocol
+     * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse logout(){
         RequestModel logoutReq = new LogoutRequest(mToken);
@@ -75,7 +76,7 @@ public class Homecloud {
      * Creates a new user associated to the same house as the admin invoking this function
      * @param username The username associated to the new user
      * @param password The password associated to the new user
-     * @return A JSON string following the conventions of the Homecloud protocol
+     * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse newUser(String username, String password){
         RequestModel newUserReq = new NewUserRequest(username, password);
@@ -87,7 +88,7 @@ public class Homecloud {
      * Creates a new admin associated to a new house.
      * @param username The username associated to the new admin
      * @param password The password associated to the new admin
-     * @return A JSON string following the conventions of the Homecloud protocol
+     * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse newAdmin(String username, String password){
         RequestModel newAdminReq = new NewAdminRequest(username, password);
@@ -95,16 +96,31 @@ public class Homecloud {
         return SimpleResponse.from(responseStr);
     }
 
+    /**
+     * Registers an existing controller to the house associated to the agent making the request
+     * @param controllerId The id of the controller to be associated
+     * @return A {@link SimpleResponse} object representing the response
+     */
     public SimpleResponse registerController(String controllerId){
         RequestModel registerControllerReq = new RegisterControllerRequest(controllerId);
         String responseStr = makeRequest(registerControllerReq);
         return SimpleResponse.from(responseStr);
     }
 
+    /**
+     * Gets the state of the house associated to the logged agent
+     * @return A {@link StateResponse} object representing the state of the house
+     */
     public StateResponse getHouseState(){
         RequestModel getHouseStateReq = new HouseStateRequest();
         String responseStr = makeRequest(getHouseStateReq);
         return StateResponse.from(responseStr);
+    }
+
+    public SimpleResponse newAction(String nodeId, String controllerId, String commandId, String value){
+        RequestModel newActionReq = new NewActionRequest(nodeId, controllerId, commandId, value);
+        String responseStr = makeRequest(newActionReq);
+        return SimpleResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request){
