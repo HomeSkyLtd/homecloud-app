@@ -27,6 +27,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:9.4.0'
     compile project(':homecloud-lib')
     compile 'com.android.support:gridlayout-v7:24.2.0'
+    compile 'org.droidparts:droidparts:2.9.6'
 }
 
 

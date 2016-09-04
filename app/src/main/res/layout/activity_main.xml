@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="Username"/>
 
-            <EditText
+            <org.droidparts.widget.ClearableEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="Password"/>
 
-            <EditText
+            <org.droidparts.widget.ClearableEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:text="Token"/>
 
-            <EditText
+            <org.droidparts.widget.ClearableEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -75,12 +75,48 @@
                 android:layout_height="wrap_content"
                 android:text="Controller id"/>
 
-            <EditText
+            <org.droidparts.widget.ClearableEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="number"
                 android:id="@+id/controller_id_edit_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Node id"/>
+
+            <org.droidparts.widget.ClearableEditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:id="@+id/node_id_edit_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Value"/>
+
+            <org.droidparts.widget.ClearableEditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:id="@+id/value_edit_text"/>
         </LinearLayout>
 
 
@@ -154,12 +190,52 @@
                 android:text="Get rules"/>
 
             <Button
-                android:id="@+id/get_learnd_rules_button"
+                android:id="@+id/new_rules_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="New rules"/>
+
+            <Button
+                android:id="@+id/get_learnt_rules_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 grid:layout_columnWeight="1"
                 grid:layout_gravity="center_vertical"
                 android:text="Get learnt rules"/>
+
+            <Button
+                android:id="@+id/set_node_extra_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Set node extra"/>
+
+            <Button
+                android:id="@+id/get_nodes_info_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Get nodes info"/>
+
+            <Button
+                android:id="@+id/accept_node_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Accept node"/>
+
+            <Button
+                android:id="@+id/remove_node_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Remove node"/>
 
         </android.support.v7.widget.GridLayout>
 

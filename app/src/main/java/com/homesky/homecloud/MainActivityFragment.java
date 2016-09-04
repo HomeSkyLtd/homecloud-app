@@ -35,6 +35,8 @@ public class MainActivityFragment extends Fragment {
     EditText mPasswordEditText;
     EditText mTokenEditText;
     EditText mControllerIdEditText;
+    EditText mNodeIdEditText;
+    EditText mValueEditText;
     Button mLoginButton;
     Button mLogoutButton;
     Button mNewUserButton;
@@ -42,6 +44,13 @@ public class MainActivityFragment extends Fragment {
     Button mRegisterControllerButton;
     Button mGetHouseStateButton;
     Button mNewActionButton;
+    Button mGetRulesButton;
+    Button mNewRulesButton;
+    Button mGetLearntRulesButton;
+    Button mSetNodeExtraButton;
+    Button mGetNodesInfoButton;
+    Button mAcceptNodeButton;
+    Button mRemoveNodeButton;
     TextView mResponseTextView;
 
     public static MainActivityFragment newInstance(){
@@ -66,6 +75,8 @@ public class MainActivityFragment extends Fragment {
         mPasswordEditText = (EditText)v.findViewById(R.id.password_edit_text);
         mTokenEditText = (EditText)v.findViewById(R.id.token_edit_text);
         mControllerIdEditText = (EditText)v.findViewById(R.id.controller_id_edit_text);
+        mNodeIdEditText = (EditText)v.findViewById(R.id.node_id_edit_text);
+        mValueEditText = (EditText)v.findViewById(R.id.value_edit_text);
 
         mLoginButton = (Button)v.findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +159,62 @@ public class MainActivityFragment extends Fragment {
                 String value = "4";
                 NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
                 new RequestTask().execute(command);
+            }
+        });
+
+        mGetRulesButton = (Button)v.findViewById(R.id.get_rules_button);
+        mGetRulesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+            }
+        });
+
+        mNewRulesButton = (Button)v.findViewById(R.id.new_rules_button);
+        mNewRulesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+            }
+        });
+
+        mGetLearntRulesButton = (Button)v.findViewById(R.id.get_learnt_rules_button);
+        mGetLearntRulesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+            }
+        });
+
+        mSetNodeExtraButton = (Button)v.findViewById(R.id.set_node_extra_button);
+        mSetNodeExtraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+            }
+        });
+
+        mGetNodesInfoButton = (Button)v.findViewById(R.id.get_nodes_info_button);
+        mGetNodesInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+            }
+        });
+
+        mAcceptNodeButton = (Button)v.findViewById(R.id.accept_node_button);
+        mAcceptNodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+            }
+        });
+
+        mRemoveNodeButton = (Button)v.findViewById(R.id.remove_node_button);
+        mRemoveNodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
             }
         });
 

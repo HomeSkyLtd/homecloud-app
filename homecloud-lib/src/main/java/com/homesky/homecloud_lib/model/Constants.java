@@ -81,6 +81,17 @@ public class Constants {
             public static final String UNIT = "unit";
             public static final String COMMAND_CATEGORY = "commandCategory";
         }
+
+        public static class AcceptNode{
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String ACCEPT = "accept";
+        }
+
+        public static class RemoveNode{
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+        }
     }
 
     public static class Values {
@@ -97,6 +108,8 @@ public class Constants {
             public static final String GET_LEARNT_RULES = "getLearntRules";
             public static final String SET_NODE_EXTRA = "setNodeExtra";
             public static final String GET_NODES_INFO = "getNodesInfo";
+            public static final String ACCEPT_NODE = "acceptNode";
+            public static final String REMOVE_NODE = "removeNode";
         }
     }
 }
