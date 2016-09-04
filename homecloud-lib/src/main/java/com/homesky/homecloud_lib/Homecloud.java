@@ -124,6 +124,13 @@ public class Homecloud {
     }
 
     private String makeRequest(RequestModel request){
+        // Print log message
+        if(mCookie != null)
+            Log.d(TAG, "Sending " + request.toString() + " to " + mUrl + " with cookie " + mCookie);
+        else
+            Log.d(TAG, "Sending " + request.toString() + " to " + mUrl);
+
+        // Get request body as string, and encode it properly
         String data;
         try {
             data = request.getRequest();
@@ -134,17 +141,15 @@ public class Homecloud {
         }
         RequestBody body = RequestBody.create(URLENCODED, data);
 
+        // Build the request object, specifying the method and destination URL
         Request.Builder httpRequestBuilder = new Request.Builder()
                 .url(mUrl)
                 .post(body);
+        // Set the cookie, if available
         if(mCookie != null) httpRequestBuilder.addHeader("Cookie", mCookie);
         Request httpRequest = httpRequestBuilder.build();
 
-        if(mCookie != null)
-            Log.d(TAG, "Sending " + data + " to " + httpRequest.url() + " with cookie " + mCookie);
-        else
-            Log.d(TAG, "Sending " + data + " to " + httpRequest.url());
-
+        // Make the request
         OkHttpClient client = new OkHttpClient();
         Response response;
         String responseBody;

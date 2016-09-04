@@ -52,8 +52,34 @@ public class Constants {
             public static final String CLAUSES = "clauses";
         }
 
+        public static class SetNodeExtra{
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String EXTRA = "extra";
+        }
+
         public static class RuleResponse{
             public static final String RULES = "rules";
+        }
+
+        public static class NodesResponse{
+            public static final String NODES = "nodes";
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String NODE_CLASS = "nodeClass";
+            public static final String ACCEPTED = "accepted";
+            public static final String ALIVE = "alive";
+            public static final String EXTRA = "extra";
+            public static final String DATA_TYPE = "dataType";
+            public static final String COMMAND_TYPE = "commandType";
+
+            public static final String ID = "id";
+            public static final String MEASURE_STRATEGY = "measureStrategy";
+            public static final String TYPE = "type";
+            public static final String RANGE = "range";
+            public static final String DATA_CATEGORY = "dataCategory";
+            public static final String UNIT = "unit";
+            public static final String COMMAND_CATEGORY = "commandCategory";
         }
     }
 
@@ -69,6 +95,8 @@ public class Constants {
             public static final String NEW_RULES = "newRules";
             public static final String GET_RULES = "getRules";
             public static final String GET_LEARNT_RULES = "getLearntRules";
+            public static final String SET_NODE_EXTRA = "setNodeExtra";
+            public static final String GET_NODES_INFO = "getNodesInfo";
         }
     }
 }

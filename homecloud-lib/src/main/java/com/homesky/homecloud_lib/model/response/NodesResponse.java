@@ -1,0 +1,258 @@
+package com.homesky.homecloud_lib.model.response;
+
+import android.util.JsonWriter;
+import android.util.Log;
+
+import com.homesky.homecloud_lib.model.Constants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class NodesResponse extends SimpleResponse{
+    private static final String TAG = "NodesResponse";
+
+    private List<Node> mNodes;
+
+    protected NodesResponse(int status, String errorMessage, List<Node> nodes) {
+        super(status, errorMessage);
+        mNodes = nodes;
+    }
+
+    public static NodesResponse from(String jsonStr){
+        if(jsonStr == null) return null;
+
+        try {
+            List<Node> nodes = new ArrayList<>();
+            JSONObject obj = new JSONObject(jsonStr);
+            int status = obj.getInt(Constants.Fields.Common.STATUS);
+            String errorMessage = obj.getString(Constants.Fields.Common.ERROR_MESSAGE);
+
+            JSONArray nodesJSON = obj.getJSONArray(Constants.Fields.NodesResponse.NODES);
+            for(int i = 0 ; i < nodesJSON.length() ; ++i){
+                JSONObject nodeJSON = nodesJSON.getJSONObject(i);
+                String nodeId = nodeJSON.getString(Constants.Fields.NodesResponse.NODE_ID);
+                String controllerID = nodeJSON.getString(Constants.Fields.NodesResponse.CONTROLLER_ID);
+                String nodeClass = nodeJSON.getString(Constants.Fields.NodesResponse.NODE_CLASS);
+                int accepted = nodeJSON.getInt(Constants.Fields.NodesResponse.ACCEPTED);
+                int alive = nodeJSON.getInt(Constants.Fields.NodesResponse.ALIVE);
+
+                Map<String, String> extra = new HashMap<>();
+                JSONObject extraJSON = nodeJSON.getJSONObject(Constants.Fields.NodesResponse.EXTRA);
+                JSONArray extraKeys = extraJSON.names();
+                for(int j = 0 ; j < extraKeys.length() ; ++j){
+                    extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                }
+
+                List<DataType> dataType = new ArrayList<>();
+                JSONArray dataTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.DATA_TYPE);
+                for(int j = 0 ; j < dataTypeJSON.length() ; ++j){
+                    JSONObject unitDataTypeJSON = dataTypeJSON.getJSONObject(j);
+                    String id = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.ID);
+                    String measureStrategy = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.MEASURE_STRATEGY);
+                    String type = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
+                    String dataCategory = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.DATA_CATEGORY);
+                    String unit = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
+
+                    JSONArray rangeJSON = unitDataTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
+                    String[] range = {rangeJSON.getString(0), rangeJSON.getString(1)};
+                    dataType.add(new DataType(id, measureStrategy, type, range, dataCategory, unit));
+                }
+
+                List<CommandType> commandType = new ArrayList<>();
+                JSONArray commandTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.COMMAND_TYPE);
+                for(int j = 0 ; j < commandTypeJSON.length() ; ++j){
+                    JSONObject unitCommandTypeJSON = commandTypeJSON.getJSONObject(j);
+                    String id = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.ID);
+                    String type = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
+                    String commandCategory = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.COMMAND_CATEGORY);
+                    String unit = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
+
+                    JSONArray rangeJSON = unitCommandTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
+                    String[] range = {rangeJSON.getString(0), rangeJSON.getString(1)};
+                    commandType.add(new CommandType(id, type, range, commandCategory, unit));
+                }
+
+                nodes.add(new Node.Builder()
+                        .setNodeId(nodeId)
+                        .setControllerId(controllerID)
+                        .setNodeClass(nodeClass)
+                        .setAccepted(accepted)
+                        .setAlive(alive)
+                        .setExtra(extra)
+                        .setDataType(dataType)
+                        .setCommandType(commandType)
+                        .build()
+                );
+            }
+            return new NodesResponse(status, errorMessage, nodes);
+        }
+        catch (JSONException e){
+            Log.e(TAG, "Error parsing JSON", e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    protected void writeJSON(JsonWriter writer) throws IOException {
+        super.writeJSON(writer);
+        writer.name(Constants.Fields.NodesResponse.NODES);
+        writer.beginArray();
+        for(Node n : mNodes){
+            writer.beginObject();
+            writer.name(Constants.Fields.NodesResponse.NODE_ID).value(n.mNodeId);
+            writer.name(Constants.Fields.NodesResponse.CONTROLLER_ID).value(n.mControllerId);
+            writer.name(Constants.Fields.NodesResponse.NODE_CLASS).value(n.mNodeClass);
+            writer.name(Constants.Fields.NodesResponse.ACCEPTED).value(n.mAccepted);
+            writer.name(Constants.Fields.NodesResponse.ALIVE).value(n.mAlive);
+            writer.name(Constants.Fields.NodesResponse.EXTRA);
+            writer.beginObject();
+            for(String key : n.mExtra.keySet()){
+                writer.name(key).value(n.mExtra.get(key));
+            }
+            writer.endObject();
+            writer.name(Constants.Fields.NodesResponse.DATA_TYPE);
+            writer.beginArray();
+            for(DataType dt : n.mDataType){
+                writer.beginObject();
+                writer.name(Constants.Fields.NodesResponse.ID).value(dt.mId);
+                writer.name(Constants.Fields.NodesResponse.MEASURE_STRATEGY).value(dt.mMeasureStrategy);
+                writer.name(Constants.Fields.NodesResponse.TYPE).value(dt.mType);
+                writer.name(Constants.Fields.NodesResponse.DATA_CATEGORY).value(dt.mDataCategory);
+                writer.name(Constants.Fields.NodesResponse.UNIT).value(dt.mUnit);
+                writer.name(Constants.Fields.NodesResponse.RANGE);
+                writer.beginArray();
+                writer.value(dt.mRange[0]);
+                writer.value(dt.mRange[1]);
+                writer.endArray();
+                writer.endObject();
+            }
+            writer.endArray();
+
+            writer.name(Constants.Fields.NodesResponse.COMMAND_TYPE);
+            writer.beginArray();
+            for(CommandType ct : n.mCommandType){
+                writer.beginObject();
+                writer.name(Constants.Fields.NodesResponse.ID).value(ct.mId);
+                writer.name(Constants.Fields.NodesResponse.TYPE).value(ct.mType);
+                writer.name(Constants.Fields.NodesResponse.COMMAND_CATEGORY).value(ct.mCommandCategory);
+                writer.name(Constants.Fields.NodesResponse.UNIT).value(ct.mUnit);
+                writer.name(Constants.Fields.NodesResponse.RANGE);
+                writer.beginArray();
+                writer.value(ct.mRange[0]);
+                writer.value(ct.mRange[1]);
+                writer.endArray();
+                writer.endObject();
+            }
+            writer.endArray();
+            writer.endObject();
+        }
+        writer.endArray();
+    }
+
+    public static class Node{
+        String mNodeId, mControllerId, mNodeClass;
+        int mAccepted, mAlive;
+        Map<String, String> mExtra;
+        List<DataType> mDataType;
+        List<CommandType> mCommandType;
+
+        private Node(String nodeId, String controllerId, String nodeClass, int accepted, int alive,
+                    Map<String, String> extra, List<DataType> dataType, List<CommandType> commandType) {
+            mNodeId = nodeId;
+            mControllerId = controllerId;
+            mNodeClass = nodeClass;
+            mAccepted = accepted;
+            mAlive = alive;
+            mExtra = extra;
+            mDataType = dataType;
+            mCommandType = commandType;
+        }
+
+        public static class Builder{
+            String mNodeId = "", mControllerId = "", mNodeClass = "";
+            int mAccepted, mAlive;
+            Map<String, String> mExtra = null;
+            List<DataType> mDataType = null;
+            List<CommandType> mCommandType = null;
+
+            public Node build(){
+                return new Node(mNodeId, mControllerId, mNodeClass, mAccepted, mAlive, mExtra, mDataType, mCommandType);
+            }
+
+            public Builder setNodeId(String nodeId) {
+                mNodeId = nodeId;
+                return this;
+            }
+
+            public Builder setControllerId(String controllerId) {
+                mControllerId = controllerId;
+                return this;
+            }
+
+            public Builder setNodeClass(String nodeClass) {
+                mNodeClass = nodeClass;
+                return this;
+            }
+
+            public Builder setAccepted(int accepted) {
+                mAccepted = accepted;
+                return this;
+            }
+
+            public Builder setAlive(int alive) {
+                mAlive = alive;
+                return this;
+            }
+
+            public Builder setExtra(Map<String, String> extra) {
+                mExtra = extra;
+                return this;
+            }
+
+            public Builder setDataType(List<DataType> dataType) {
+                mDataType = dataType;
+                return this;
+            }
+
+            public Builder setCommandType(List<CommandType> commandType) {
+                mCommandType = commandType;
+                return this;
+            }
+        }
+    }
+
+    public static class DataType{
+        String mId, mMeasureStrategy, mType, mDataCategory, mUnit;
+        String[] mRange;
+
+        public DataType(String id, String measureStrategy, String type, String[] range, String dataCategory, String unit) {
+            mId = id;
+            mMeasureStrategy = measureStrategy;
+            mType = type;
+            mRange = range;
+            mDataCategory = dataCategory;
+            mUnit = unit;
+        }
+    }
+
+    public static class CommandType{
+        String mId, mType, mCommandCategory, mUnit;
+        String[] mRange;
+
+        public CommandType(String id, String type, String[] range, String commandCategory, String unit) {
+            mId = id;
+            mType = type;
+            mRange = range;
+            mCommandCategory = commandCategory;
+            mUnit = unit;
+        }
+    }
+}

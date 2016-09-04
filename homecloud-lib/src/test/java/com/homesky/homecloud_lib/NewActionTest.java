@@ -26,8 +26,6 @@ public class NewActionTest {
     @Test
     public void json_isCorrect(){
         NewActionRequest request = new NewActionRequest("1", "2", "3", "4");
-        StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
@@ -41,11 +39,10 @@ public class NewActionTest {
                 Constants.Fields.NewAction.VALUE);
         JSONObject test = null, reference = null;
         try{
-            request.writeJSON(writer);
-            test = new JSONObject(sw.toString());
+            test = new JSONObject(request.toString());
             reference = new JSONObject(f.toString());
         }
-        catch(JSONException | IOException e){
+        catch(JSONException e){
             e.printStackTrace();
             assert false;
         }

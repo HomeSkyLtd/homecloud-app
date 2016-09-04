@@ -28,14 +28,23 @@ public abstract class RequestModel {
      * Writes the JSON payload to be sent to the server. This method is not suitable for production,
      * since it does not include the POST key "payload=" and does not encode the payload in a proper
      * format to be sent. However, it is useful to visualize the payload contents for debug purpose.
-     * @param writer A JSONWriter instance
-     * @throws IOException
+     * @return The string representation of this request
      */
-    public void writeJSON(JsonWriter writer) throws IOException {
-        writer.beginObject();
-        writeHeaderJSON(writer);
-        writeContentsJSON(writer);
-        writer.endObject();
+    @Override
+    public String toString() {
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = new JsonWriter(sw);
+        try {
+            writer.beginObject();
+            writeHeaderJSON(writer);
+            writeContentsJSON(writer);
+            writer.endObject();
+        }
+        catch(IOException e){
+            Log.e(TAG, "Failed to write string", e);
+            return null;
+        }
+        return sw.toString();
     }
 
     /**
@@ -45,11 +54,8 @@ public abstract class RequestModel {
      * @throws IOException
      */
     public String getRequest() throws IOException {
-        StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
-        writeJSON(writer);
-        String json = sw.toString();
-
+        String json = this.toString();
+        if(json == null) throw new IOException();
         return Constants.Fields.Common.PAYLOAD + "=" + URLEncoder.encode(json, "UTF-8");
     }
 }

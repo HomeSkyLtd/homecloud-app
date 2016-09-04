@@ -26,8 +26,6 @@ public class LogoutRequestTest {
     @Test
     public void json_isCorrect(){
         LogoutRequest request = new LogoutRequest("12345");
-        StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
@@ -37,11 +35,10 @@ public class LogoutRequestTest {
                 Constants.Fields.Login.TOKEN);
         JSONObject test = null, reference = null;
         try{
-            request.writeJSON(writer);
-            test = new JSONObject(sw.toString());
+            test = new JSONObject(request.toString());
             reference = new JSONObject(f.toString());
         }
-        catch(JSONException | IOException e){
+        catch(JSONException e){
             e.printStackTrace();
             assert false;
         }

@@ -26,8 +26,6 @@ public class LoginRequestTest {
     @Test
     public void json_isCorrect(){
         LoginRequest request = new LoginRequest("user", "pass", "12345");
-        StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
@@ -39,11 +37,10 @@ public class LoginRequestTest {
                 Constants.Fields.Login.TOKEN);
         JSONObject test = null, reference = null;
         try{
-            request.writeJSON(writer);
-            test = new JSONObject(sw.toString());
+            test = new JSONObject(request.toString());
             reference = new JSONObject(f.toString());
         }
-        catch(JSONException | IOException e){
+        catch(JSONException e){
             e.printStackTrace();
             assert false;
         }

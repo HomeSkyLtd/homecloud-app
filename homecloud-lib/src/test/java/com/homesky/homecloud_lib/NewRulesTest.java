@@ -35,8 +35,6 @@ public class NewRulesTest {
         clause.add(Arrays.asList(orStatement2));
 
         NewRulesRequest request = new NewRulesRequest("1", "2", "3", "4", clause);
-        StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
@@ -51,11 +49,10 @@ public class NewRulesTest {
                 Constants.Fields.NewRules.CLAUSES);
         JSONObject test = null, reference = null;
         try{
-            request.writeJSON(writer);
-            test = new JSONObject(sw.toString());
+            test = new JSONObject(request.toString());
             reference = new JSONObject(f.toString());
         }
-        catch(JSONException | IOException e){
+        catch(JSONException e){
             e.printStackTrace();
             assert false;
         }
