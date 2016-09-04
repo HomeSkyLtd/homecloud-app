@@ -43,6 +43,18 @@ public class Constants {
             public static final String COMMAND_ID = "commandId";
             public static final String VALUE = "value";
         }
+
+        public static class NewRules{
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String COMMAND_ID = "commandId";
+            public static final String VALUE = "value";
+            public static final String CLAUSES = "clauses";
+        }
+
+        public static class RuleResponse{
+            public static final String RULES = "rules";
+        }
     }
 
     public static class Values {
@@ -54,6 +66,9 @@ public class Constants {
             public static final String REGISTER_CONTROLLER = "registerController";
             public static final String GET_HOUSE_STATE = "getHouseState";
             public static final String NEW_ACTION = "newAction";
+            public static final String NEW_RULES = "newRules";
+            public static final String GET_RULES = "getRules";
+            public static final String GET_LEARNT_RULES = "getLearntRules";
         }
     }
 }

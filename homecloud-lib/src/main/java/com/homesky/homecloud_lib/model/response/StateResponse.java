@@ -106,7 +106,7 @@ public class StateResponse extends SimpleResponse {
         writer.endArray();
     }
 
-    static class NodeState {
+    public static class NodeState {
         String nodeId;
         String controllerId;
         Map<String, String> data = new HashMap<>();

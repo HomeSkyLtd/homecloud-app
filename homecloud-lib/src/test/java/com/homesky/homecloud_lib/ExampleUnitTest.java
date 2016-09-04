@@ -1,5 +1,6 @@
 package com.homesky.homecloud_lib;
 
+import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.util.JSONComparator;
 
 import org.json.JSONArray;
@@ -18,5 +19,6 @@ public class ExampleUnitTest {
         JSONObject obj1 = new JSONObject("{a: 1, b:2, c:3}");
         JSONObject obj2 = new JSONObject("{a: 1}");
         System.out.println(JSONComparator.getJSONKeys(obj1));
+
     }
 }
