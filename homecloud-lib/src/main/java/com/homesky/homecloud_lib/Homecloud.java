@@ -2,18 +2,29 @@ package com.homesky.homecloud_lib;
 
 import android.util.Log;
 
+import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
+import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
+import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
+import com.homesky.homecloud_lib.model.request.GetRulesRequest;
 import com.homesky.homecloud_lib.model.request.HouseStateRequest;
 import com.homesky.homecloud_lib.model.request.LoginRequest;
 import com.homesky.homecloud_lib.model.request.LogoutRequest;
 import com.homesky.homecloud_lib.model.request.NewActionRequest;
 import com.homesky.homecloud_lib.model.request.NewAdminRequest;
+import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.request.NewUserRequest;
 import com.homesky.homecloud_lib.model.request.RegisterControllerRequest;
+import com.homesky.homecloud_lib.model.request.RemoveNodeRequest;
 import com.homesky.homecloud_lib.model.request.RequestModel;
+import com.homesky.homecloud_lib.model.request.SetNodeExtraRequest;
+import com.homesky.homecloud_lib.model.response.NodesResponse;
+import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -117,10 +128,102 @@ public class Homecloud {
         return StateResponse.from(responseStr);
     }
 
+    /**
+     * Sends an action command to the server
+     * @param nodeId The id of the target node
+     * @param controllerId The id of the controller associated to the target node
+     * @param commandId The id of the command associated to the node
+     * @param value The desired value of the command
+     * @return A {@link SimpleResponse} object representing the response
+     */
     public SimpleResponse newAction(String nodeId, String controllerId, String commandId, String value){
         RequestModel newActionReq = new NewActionRequest(nodeId, controllerId, commandId, value);
         String responseStr = makeRequest(newActionReq);
         return SimpleResponse.from(responseStr);
+    }
+
+    /**
+     * Get the automation rules for the house associated to the agent making the request
+     * @return A {@link RuleResponse} object representing the rules stored for the house
+     */
+    public RuleResponse getRules(){
+        RequestModel getRulesReq = new GetRulesRequest();
+        String responseStr = makeRequest(getRulesReq);
+        return RuleResponse.from(responseStr);
+    }
+
+    /**
+     * Create a new automation rule for the house
+     * @param nodeId The id of the target node whose state will be changed by the rule
+     * @param controllerId The id of the controller associated to the target node
+     * @param commandId The id of the command to be triggered by the rule
+     * @param value The desired value of the command after the rule is activated
+     * @param clause The condition associated to the rule, in CNF form
+     * @return A {@link SimpleResponse} object representing the response
+     */
+    public SimpleResponse newRules(String nodeId, String controllerId, String commandId,
+                                   String value, List<List<String>> clause){
+        RequestModel newRulesReq = new NewRulesRequest(nodeId, controllerId, commandId, value, clause);
+        String responseStr = makeRequest(newRulesReq);
+        return SimpleResponse.from(responseStr);
+    }
+
+    /**
+     * Get learnt rules from the server
+     * @return A {@link RuleResponse} object representing the rules learnt for the house
+     */
+    public RuleResponse getLearntRules(){
+        RequestModel getLearntRulesReq = new GetLearntRulesRequest();
+        String responseStr = makeRequest(getLearntRulesReq);
+        return RuleResponse.from(responseStr);
+    }
+
+    /**
+     * Set extra information for a node
+     * @param extra A map containing extra information for the node
+     * @param nodeId The id of the node associated to the provided extra information
+     * @param controllerId The id of the controller associated to the node
+     * @return A {@link SimpleResponse} object representing the response
+     */
+    public SimpleResponse setNodeExtra(Map<String, String> extra, String nodeId, String controllerId){
+        RequestModel setNodeExtraReq = new SetNodeExtraRequest(extra, nodeId, controllerId);
+        String responseStr = makeRequest(setNodeExtraReq);
+        return SimpleResponse.from(responseStr);
+    }
+
+    /**
+     * Get information about nodes registered to the house id of the agent making the request
+     * @return A {@link NodesResponse} object containing information of the nodes
+     */
+    public NodesResponse getNodesInfo(){
+        RequestModel getNodesInfoReq = new GetNodesInfoRequest();
+        String responseStr = makeRequest(getNodesInfoReq);
+        return NodesResponse.from(responseStr);
+    }
+
+    /**
+     * Accept or reject the new node on the house of the agent making this request
+     * @param nodeId The id of the target node
+     * @param controllerId The controller associated to the target node
+     * @param accept Whether or not the node will be accepted (1) or rejected (0)
+     * @return A {@link SimpleResponse} object representing the response
+     */
+    public SimpleResponse acceptNode(String nodeId, String controllerId, int accept){
+        RequestModel acceptNodeReq = new AcceptNodeRequest(nodeId, controllerId, accept);
+        String responseStr = makeRequest(acceptNodeReq);
+        return NodesResponse.from(responseStr);
+    }
+
+    /**
+     * Remove the node from the house associated to the agent makint the request
+     * @param nodeId The id of the node to be removed
+     * @param controllerId The id of the controller associated to the node to be removed
+     * @return A {@link SimpleResponse} object representing the response
+     */
+    public SimpleResponse removeNode(String nodeId, String controllerId){
+        RequestModel removeNodeReq = new RemoveNodeRequest(nodeId, controllerId);
+        String responseStr = makeRequest(removeNodeReq);
+        return NodesResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request){

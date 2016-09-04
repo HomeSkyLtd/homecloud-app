@@ -9,7 +9,7 @@ import java.io.IOException;
 public class RemoveNodeRequest extends RequestModel {
     private String mNodeId, mControllerId;
 
-    public RemoveNodeRequest(String nodeId, String controllerId, int accept) {
+    public RemoveNodeRequest(String nodeId, String controllerId) {
         super(Constants.Values.Functions.REMOVE_NODE);
         mNodeId = nodeId;
         mControllerId = controllerId;
