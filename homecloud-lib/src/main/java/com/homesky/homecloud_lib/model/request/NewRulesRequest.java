@@ -3,17 +3,20 @@ package com.homesky.homecloud_lib.model.request;
 import android.util.JsonWriter;
 
 import com.homesky.homecloud_lib.model.Constants;
+import com.homesky.homecloud_lib.model.Proposition;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class NewRulesRequest extends RequestModel {
 
-    String mNodeId, mControllerId, mCommandId, mValue;
-    List<List<String>> mClause;
+    int mNodeId, mControllerId, mCommandId;
+    BigDecimal mValue;
+    List<List<Proposition>> mClause;
 
-    public NewRulesRequest(String nodeId, String controllerId, String commandId,
-                           String value, List<List<String>> clause) {
+    public NewRulesRequest(int nodeId, int controllerId, int commandId,
+                           BigDecimal value, List<List<Proposition>> clause) {
         super(Constants.Values.Functions.NEW_RULES);
         mNodeId = nodeId;
         mControllerId = controllerId;
@@ -30,10 +33,10 @@ public class NewRulesRequest extends RequestModel {
         writer.name(Constants.Fields.NewRules.VALUE).value(mValue);
         writer.name(Constants.Fields.NewRules.CLAUSES);
         writer.beginArray();
-        for(List<String> orStatement : mClause){
+        for(List<Proposition> orStatement : mClause){
             writer.beginArray();
-            for(String proposition : orStatement){
-                writer.value(proposition);
+            for(Proposition proposition : orStatement){
+                proposition.writeJSON(writer);
             }
             writer.endArray();
         }

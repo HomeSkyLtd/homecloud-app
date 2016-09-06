@@ -30,6 +30,8 @@ import com.homesky.homecloud_lib.model.response.StateResponse;
 
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+
 public class MainActivityFragment extends Fragment {
     private static final String TAG = "MainActivityFragment";
 
@@ -155,10 +157,10 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
-                String nodeId = "1";
-                String controllerId = "2";
-                String commandId = "3";
-                String value = "4";
+                int nodeId = 1;
+                int controllerId = 2;
+                int commandId = 3;
+                BigDecimal value = new BigDecimal(4);
                 NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
                 new RequestTask().execute(command);
             }

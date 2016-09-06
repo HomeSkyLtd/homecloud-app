@@ -50,6 +50,9 @@ public class Constants {
             public static final String COMMAND_ID = "commandId";
             public static final String VALUE = "value";
             public static final String CLAUSES = "clauses";
+            public static final String LHS = "lhs";
+            public static final String OPERATOR = "operator";
+            public static final String RHS = "rhs";
         }
 
         public static class SetNodeExtra{

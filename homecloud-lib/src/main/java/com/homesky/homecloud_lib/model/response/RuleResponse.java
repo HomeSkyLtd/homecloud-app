@@ -4,6 +4,7 @@ import android.util.JsonWriter;
 import android.util.Log;
 
 import com.homesky.homecloud_lib.model.Constants;
+import com.homesky.homecloud_lib.model.Proposition;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class RuleResponse extends SimpleResponse {
     private static final String TAG = "RuleResponse";
@@ -109,104 +109,7 @@ public class RuleResponse extends SimpleResponse {
         }
     }
 
-    public static class Proposition {
-        String mLhs, mRhs, mOperator;
-        boolean mIsLhsValue, mIsRhsValue;
 
-        public Proposition(String operator, String lhs, String rhs) {
-            mOperator = operator;
-            mLhs = lhs;
-            mRhs = rhs;
-        }
-
-        public Proposition(String operator, float lhs, String rhs) {
-            this(operator, Float.toString(lhs), rhs);
-            mIsLhsValue = true;
-        }
-
-        public Proposition(String operator, String lhs, float rhs) {
-            this(operator, lhs, Float.toString(rhs));
-            mIsRhsValue = true;
-
-        }
-
-        public Proposition(String operator, float lhs, float rhs) {
-            this(operator, Float.toString(lhs), Float.toString(rhs));
-            mIsLhsValue = true;
-            mIsRhsValue = true;
-        }
-
-        public Proposition(String operator, Object lhs, Object rhs){
-            mOperator = operator;
-            if(lhs instanceof String)
-                mLhs = (String)lhs;
-            else{
-                mLhs = ((Number)lhs).toString();
-                mIsLhsValue = true;
-            }
-            if(rhs instanceof String)
-                mRhs = (String)rhs;
-            else{
-                mRhs = ((Number)rhs).toString();
-                mIsRhsValue = true;
-            }
-        }
-
-        public String getLhs() {
-            return mLhs;
-        }
-
-        public void setLhs(String lhs) {
-            mLhs = lhs;
-        }
-
-        public String getRhs() {
-            return mRhs;
-        }
-
-        public void setRhs(String rhs) {
-            mRhs = rhs;
-        }
-
-        public String getOperator() {
-            return mOperator;
-        }
-
-        public void setOperator(String operator) {
-            mOperator = operator;
-        }
-
-        public boolean isLhsValue() {
-            return mIsLhsValue;
-        }
-
-        public void setLhsValue(boolean lhsValue) {
-            mIsLhsValue = lhsValue;
-        }
-
-        public boolean isRhsValue() {
-            return mIsRhsValue;
-        }
-
-        public void setRhsValue(boolean rhsValue) {
-            mIsRhsValue = rhsValue;
-        }
-
-        void writeJSON(JsonWriter writer) throws IOException{
-            writer.beginObject();
-            if (mIsLhsValue)
-                writer.name(Constants.Fields.RuleResponse.LHS).value(new BigDecimal(mLhs));
-            else
-                writer.name(Constants.Fields.RuleResponse.LHS).value(mLhs);
-            if (mIsRhsValue)
-                writer.name(Constants.Fields.RuleResponse.RHS).value(new BigDecimal(mRhs));
-            else
-                writer.name(Constants.Fields.RuleResponse.RHS).value(mRhs);
-
-            writer.name(Constants.Fields.RuleResponse.OPERATOR).value(mOperator);
-            writer.endObject();
-        }
-    }
 }
 
 

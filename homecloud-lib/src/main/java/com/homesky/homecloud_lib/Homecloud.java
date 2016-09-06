@@ -2,6 +2,7 @@ package com.homesky.homecloud_lib;
 
 import android.util.Log;
 
+import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
 import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
 import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
@@ -162,8 +163,8 @@ public class Homecloud {
      * @param clause The condition associated to the rule, in CNF form
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse newRules(String nodeId, String controllerId, String commandId,
-                                   String value, List<List<String>> clause){
+    public SimpleResponse newRules(int nodeId, int controllerId, int commandId,
+                                   BigDecimal value, List<List<Proposition>> clause){
         RequestModel newRulesReq = new NewRulesRequest(nodeId, controllerId, commandId, value, clause);
         String responseStr = makeRequest(newRulesReq);
         return SimpleResponse.from(responseStr);
