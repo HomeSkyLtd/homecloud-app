@@ -5,12 +5,14 @@ import android.util.JsonWriter;
 import com.homesky.homecloud_lib.model.Constants;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class NewActionRequest extends RequestModel {
 
-    private String mNodeId, mControllerId, mCommandId, mValue;
+    private int mNodeId, mControllerId, mCommandId;
+    private BigDecimal mValue;
 
-    public NewActionRequest(String nodeId, String controllerId, String commandId, String value) {
+    public NewActionRequest(int nodeId, int controllerId, int commandId, BigDecimal value) {
         super(Constants.Values.Functions.NEW_ACTION);
         mNodeId = nodeId;
         mControllerId = controllerId;

@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.homesky.homecloud.command.Command;
 import com.homesky.homecloud.command.GetHouseStateCommand;
+import com.homesky.homecloud.command.GetLearntRulesCommand;
+import com.homesky.homecloud.command.GetRulesCommand;
 import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewActionCommand;
@@ -167,6 +169,8 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
+                GetRulesCommand command = new GetRulesCommand();
+                new RequestTask().execute(command);
             }
         });
 
@@ -183,6 +187,8 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
+                GetLearntRulesCommand command = new GetLearntRulesCommand();
+                new RequestTask().execute(command);
             }
         });
 

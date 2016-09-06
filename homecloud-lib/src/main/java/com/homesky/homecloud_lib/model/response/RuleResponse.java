@@ -10,10 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class RuleResponse extends SimpleResponse{
+public class RuleResponse extends SimpleResponse {
     private static final String TAG = "RuleResponse";
 
     private List<Rule> mRules;
@@ -23,8 +25,8 @@ public class RuleResponse extends SimpleResponse{
         mRules = rules;
     }
 
-    public static RuleResponse from(String jsonStr){
-        if(jsonStr == null) return null;
+    public static RuleResponse from(String jsonStr) {
+        if (jsonStr == null) return null;
 
         List<Rule> rules = new ArrayList<>();
         try {
@@ -32,29 +34,36 @@ public class RuleResponse extends SimpleResponse{
             int status = obj.getInt(Constants.Fields.Common.STATUS);
             String errorMessage = obj.getString(Constants.Fields.Common.ERROR_MESSAGE);
 
-            JSONArray rulesJSON = obj.getJSONArray(Constants.Fields.RuleResponse.RULES);
-            for(int i = 0 ; i < rulesJSON.length() ; ++i){
-                JSONObject ruleJSON = rulesJSON.getJSONObject(i);
-                String nodeId = ruleJSON.getString(Constants.Fields.NewRules.NODE_ID);
-                String controllerId = ruleJSON.getString(Constants.Fields.NewRules.CONTROLLER_ID);
-                String commandId = ruleJSON.getString(Constants.Fields.NewRules.COMMAND_ID);
-                String value = ruleJSON.getString(Constants.Fields.NewRules.VALUE);
-                List<List<String>> clause = new ArrayList<>();
-                JSONArray clauseJSON = ruleJSON.getJSONArray(Constants.Fields.NewRules.CLAUSES);
-                for(int j = 0 ; j < clauseJSON.length() ; ++j){
-                    List<String> orStatement = new ArrayList<>();
-                    JSONArray orStatementJSON = clauseJSON.getJSONArray(j);
-                    for(int k = 0 ; k < orStatementJSON.length() ; ++k)
-                        orStatement.add(orStatementJSON.getString(k));
-                    clause.add(orStatement);
+            if (status == 200) {
+                JSONArray rulesJSON = obj.getJSONArray(Constants.Fields.RuleResponse.RULES);
+                for (int i = 0; i < rulesJSON.length(); ++i) {
+                    JSONObject ruleJSON = rulesJSON.getJSONObject(i);
+                    int nodeId = ruleJSON.getInt(Constants.Fields.NewRules.NODE_ID);
+                    int controllerId = ruleJSON.getInt(Constants.Fields.NewRules.CONTROLLER_ID);
+                    int commandId = ruleJSON.getInt(Constants.Fields.NewRules.COMMAND_ID);
+                    BigDecimal value = new BigDecimal(ruleJSON.getString(Constants.Fields.NewRules.VALUE));
+                    List<List<Proposition>> clause = new ArrayList<>();
+                    JSONArray clauseJSON = ruleJSON.getJSONArray(Constants.Fields.NewRules.CLAUSES);
+                    for (int j = 0; j < clauseJSON.length(); ++j) {
+                        List<Proposition> orStatement = new ArrayList<>();
+                        JSONArray orStatementJSON = clauseJSON.getJSONArray(j);
+                        for (int k = 0; k < orStatementJSON.length(); ++k) {
+                            JSONObject propositionJSON = orStatementJSON.getJSONObject(k);
+                            orStatement.add(new Proposition(
+                                    propositionJSON.getString(Constants.Fields.RuleResponse.OPERATOR),
+                                    propositionJSON.get(Constants.Fields.RuleResponse.LHS),
+                                    propositionJSON.get(Constants.Fields.RuleResponse.RHS)));
+                            //orStatement.add(orStatementJSON.getString(k));
+                        }
+                        clause.add(orStatement);
+                    }
+                    Rule rule = new Rule(nodeId, controllerId, commandId, value, clause);
+                    rules.add(rule);
                 }
-                Rule rule = new Rule(nodeId, controllerId, commandId, value, clause);
-                rules.add(rule);
             }
 
             return new RuleResponse(status, errorMessage, rules);
-        }
-        catch (JSONException e){
+        } catch (JSONException e) {
             Log.e(TAG, "Error parsing JSON", e);
             return null;
         }
@@ -65,7 +74,7 @@ public class RuleResponse extends SimpleResponse{
         super.writeJSON(writer);
         writer.name(Constants.Fields.RuleResponse.RULES);
         writer.beginArray();
-        for(Rule rule : mRules){
+        for (Rule rule : mRules) {
             writer.beginObject();
             writer.name(Constants.Fields.NewRules.NODE_ID).value(rule.mNodeId);
             writer.name(Constants.Fields.NewRules.CONTROLLER_ID).value(rule.mControllerId);
@@ -73,10 +82,10 @@ public class RuleResponse extends SimpleResponse{
             writer.name(Constants.Fields.NewRules.VALUE).value(rule.mValue);
             writer.name(Constants.Fields.NewRules.CLAUSES);
             writer.beginArray();
-            for(List<String> orStatement : rule.mClause){
+            for (List<Proposition> orStatement : rule.mClause) {
                 writer.beginArray();
-                for(String proposition : orStatement){
-                    writer.value(proposition);
+                for (Proposition proposition : orStatement) {
+                    proposition.writeJSON(writer);
                 }
                 writer.endArray();
             }
@@ -86,11 +95,12 @@ public class RuleResponse extends SimpleResponse{
         writer.endArray();
     }
 
-    public static class Rule{
-        String mNodeId, mControllerId, mCommandId, mValue;
-        List<List<String>> mClause;
+    public static class Rule {
+        int mNodeId, mControllerId, mCommandId;
+        BigDecimal mValue;
+        List<List<Proposition>> mClause;
 
-        public Rule(String nodeId, String controllerId, String commandId, String value, List<List<String>> clause) {
+        public Rule(int nodeId, int controllerId, int commandId, BigDecimal value, List<List<Proposition>> clause) {
             mNodeId = nodeId;
             mControllerId = controllerId;
             mCommandId = commandId;
@@ -98,4 +108,105 @@ public class RuleResponse extends SimpleResponse{
             mClause = clause;
         }
     }
+
+    public static class Proposition {
+        String mLhs, mRhs, mOperator;
+        boolean mIsLhsValue, mIsRhsValue;
+
+        public Proposition(String operator, String lhs, String rhs) {
+            mOperator = operator;
+            mLhs = lhs;
+            mRhs = rhs;
+        }
+
+        public Proposition(String operator, float lhs, String rhs) {
+            this(operator, Float.toString(lhs), rhs);
+            mIsLhsValue = true;
+        }
+
+        public Proposition(String operator, String lhs, float rhs) {
+            this(operator, lhs, Float.toString(rhs));
+            mIsRhsValue = true;
+
+        }
+
+        public Proposition(String operator, float lhs, float rhs) {
+            this(operator, Float.toString(lhs), Float.toString(rhs));
+            mIsLhsValue = true;
+            mIsRhsValue = true;
+        }
+
+        public Proposition(String operator, Object lhs, Object rhs){
+            mOperator = operator;
+            if(lhs instanceof String)
+                mLhs = (String)lhs;
+            else{
+                mLhs = ((Number)lhs).toString();
+                mIsLhsValue = true;
+            }
+            if(rhs instanceof String)
+                mRhs = (String)rhs;
+            else{
+                mRhs = ((Number)rhs).toString();
+                mIsRhsValue = true;
+            }
+        }
+
+        public String getLhs() {
+            return mLhs;
+        }
+
+        public void setLhs(String lhs) {
+            mLhs = lhs;
+        }
+
+        public String getRhs() {
+            return mRhs;
+        }
+
+        public void setRhs(String rhs) {
+            mRhs = rhs;
+        }
+
+        public String getOperator() {
+            return mOperator;
+        }
+
+        public void setOperator(String operator) {
+            mOperator = operator;
+        }
+
+        public boolean isLhsValue() {
+            return mIsLhsValue;
+        }
+
+        public void setLhsValue(boolean lhsValue) {
+            mIsLhsValue = lhsValue;
+        }
+
+        public boolean isRhsValue() {
+            return mIsRhsValue;
+        }
+
+        public void setRhsValue(boolean rhsValue) {
+            mIsRhsValue = rhsValue;
+        }
+
+        void writeJSON(JsonWriter writer) throws IOException{
+            writer.beginObject();
+            if (mIsLhsValue)
+                writer.name(Constants.Fields.RuleResponse.LHS).value(new BigDecimal(mLhs));
+            else
+                writer.name(Constants.Fields.RuleResponse.LHS).value(mLhs);
+            if (mIsRhsValue)
+                writer.name(Constants.Fields.RuleResponse.RHS).value(new BigDecimal(mRhs));
+            else
+                writer.name(Constants.Fields.RuleResponse.RHS).value(mRhs);
+
+            writer.name(Constants.Fields.RuleResponse.OPERATOR).value(mOperator);
+            writer.endObject();
+        }
+    }
 }
+
+

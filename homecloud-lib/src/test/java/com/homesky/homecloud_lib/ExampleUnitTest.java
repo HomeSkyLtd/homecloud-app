@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,7 +20,6 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
         JSONObject obj1 = new JSONObject("{a: 1, b:2, c:3}");
         JSONObject obj2 = new JSONObject("{a: 1}");
-        System.out.println(JSONComparator.getJSONKeys(obj1));
-
+        System.out.println(new BigDecimal("1"));
     }
 }

@@ -23,6 +23,7 @@ import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -136,7 +137,7 @@ public class Homecloud {
      * @param value The desired value of the command
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse newAction(String nodeId, String controllerId, String commandId, String value){
+    public SimpleResponse newAction(int nodeId, int controllerId, int commandId, BigDecimal value){
         RequestModel newActionReq = new NewActionRequest(nodeId, controllerId, commandId, value);
         String responseStr = makeRequest(newActionReq);
         return SimpleResponse.from(responseStr);

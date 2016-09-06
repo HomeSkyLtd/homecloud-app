@@ -59,7 +59,16 @@ public class Constants {
         }
 
         public static class RuleResponse{
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String COMMAND_ID = "commandId";
+            public static final String VALUE = "value";
+            public static final String CLAUSES = "clauses";
             public static final String RULES = "rules";
+            public static final String LHS = "lhs";
+            public static final String OPERATOR = "operator";
+            public static final String RHS = "rhs";
+
         }
 
         public static class NodesResponse{
