@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class NodesResponse extends SimpleResponse{
             JSONArray nodesJSON = obj.getJSONArray(Constants.Fields.NodesResponse.NODES);
             for(int i = 0 ; i < nodesJSON.length() ; ++i){
                 JSONObject nodeJSON = nodesJSON.getJSONObject(i);
-                String nodeId = nodeJSON.getString(Constants.Fields.NodesResponse.NODE_ID);
+                int nodeId = nodeJSON.getInt(Constants.Fields.NodesResponse.NODE_ID);
                 String controllerID = nodeJSON.getString(Constants.Fields.NodesResponse.CONTROLLER_ID);
                 String nodeClass = nodeJSON.getString(Constants.Fields.NodesResponse.NODE_CLASS);
                 int accepted = nodeJSON.getInt(Constants.Fields.NodesResponse.ACCEPTED);
@@ -54,14 +55,14 @@ public class NodesResponse extends SimpleResponse{
                 JSONArray dataTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.DATA_TYPE);
                 for(int j = 0 ; j < dataTypeJSON.length() ; ++j){
                     JSONObject unitDataTypeJSON = dataTypeJSON.getJSONObject(j);
-                    String id = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.ID);
+                    int id = unitDataTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
                     String measureStrategy = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.MEASURE_STRATEGY);
                     String type = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
                     String dataCategory = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.DATA_CATEGORY);
                     String unit = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
 
                     JSONArray rangeJSON = unitDataTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
-                    String[] range = {rangeJSON.getString(0), rangeJSON.getString(1)};
+                    BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
                     dataType.add(new DataType(id, measureStrategy, type, range, dataCategory, unit));
                 }
 
@@ -69,13 +70,13 @@ public class NodesResponse extends SimpleResponse{
                 JSONArray commandTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.COMMAND_TYPE);
                 for(int j = 0 ; j < commandTypeJSON.length() ; ++j){
                     JSONObject unitCommandTypeJSON = commandTypeJSON.getJSONObject(j);
-                    String id = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.ID);
+                    int id = unitCommandTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
                     String type = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
                     String commandCategory = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.COMMAND_CATEGORY);
                     String unit = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
 
                     JSONArray rangeJSON = unitCommandTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
-                    String[] range = {rangeJSON.getString(0), rangeJSON.getString(1)};
+                    BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
                     commandType.add(new CommandType(id, type, range, commandCategory, unit));
                 }
 
@@ -158,13 +159,13 @@ public class NodesResponse extends SimpleResponse{
     }
 
     public static class Node{
-        String mNodeId, mControllerId, mNodeClass;
-        int mAccepted, mAlive;
+        int mNodeId, mAccepted, mAlive;
+        String mControllerId, mNodeClass;
         Map<String, String> mExtra;
         List<DataType> mDataType;
         List<CommandType> mCommandType;
 
-        private Node(String nodeId, String controllerId, String nodeClass, int accepted, int alive,
+        private Node(int nodeId, String controllerId, String nodeClass, int accepted, int alive,
                     Map<String, String> extra, List<DataType> dataType, List<CommandType> commandType) {
             mNodeId = nodeId;
             mControllerId = controllerId;
@@ -177,7 +178,8 @@ public class NodesResponse extends SimpleResponse{
         }
 
         public static class Builder{
-            String mNodeId = "", mControllerId = "", mNodeClass = "";
+            int mNodeId;
+            String mControllerId = "", mNodeClass = "";
             int mAccepted, mAlive;
             Map<String, String> mExtra = null;
             List<DataType> mDataType = null;
@@ -187,7 +189,7 @@ public class NodesResponse extends SimpleResponse{
                 return new Node(mNodeId, mControllerId, mNodeClass, mAccepted, mAlive, mExtra, mDataType, mCommandType);
             }
 
-            public Builder setNodeId(String nodeId) {
+            public Builder setNodeId(int nodeId) {
                 mNodeId = nodeId;
                 return this;
             }
@@ -230,10 +232,11 @@ public class NodesResponse extends SimpleResponse{
     }
 
     public static class DataType{
-        String mId, mMeasureStrategy, mType, mDataCategory, mUnit;
-        String[] mRange;
+        int  mId;
+        String mMeasureStrategy, mType, mDataCategory, mUnit;
+        BigDecimal[] mRange;
 
-        public DataType(String id, String measureStrategy, String type, String[] range, String dataCategory, String unit) {
+        public DataType(int id, String measureStrategy, String type, BigDecimal[] range, String dataCategory, String unit) {
             mId = id;
             mMeasureStrategy = measureStrategy;
             mType = type;
@@ -244,10 +247,11 @@ public class NodesResponse extends SimpleResponse{
     }
 
     public static class CommandType{
-        String mId, mType, mCommandCategory, mUnit;
-        String[] mRange;
+        int mId;
+        String mType, mCommandCategory, mUnit;
+        BigDecimal[] mRange;
 
-        public CommandType(String id, String type, String[] range, String commandCategory, String unit) {
+        public CommandType(int id, String type, BigDecimal[] range, String commandCategory, String unit) {
             mId = id;
             mType = type;
             mRange = range;

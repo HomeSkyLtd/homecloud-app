@@ -24,8 +24,8 @@ public class NodesResponseTest {
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: 200, %s: '', %s: [{%s: '1', %s: '2', %s: '3', %s: 0, %s: 1, %s: {name: 'nó1'}," +
-                "%s: [{%s: 'id', %s: 'ms', %s: 't', %s: ['1', '3'], %s: 'dc', %s: 'kg'}], " +
+        f.format("{%s: 200, %s: '', %s: [{%s: 1, %s: '2', %s: '3', %s: 0, %s: 1, %s: {name: 'nó1'}," +
+                "%s: [{%s: 5, %s: 'ms', %s: 't', %s: [1, 3], %s: 'dc', %s: 'kg'}], " +
                 "%s: []}]}",
                 Constants.Fields.Common.STATUS,
                 Constants.Fields.Common.ERROR_MESSAGE,
