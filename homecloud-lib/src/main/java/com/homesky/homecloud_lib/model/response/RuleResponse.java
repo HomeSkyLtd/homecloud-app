@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.model.Rule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,13 +77,13 @@ public class RuleResponse extends SimpleResponse {
         writer.beginArray();
         for (Rule rule : mRules) {
             writer.beginObject();
-            writer.name(Constants.Fields.NewRules.NODE_ID).value(rule.mNodeId);
-            writer.name(Constants.Fields.NewRules.CONTROLLER_ID).value(rule.mControllerId);
-            writer.name(Constants.Fields.NewRules.COMMAND_ID).value(rule.mCommandId);
-            writer.name(Constants.Fields.NewRules.VALUE).value(rule.mValue);
+            writer.name(Constants.Fields.NewRules.NODE_ID).value(rule.getNodeId());
+            writer.name(Constants.Fields.NewRules.CONTROLLER_ID).value(rule.getControllerId());
+            writer.name(Constants.Fields.NewRules.COMMAND_ID).value(rule.getCommandId());
+            writer.name(Constants.Fields.NewRules.VALUE).value(rule.getValue());
             writer.name(Constants.Fields.NewRules.CLAUSES);
             writer.beginArray();
-            for (List<Proposition> orStatement : rule.mClause) {
+            for (List<Proposition> orStatement : rule.getClause()) {
                 writer.beginArray();
                 for (Proposition proposition : orStatement) {
                     proposition.writeJSON(writer);
@@ -94,23 +95,6 @@ public class RuleResponse extends SimpleResponse {
         }
         writer.endArray();
     }
-
-    public static class Rule {
-        int mNodeId, mCommandId;
-        String mControllerId;
-        BigDecimal mValue;
-        List<List<Proposition>> mClause;
-
-        public Rule(int nodeId, String controllerId, int commandId, BigDecimal value, List<List<Proposition>> clause) {
-            mNodeId = nodeId;
-            mControllerId = controllerId;
-            mCommandId = commandId;
-            mValue = value;
-            mClause = clause;
-        }
-    }
-
-
 }
 
 

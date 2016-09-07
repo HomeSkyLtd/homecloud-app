@@ -27,6 +27,7 @@ import com.homesky.homecloud.command.NewRulesCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
@@ -196,8 +197,8 @@ public class MainActivityFragment extends Fragment {
                 int commandId = 2;
                 String controllerId = "3";
                 BigDecimal value = new BigDecimal(4);
-                NewRulesRequest.Rule rule = new NewRulesRequest.Rule(nodeId, controllerId, commandId, value, clause);
-                ArrayList<NewRulesRequest.Rule> rules = new ArrayList<>();
+                Rule rule = new Rule(nodeId, controllerId, commandId, value, clause);
+                ArrayList<Rule> rules = new ArrayList<>();
                 rules.add(rule);
                 NewRulesCommand command = new NewRulesCommand(rules);
                 new RequestTask().execute(command);

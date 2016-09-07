@@ -4,6 +4,7 @@ import android.util.JsonWriter;
 
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.util.JSONComparator;
 
@@ -37,15 +38,19 @@ public class NewRulesTest {
         Proposition[] orStatement2 = new Proposition[] {new Proposition(">", "1.3", new BigDecimal(4.3))};
         clause.add(Arrays.asList(orStatement1));
         clause.add(Arrays.asList(orStatement2));
+        Rule rule = new Rule(1, "2", 3, new BigDecimal(4), clause);
+        List<Rule> rules = new ArrayList<>();
+        rules.add(rule);
 
-        NewRulesRequest request = new NewRulesRequest(1, "2", 3, new BigDecimal(4), clause);
+        NewRulesRequest request = new NewRulesRequest(rules);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: %s, %s: 1, %s: '2', %s: 3, %s: 4, " +
-                "%s: [[{%s: '1.1', %s: '>', %s: 1}, {%s: '2.1', %s: '>', %s: '3.1'}], [{%s: '1.3', %s: '>', %s: 4.3}]]}",
+        f.format("{%s: %s, %s: [{%s: 1, %s: '2', %s: 3, %s: 4, " +
+                "%s: [[{%s: '1.1', %s: '>', %s: 1}, {%s: '2.1', %s: '>', %s: '3.1'}], [{%s: '1.3', %s: '>', %s: 4.3}]]}]}",
                 Constants.Fields.Common.FUNCTION,
                 Constants.Values.Functions.NEW_RULES,
+                Constants.Fields.NewRules.RULES,
                 Constants.Fields.NewRules.NODE_ID,
                 Constants.Fields.NewRules.CONTROLLER_ID,
                 Constants.Fields.NewRules.COMMAND_ID,

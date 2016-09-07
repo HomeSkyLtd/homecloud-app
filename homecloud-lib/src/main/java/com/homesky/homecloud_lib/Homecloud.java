@@ -3,6 +3,7 @@ package com.homesky.homecloud_lib;
 import android.util.Log;
 
 import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
 import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
 import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
@@ -158,7 +159,7 @@ public class Homecloud {
      * Create a new automation rule for the house
      * @param rules A list of Rule objects to be added
      */
-    public SimpleResponse newRules(List<NewRulesRequest.Rule> rules){
+    public SimpleResponse newRules(List<Rule> rules){
         RequestModel newRulesReq = new NewRulesRequest(rules);
         String responseStr = makeRequest(newRulesReq);
         return SimpleResponse.from(responseStr);
