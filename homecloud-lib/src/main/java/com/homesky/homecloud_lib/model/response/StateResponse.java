@@ -49,7 +49,7 @@ public class StateResponse extends SimpleResponse {
                 for (int i = 0; i < nodeStates.length(); ++i) {
                     JSONObject stateObj = nodeStates.getJSONObject(i);
                     int nodeId = stateObj.getInt(Constants.Fields.GetHouseState.NODE_ID);
-                    int controllerId = stateObj.getInt(Constants.Fields.GetHouseState.CONTROLLER_ID);
+                    String controllerId = stateObj.getString(Constants.Fields.GetHouseState.CONTROLLER_ID);
                     Map<Integer, BigDecimal> data = new HashMap<>();
                     if(stateObj.has(Constants.Fields.GetHouseState.DATA)) {
                         JSONObject dataJSON = stateObj.getJSONObject(Constants.Fields.GetHouseState.DATA);
@@ -119,10 +119,11 @@ public class StateResponse extends SimpleResponse {
     }
 
     public static class NodeState {
-        private int mNodeId, mControllerId;
+        private int mNodeId;
+        private String mControllerId;
         private Map<Integer, BigDecimal> mData, mCommand;
 
-        public NodeState(int nodeId, int controllerId, Map<Integer, BigDecimal> data, Map<Integer, BigDecimal> command) {
+        public NodeState(int nodeId, String controllerId, Map<Integer, BigDecimal> data, Map<Integer, BigDecimal> command) {
             mNodeId = nodeId;
             mControllerId = controllerId;
             mData = data;
@@ -137,11 +138,11 @@ public class StateResponse extends SimpleResponse {
             mNodeId = nodeId;
         }
 
-        public int getControllerId() {
+        public String getControllerId() {
             return mControllerId;
         }
 
-        public void setControllerId(int controllerId) {
+        public void setControllerId(String controllerId) {
             mControllerId = controllerId;
         }
 

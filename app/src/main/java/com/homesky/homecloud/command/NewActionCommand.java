@@ -7,10 +7,11 @@ import java.math.BigDecimal;
 
 public class NewActionCommand implements Command{
 
-    private int mNodeId, mControllerId, mCommandId;
+    private int mNodeId, mCommandId;
+    private String mControllerId;
     private BigDecimal mValue;
 
-    public NewActionCommand(int nodeId, int controllerId, int commandId, BigDecimal value) {
+    public NewActionCommand(int nodeId, String controllerId, int commandId, BigDecimal value) {
         mNodeId = nodeId;
         mControllerId = controllerId;
         mCommandId = commandId;

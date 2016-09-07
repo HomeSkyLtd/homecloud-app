@@ -26,11 +26,11 @@ public class NewActionTest {
 
     @Test
     public void json_isCorrect(){
-        NewActionRequest request = new NewActionRequest(1, 2, 3, new BigDecimal(4));
+        NewActionRequest request = new NewActionRequest(1, "2", 3, new BigDecimal(4));
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: %s, %s: {%s: 1, %s: 2, %s: 3, %s: 4}}",
+        f.format("{%s: %s, %s: {%s: 1, %s: '2', %s: 3, %s: 4}}",
                 Constants.Fields.Common.FUNCTION,
                 Constants.Values.Functions.NEW_ACTION,
                 Constants.Fields.NewAction.ACTION,

@@ -39,7 +39,7 @@ public class RuleResponse extends SimpleResponse {
                 for (int i = 0; i < rulesJSON.length(); ++i) {
                     JSONObject ruleJSON = rulesJSON.getJSONObject(i);
                     int nodeId = ruleJSON.getInt(Constants.Fields.NewRules.NODE_ID);
-                    int controllerId = ruleJSON.getInt(Constants.Fields.NewRules.CONTROLLER_ID);
+                    String controllerId = ruleJSON.getString(Constants.Fields.NewRules.CONTROLLER_ID);
                     int commandId = ruleJSON.getInt(Constants.Fields.NewRules.COMMAND_ID);
                     BigDecimal value = new BigDecimal(ruleJSON.getString(Constants.Fields.NewRules.VALUE));
                     List<List<Proposition>> clause = new ArrayList<>();
@@ -96,11 +96,12 @@ public class RuleResponse extends SimpleResponse {
     }
 
     public static class Rule {
-        int mNodeId, mControllerId, mCommandId;
+        int mNodeId, mCommandId;
+        String mControllerId;
         BigDecimal mValue;
         List<List<Proposition>> mClause;
 
-        public Rule(int nodeId, int controllerId, int commandId, BigDecimal value, List<List<Proposition>> clause) {
+        public Rule(int nodeId, String controllerId, int commandId, BigDecimal value, List<List<Proposition>> clause) {
             mNodeId = nodeId;
             mControllerId = controllerId;
             mCommandId = commandId;

@@ -138,7 +138,7 @@ public class Homecloud {
      * @param value The desired value of the command
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse newAction(int nodeId, int controllerId, int commandId, BigDecimal value){
+    public SimpleResponse newAction(int nodeId, String controllerId, int commandId, BigDecimal value){
         RequestModel newActionReq = new NewActionRequest(nodeId, controllerId, commandId, value);
         String responseStr = makeRequest(newActionReq);
         return SimpleResponse.from(responseStr);
@@ -156,16 +156,10 @@ public class Homecloud {
 
     /**
      * Create a new automation rule for the house
-     * @param nodeId The id of the target node whose state will be changed by the rule
-     * @param controllerId The id of the controller associated to the target node
-     * @param commandId The id of the command to be triggered by the rule
-     * @param value The desired value of the command after the rule is activated
-     * @param clause The condition associated to the rule, in CNF form
-     * @return A {@link SimpleResponse} object representing the response
+     * @param rules A list of Rule objects to be added
      */
-    public SimpleResponse newRules(int nodeId, int controllerId, int commandId,
-                                   BigDecimal value, List<List<Proposition>> clause){
-        RequestModel newRulesReq = new NewRulesRequest(nodeId, controllerId, commandId, value, clause);
+    public SimpleResponse newRules(List<NewRulesRequest.Rule> rules){
+        RequestModel newRulesReq = new NewRulesRequest(rules);
         String responseStr = makeRequest(newRulesReq);
         return SimpleResponse.from(responseStr);
     }
@@ -262,6 +256,7 @@ public class Homecloud {
             response = client.newCall(httpRequest).execute();
             if(response.isSuccessful()) {
                 responseBody = response.body().string();
+                Log.d(TAG, "Response: " + responseBody);
                 if(response.header("set-cookie", null) != null) {
                     mCookie = response.header("set-cookie", null);
                     Log.d(TAG, "Setting cookie to " + mCookie);

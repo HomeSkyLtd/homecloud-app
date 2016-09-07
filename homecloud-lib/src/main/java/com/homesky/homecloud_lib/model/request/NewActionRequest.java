@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 
 public class NewActionRequest extends RequestModel {
 
-    private int mNodeId, mControllerId, mCommandId;
+    private int mNodeId, mCommandId;
+    private String mControllerId;
     private BigDecimal mValue;
 
-    public NewActionRequest(int nodeId, int controllerId, int commandId, BigDecimal value) {
+    public NewActionRequest(int nodeId, String controllerId, int commandId, BigDecimal value) {
         super(Constants.Values.Functions.NEW_ACTION);
         mNodeId = nodeId;
         mControllerId = controllerId;

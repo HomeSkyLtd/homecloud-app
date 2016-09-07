@@ -30,9 +30,9 @@ public class RuleResponseTest {
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: 200, %s: '', %s: [{%s: 1, %s: 2, %s: 3, %s: 4.0, " +
+        f.format("{%s: 200, %s: '', %s: [{%s: 1, %s: '2', %s: 3, %s: 4.0, " +
                         "%s: [[{%s: '1.1', %s: '>', %s: 1}, {%s:'2.1', %s: '>', %s:'3.1'}], [{%s:'1.3', %s: '>', %s: 1.0}]]}," +
-                        "{%s: 5, %s: 6, %s: 7, %s: 8.4," +
+                        "{%s: 5, %s: '6', %s: 7, %s: 8.4," +
                         "%s: [[{%s: '3.2', %s: '>', %s: 1.0}, {%s: '8.1', %s: '>', %s:'3.9'}]]}]}",
                 Constants.Fields.Common.STATUS,
                 Constants.Fields.Common.ERROR_MESSAGE,

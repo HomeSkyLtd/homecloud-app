@@ -38,11 +38,11 @@ public class NewRulesTest {
         clause.add(Arrays.asList(orStatement1));
         clause.add(Arrays.asList(orStatement2));
 
-        NewRulesRequest request = new NewRulesRequest(1, 2, 3, new BigDecimal(4), clause);
+        NewRulesRequest request = new NewRulesRequest(1, "2", 3, new BigDecimal(4), clause);
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: %s, %s: 1, %s: 2, %s: 3, %s: 4, " +
+        f.format("{%s: %s, %s: 1, %s: '2', %s: 3, %s: 4, " +
                 "%s: [[{%s: '1.1', %s: '>', %s: 1}, {%s: '2.1', %s: '>', %s: '3.1'}], [{%s: '1.3', %s: '>', %s: 4.3}]]}",
                 Constants.Fields.Common.FUNCTION,
                 Constants.Values.Functions.NEW_RULES,

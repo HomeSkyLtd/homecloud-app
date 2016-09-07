@@ -23,14 +23,19 @@ import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewActionCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
+import com.homesky.homecloud.command.NewRulesCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
+import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
 
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivityFragment extends Fragment {
     private static final String TAG = "MainActivityFragment";
@@ -67,7 +72,7 @@ public class MainActivityFragment extends Fragment {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, (token == null) ? "null" : token);
 
-        HomecloudHolder.setUrl("http://192.168.1.35:3000/");
+        HomecloudHolder.setUrl("http://192.168.1.37:3000/");
     }
 
     @Nullable
@@ -158,8 +163,8 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 clearResponseTextView();
                 int nodeId = 1;
-                int controllerId = 2;
-                int commandId = 3;
+                String controllerId = "1";
+                int commandId = 1;
                 BigDecimal value = new BigDecimal(4);
                 NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
                 new RequestTask().execute(command);
@@ -181,6 +186,21 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
+                List<List<Proposition>> clause = new ArrayList<>();
+                List<Proposition> orStatement = new ArrayList<Proposition>();
+                clause.add(orStatement);
+                orStatement.add(new Proposition(">", "1.1", 10));
+                orStatement.add(new Proposition("==", "1.1", "2.1"));
+
+                int nodeId = 1;
+                int commandId = 2;
+                String controllerId = "3";
+                BigDecimal value = new BigDecimal(4);
+                NewRulesRequest.Rule rule = new NewRulesRequest.Rule(nodeId, controllerId, commandId, value, clause);
+                ArrayList<NewRulesRequest.Rule> rules = new ArrayList<>();
+                rules.add(rule);
+                NewRulesCommand command = new NewRulesCommand(rules);
+                new RequestTask().execute(command);
             }
         });
 
