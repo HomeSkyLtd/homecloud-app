@@ -50,6 +50,7 @@ public class MainActivityFragment extends Fragment {
     EditText mTokenEditText;
     EditText mControllerIdEditText;
     EditText mNodeIdEditText;
+    EditText mCommandIdEditText;
     EditText mValueEditText;
     EditText mExtraEditText;
     Button mLoginButton;
@@ -91,6 +92,7 @@ public class MainActivityFragment extends Fragment {
         mTokenEditText = (EditText)v.findViewById(R.id.token_edit_text);
         mControllerIdEditText = (EditText)v.findViewById(R.id.controller_id_edit_text);
         mNodeIdEditText = (EditText)v.findViewById(R.id.node_id_edit_text);
+        mCommandIdEditText = (EditText)v.findViewById(R.id.command_id_edit_text);
         mValueEditText = (EditText)v.findViewById(R.id.value_edit_text);
         mExtraEditText = (EditText)v.findViewById(R.id.extra_edit_text);
 
@@ -169,10 +171,10 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
-                int nodeId = 1;
-                String controllerId = "1";
-                int commandId = 1;
-                BigDecimal value = new BigDecimal(4);
+                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                String controllerId = mControllerIdEditText.getText().toString();
+                int commandId = Integer.parseInt(mCommandIdEditText.getText().toString());
+                BigDecimal value = new BigDecimal(mValueEditText.getText().toString());
                 NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
                 new RequestTask().execute(command);
             }
