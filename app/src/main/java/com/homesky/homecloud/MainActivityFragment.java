@@ -173,12 +173,15 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
-                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
-                String controllerId = mControllerIdEditText.getText().toString();
-                int commandId = Integer.parseInt(mCommandIdEditText.getText().toString());
-                BigDecimal value = new BigDecimal(mValueEditText.getText().toString());
-                NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
-                new RequestTask().execute(command);
+                boolean isEmpty = (mNodeIdEditText.length()==0) || (mCommandIdEditText.length() == 0);
+                if(!isEmpty) {
+                    int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                    String controllerId = mControllerIdEditText.getText().toString();
+                    int commandId = Integer.parseInt(mCommandIdEditText.getText().toString());
+                    BigDecimal value = new BigDecimal(mValueEditText.getText().toString());
+                    NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
+                    new RequestTask().execute(command);
+                }
             }
         });
 
@@ -230,14 +233,17 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
-                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
-                String controllerId = mControllerIdEditText.getText().toString();
-                Map<String, String> extra = new HashMap<>();
-                String[] extraInput = mExtraEditText.getText().toString().split(":");
-                if(extraInput.length == 2) {
-                    extra.put(extraInput[0], extraInput[1]);
-                    SetNodeExtraCommand command = new SetNodeExtraCommand(extra, nodeId, controllerId);
-                    new RequestTask().execute(command);
+                boolean isEmpty = (mNodeIdEditText.length()==0);
+                if(!isEmpty) {
+                    int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                    String controllerId = mControllerIdEditText.getText().toString();
+                    Map<String, String> extra = new HashMap<>();
+                    String[] extraInput = mExtraEditText.getText().toString().split(":");
+                    if (extraInput.length == 2) {
+                        extra.put(extraInput[0], extraInput[1]);
+                        SetNodeExtraCommand command = new SetNodeExtraCommand(extra, nodeId, controllerId);
+                        new RequestTask().execute(command);
+                    }
                 }
             }
         });
