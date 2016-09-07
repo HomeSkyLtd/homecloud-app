@@ -7,10 +7,11 @@ import com.homesky.homecloud_lib.model.Constants;
 import java.io.IOException;
 
 public class AcceptNodeRequest extends RequestModel{
-    private String mNodeId, mControllerId;
+    private int mNodeId;
+    private String mControllerId;
     int mAccept;
 
-    public AcceptNodeRequest(String nodeId, String controllerId, int accept) {
+    public AcceptNodeRequest(int nodeId, String controllerId, int accept) {
         super(Constants.Values.Functions.ACCEPT_NODE);
         mNodeId = nodeId;
         mControllerId = controllerId;

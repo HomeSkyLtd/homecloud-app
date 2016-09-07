@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.homesky.homecloud.command.AcceptNodeCommand;
 import com.homesky.homecloud.command.Command;
 import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.GetLearntRulesCommand;
@@ -27,6 +28,7 @@ import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewRulesCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
+import com.homesky.homecloud.command.RemoveNodeCommand;
 import com.homesky.homecloud.command.SetNodeExtraCommand;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
@@ -255,6 +257,11 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
+                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                String controllerId = mControllerIdEditText.getText().toString();
+                int accept = 1;
+                AcceptNodeCommand command = new AcceptNodeCommand(nodeId, controllerId, accept);
+                new RequestTask().execute(command);
             }
         });
 
@@ -263,6 +270,10 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
+                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                String controllerId = mControllerIdEditText.getText().toString();
+                RemoveNodeCommand command = new RemoveNodeCommand(nodeId, controllerId);
+                new RequestTask().execute(command);
             }
         });
 

@@ -7,9 +7,10 @@ import com.homesky.homecloud_lib.model.Constants;
 import java.io.IOException;
 
 public class RemoveNodeRequest extends RequestModel {
-    private String mNodeId, mControllerId;
+    private int mNodeId;
+    private String mControllerId;
 
-    public RemoveNodeRequest(String nodeId, String controllerId) {
+    public RemoveNodeRequest(int nodeId, String controllerId) {
         super(Constants.Values.Functions.REMOVE_NODE);
         mNodeId = nodeId;
         mControllerId = controllerId;

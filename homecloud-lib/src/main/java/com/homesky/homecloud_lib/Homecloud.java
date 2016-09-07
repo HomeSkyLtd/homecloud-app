@@ -205,10 +205,10 @@ public class Homecloud {
      * @param accept Whether or not the node will be accepted (1) or rejected (0)
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse acceptNode(String nodeId, String controllerId, int accept){
+    public SimpleResponse acceptNode(int nodeId, String controllerId, int accept){
         RequestModel acceptNodeReq = new AcceptNodeRequest(nodeId, controllerId, accept);
         String responseStr = makeRequest(acceptNodeReq);
-        return NodesResponse.from(responseStr);
+        return SimpleResponse.from(responseStr);
     }
 
     /**
@@ -217,10 +217,10 @@ public class Homecloud {
      * @param controllerId The id of the controller associated to the node to be removed
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse removeNode(String nodeId, String controllerId){
+    public SimpleResponse removeNode(int nodeId, String controllerId){
         RequestModel removeNodeReq = new RemoveNodeRequest(nodeId, controllerId);
         String responseStr = makeRequest(removeNodeReq);
-        return NodesResponse.from(responseStr);
+        return SimpleResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request){
