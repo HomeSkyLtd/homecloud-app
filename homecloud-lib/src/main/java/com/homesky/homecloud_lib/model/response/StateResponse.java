@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,21 +48,28 @@ public class StateResponse extends SimpleResponse {
                 JSONArray nodeStates = obj.getJSONArray(Constants.Fields.GetHouseState.STATE);
                 for (int i = 0; i < nodeStates.length(); ++i) {
                     JSONObject stateObj = nodeStates.getJSONObject(i);
-                    NodeState nodeState = new NodeState();
-                    nodeState.nodeId = stateObj.getString(Constants.Fields.GetHouseState.NODE_ID);
-                    nodeState.controllerId = stateObj.getString(Constants.Fields.GetHouseState.CONTROLLER_ID);
-                    JSONObject data = stateObj.getJSONObject(Constants.Fields.GetHouseState.DATA);
-                    JSONArray dataKeys = data.names();
-                    for (int j = 0; j < dataKeys.length(); ++j) {
-                        String key = dataKeys.getString(j);
-                        nodeState.data.put(key, data.getString(key));
+                    int nodeId = stateObj.getInt(Constants.Fields.GetHouseState.NODE_ID);
+                    int controllerId = stateObj.getInt(Constants.Fields.GetHouseState.CONTROLLER_ID);
+                    Map<Integer, BigDecimal> data = new HashMap<>();
+                    if(stateObj.has(Constants.Fields.GetHouseState.DATA)) {
+                        JSONObject dataJSON = stateObj.getJSONObject(Constants.Fields.GetHouseState.DATA);
+                        JSONArray dataKeys = dataJSON.names();
+                        for (int j = 0; j < dataKeys.length(); ++j) {
+                            Integer key = dataKeys.getInt(j);
+                            data.put(key, new BigDecimal(dataJSON.getString(key.toString())));
+                        }
                     }
-                    JSONObject commands = stateObj.getJSONObject(Constants.Fields.GetHouseState.COMMAND);
-                    JSONArray commandKeys = commands.names();
-                    for (int j = 0; j < commandKeys.length(); ++j) {
-                        String key = commandKeys.getString(j);
-                        nodeState.command.put(key, commands.getString(key));
+
+                    Map<Integer, BigDecimal> commands = new HashMap<>();
+                    if(stateObj.has(Constants.Fields.GetHouseState.COMMAND)) {
+                        JSONObject commandsJSON = stateObj.getJSONObject(Constants.Fields.GetHouseState.COMMAND);
+                        JSONArray commandKeys = commandsJSON.names();
+                        for (int j = 0; j < commandKeys.length(); ++j) {
+                            Integer key = commandKeys.getInt(j);
+                            commands.put(key, new BigDecimal(commandsJSON.getString(key.toString())));
+                        }
                     }
+                    NodeState nodeState = new NodeState(nodeId, controllerId, data, commands);
                     state.add(nodeState);
                 }
             }
@@ -82,24 +90,28 @@ public class StateResponse extends SimpleResponse {
         for(NodeState nodeState : mState){
             //begin encode state object for (node_id, controller_id)
             writer.beginObject();
-            writer.name(Constants.Fields.GetHouseState.NODE_ID).value(nodeState.nodeId);
-            writer.name(Constants.Fields.GetHouseState.CONTROLLER_ID).value(nodeState.controllerId);
-            writer.name(Constants.Fields.GetHouseState.DATA);
-            //encode data
-            writer.beginObject();
-            for(String key : nodeState.data.keySet()){
-                writer.name(key).value(nodeState.data.get(key));
+            writer.name(Constants.Fields.GetHouseState.NODE_ID).value(nodeState.getNodeId());
+            writer.name(Constants.Fields.GetHouseState.CONTROLLER_ID).value(nodeState.getControllerId());
+            if(!nodeState.getData().isEmpty()) {
+                writer.name(Constants.Fields.GetHouseState.DATA);
+                //begin encode data
+                writer.beginObject();
+                for (Integer key : nodeState.getData().keySet()) {
+                    writer.name(key.toString()).value(nodeState.getData().get(key));
+                }
+                writer.endObject();
+                //end encode data
             }
-            writer.endObject();
-            //end encode data
-            //begin encode command
-            writer.name(Constants.Fields.GetHouseState.COMMAND);
-            writer.beginObject();
-            for(String key : nodeState.command.keySet()){
-                writer.name(key).value(nodeState.command.get(key));
+            if(!nodeState.getCommand().isEmpty()) {
+                //begin encode command
+                writer.name(Constants.Fields.GetHouseState.COMMAND);
+                writer.beginObject();
+                for (Integer key : nodeState.getCommand().keySet()) {
+                    writer.name(key.toString()).value(nodeState.getCommand().get(key));
+                }
+                writer.endObject();
+                //end encode command
             }
-            writer.endObject();
-            //end encode command
             writer.endObject();
             //end encode state object for (node_id, controller_id)
         }
@@ -107,9 +119,46 @@ public class StateResponse extends SimpleResponse {
     }
 
     public static class NodeState {
-        String nodeId;
-        String controllerId;
-        Map<String, String> data = new HashMap<>();
-        Map<String, String> command = new HashMap<>();
+        private int mNodeId, mControllerId;
+        private Map<Integer, BigDecimal> mData, mCommand;
+
+        public NodeState(int nodeId, int controllerId, Map<Integer, BigDecimal> data, Map<Integer, BigDecimal> command) {
+            mNodeId = nodeId;
+            mControllerId = controllerId;
+            mData = data;
+            mCommand = command;
+        }
+
+        public int getNodeId() {
+            return mNodeId;
+        }
+
+        public void setNodeId(int nodeId) {
+            mNodeId = nodeId;
+        }
+
+        public int getControllerId() {
+            return mControllerId;
+        }
+
+        public void setControllerId(int controllerId) {
+            mControllerId = controllerId;
+        }
+
+        public Map<Integer, BigDecimal> getData() {
+            return mData;
+        }
+
+        public void setData(Map<Integer, BigDecimal> data) {
+            mData = data;
+        }
+
+        public Map<Integer, BigDecimal> getCommand() {
+            return mCommand;
+        }
+
+        public void setCommand(Map<Integer, BigDecimal> command) {
+            mCommand = command;
+        }
     }
 }
