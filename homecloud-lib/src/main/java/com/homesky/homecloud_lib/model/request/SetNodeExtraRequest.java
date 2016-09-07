@@ -9,9 +9,10 @@ import java.util.Map;
 
 public class SetNodeExtraRequest extends RequestModel {
     Map<String, String> mExtra;
-    private String mNodeId, mControllerId;
+    private int mNodeId;
+    private String mControllerId;
 
-    public SetNodeExtraRequest(Map<String, String> extra, String nodeId, String controllerId){
+    public SetNodeExtraRequest(Map<String, String> extra, int nodeId, String controllerId){
         super(Constants.Values.Functions.SET_NODE_EXTRA);
         mExtra = extra;
         mNodeId = nodeId;

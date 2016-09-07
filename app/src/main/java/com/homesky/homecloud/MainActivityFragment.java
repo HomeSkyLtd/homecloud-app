@@ -27,6 +27,7 @@ import com.homesky.homecloud.command.NewAdminCommand;
 import com.homesky.homecloud.command.NewRulesCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
+import com.homesky.homecloud.command.SetNodeExtraCommand;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
@@ -37,7 +38,9 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivityFragment extends Fragment {
     private static final String TAG = "MainActivityFragment";
@@ -48,6 +51,7 @@ public class MainActivityFragment extends Fragment {
     EditText mControllerIdEditText;
     EditText mNodeIdEditText;
     EditText mValueEditText;
+    EditText mExtraEditText;
     Button mLoginButton;
     Button mLogoutButton;
     Button mNewUserButton;
@@ -88,6 +92,7 @@ public class MainActivityFragment extends Fragment {
         mControllerIdEditText = (EditText)v.findViewById(R.id.controller_id_edit_text);
         mNodeIdEditText = (EditText)v.findViewById(R.id.node_id_edit_text);
         mValueEditText = (EditText)v.findViewById(R.id.value_edit_text);
+        mExtraEditText = (EditText)v.findViewById(R.id.extra_edit_text);
 
         mLoginButton = (Button)v.findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +226,15 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
+                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                String controllerId = mControllerIdEditText.getText().toString();
+                Map<String, String> extra = new HashMap<>();
+                String[] extraInput = mExtraEditText.getText().toString().split(":");
+                if(extraInput.length == 2) {
+                    extra.put(extraInput[0], extraInput[1]);
+                    SetNodeExtraCommand command = new SetNodeExtraCommand(extra, nodeId, controllerId);
+                    new RequestTask().execute(command);
+                }
             }
         });
 

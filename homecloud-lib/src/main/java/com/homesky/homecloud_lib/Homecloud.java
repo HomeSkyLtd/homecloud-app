@@ -182,7 +182,7 @@ public class Homecloud {
      * @param controllerId The id of the controller associated to the node
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse setNodeExtra(Map<String, String> extra, String nodeId, String controllerId){
+    public SimpleResponse setNodeExtra(Map<String, String> extra, int nodeId, String controllerId){
         RequestModel setNodeExtraReq = new SetNodeExtraRequest(extra, nodeId, controllerId);
         String responseStr = makeRequest(setNodeExtraReq);
         return SimpleResponse.from(responseStr);

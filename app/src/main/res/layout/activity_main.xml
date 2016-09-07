@@ -118,6 +118,24 @@
                 android:id="@+id/value_edit_text"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Extra"/>
+
+            <org.droidparts.widget.ClearableEditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="key:value"
+                android:id="@+id/extra_edit_text"/>
+        </LinearLayout>
+
 
         <android.support.v7.widget.GridLayout
             android:layout_width="match_parent"
