@@ -23,6 +23,7 @@ import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
+import com.homesky.homecloud_lib.notification.ActionResultSubject;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -49,6 +50,8 @@ public class Homecloud {
     private String mToken = null;
     private String mCookie = null;
 
+    private ActionResultSubject mActionResultSubject = new ActionResultSubject();
+
     String getUrl() {
         return mUrl;
     }
@@ -67,6 +70,10 @@ public class Homecloud {
 
     String getCookie() {
         return mCookie;
+    }
+
+    public ActionResultSubject getActionResultSubject() {
+        return mActionResultSubject;
     }
 
     public void setUrl(String url) {

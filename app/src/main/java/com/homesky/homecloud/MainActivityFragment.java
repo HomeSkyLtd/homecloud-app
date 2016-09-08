@@ -30,8 +30,10 @@ import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud.command.RemoveNodeCommand;
 import com.homesky.homecloud.command.SetNodeExtraCommand;
+import com.homesky.homecloud.observer.ActionResultObserver;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
@@ -71,6 +73,8 @@ public class MainActivityFragment extends Fragment {
     Button mRemoveNodeButton;
     TextView mResponseTextView;
 
+    ActionResultObserver mActionResultObs;
+
     public static MainActivityFragment newInstance(){
         return new MainActivityFragment();
     }
@@ -81,7 +85,16 @@ public class MainActivityFragment extends Fragment {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, (token == null) ? "null" : token);
 
-        HomecloudHolder.setUrl("http://192.168.1.37:3000/");
+        HomecloudHolder.setUrl("http://192.168.1.126:3000/");
+        mActionResultObs = new ActionResultObserver(HomecloudHolder.getInstance().getActionResultSubject()) {
+            @Override
+            public void update() {
+                ActionResultNotification notification = getSubject().getActionResult();
+                Log.d(TAG, "Updating");
+                mResponseTextView.setText(notification.toString());
+            }
+        };
+        HomecloudHolder.getInstance().getActionResultSubject().registerObserver(mActionResultObs);
     }
 
     @Nullable

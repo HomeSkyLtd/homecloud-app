@@ -18,7 +18,7 @@ public class RemoveNodeRequest extends RequestModel {
 
     @Override
     void writeContentsJSON(JsonWriter writer) throws IOException {
-        writer.name(Constants.Fields.AcceptNode.NODE_ID).value(mNodeId);
-        writer.name(Constants.Fields.AcceptNode.CONTROLLER_ID).value(mControllerId);
+        writer.name(Constants.Fields.RemoveNode.NODE_ID).value(mNodeId);
+        writer.name(Constants.Fields.RemoveNode.CONTROLLER_ID).value(mControllerId);
     }
 }

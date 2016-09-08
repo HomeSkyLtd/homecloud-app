@@ -7,6 +7,8 @@ public class Constants {
             public static final String PAYLOAD = "payload";
             public static final String STATUS = "status";
             public static final String ERROR_MESSAGE = "errorMessage";
+            public static final String NOTIFICATION = "notification";
+
         }
 
         public static class Login{
@@ -107,6 +109,15 @@ public class Constants {
             public static final String NODE_ID = "nodeId";
             public static final String CONTROLLER_ID = "controllerId";
         }
+
+        public static class ActionResult{
+            public static final String ACTION = "action";
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String VALUE = "value";
+            public static final String RESULT = "result";
+            public static final String COMMAND_ID = "commandId";
+        }
     }
 
     public static class Values {
@@ -125,6 +136,10 @@ public class Constants {
             public static final String GET_NODES_INFO = "getNodesInfo";
             public static final String ACCEPT_NODE = "acceptNode";
             public static final String REMOVE_NODE = "removeNode";
+        }
+
+        public static class Notifications {
+            public static final String ACTION_RESULT = "actionResult";
         }
     }
 }
