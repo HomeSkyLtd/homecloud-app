@@ -43,11 +43,31 @@ public class Homecloud {
     public static final MediaType URLENCODED
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
-    private String mUrl;
-    private String mUsername;
-    private String mPassword;
-    private String mToken;
+    private String mUrl = null;
+    private String mUsername = null;
+    private String mPassword = null;
+    private String mToken = null;
     private String mCookie = null;
+
+    String getUrl() {
+        return mUrl;
+    }
+
+    String getUsername() {
+        return mUsername;
+    }
+
+    String getPassword() {
+        return mPassword;
+    }
+
+    String getToken() {
+        return mToken;
+    }
+
+    String getCookie() {
+        return mCookie;
+    }
 
     public void setUrl(String url) {
         mUrl = url;
@@ -63,6 +83,12 @@ public class Homecloud {
 
     public void setToken(String token) {
         mToken = token;
+    }
+
+    boolean isInitialized(){
+        if (mUrl == null || mUsername == null || mPassword == null || mToken == null)
+            return false;
+        else return true;
     }
 
     /**

@@ -25,6 +25,14 @@ public class SimpleResponse {
         this.mErrorMessage = errorMessage;
     }
 
+    public int getStatus() {
+        return mStatus;
+    }
+
+    public String getErrorMessage() {
+        return mErrorMessage;
+    }
+
     /**
      * Builds a SimpleResponse object from a JSON string
      * @param jsonStr The JSON string encoding the response
