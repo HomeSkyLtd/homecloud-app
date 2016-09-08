@@ -1,9 +1,14 @@
 package com.homesky.homecloud;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,7 +35,6 @@ import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud.command.RemoveNodeCommand;
 import com.homesky.homecloud.command.SetNodeExtraCommand;
-import com.homesky.homecloud.observer.ActionResultObserver;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
@@ -73,7 +77,7 @@ public class MainActivityFragment extends Fragment {
     Button mRemoveNodeButton;
     TextView mResponseTextView;
 
-    ActionResultObserver mActionResultObs;
+    BroadcastReceiver mReceiver;
 
     public static MainActivityFragment newInstance(){
         return new MainActivityFragment();
@@ -86,15 +90,23 @@ public class MainActivityFragment extends Fragment {
         Log.d(TAG, (token == null) ? "null" : token);
 
         HomecloudHolder.setUrl("http://192.168.1.126:3000/");
-        mActionResultObs = new ActionResultObserver(HomecloudHolder.getInstance().getActionResultSubject()) {
+
+        mReceiver = new BroadcastReceiver() {
             @Override
-            public void update() {
-                ActionResultNotification notification = getSubject().getActionResult();
-                Log.d(TAG, "Updating");
-                mResponseTextView.setText(notification.toString());
+            public void onReceive(Context context, Intent intent) {
+                ActionResultNotification s = (ActionResultNotification)intent.getSerializableExtra(MessageService.NOTIF_MESSAGE);
+                Log.d(TAG, "Received notification: " + s.toString());
+                mResponseTextView.setText(s.toString());
             }
         };
-        HomecloudHolder.getInstance().getActionResultSubject().registerObserver(mActionResultObs);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver((mReceiver),
+                new IntentFilter(MessageService.NOTIF_RESULT)
+        );
     }
 
     @Nullable
@@ -298,6 +310,12 @@ public class MainActivityFragment extends Fragment {
 
         mResponseTextView = (TextView)v.findViewById(R.id.response_text_view);
         return v;
+    }
+
+    @Override
+    public void onStop() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+        super.onStop();
     }
 
     private void clearResponseTextView(){

@@ -7,9 +7,10 @@ import com.homesky.homecloud_lib.model.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ActionResultNotification {
+public class ActionResultNotification implements Serializable {
     private static final String TAG = "ActionResultNotif";
 
     private int mResult;
@@ -53,7 +54,7 @@ public class ActionResultNotification {
         return sb.toString();
     }
 
-    public static class Action{
+    public static class Action implements Serializable{
         private int mNodeId, mCommandId;
         private BigDecimal mValue;
         private String mControllerId;
