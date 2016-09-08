@@ -46,13 +46,14 @@ public class NewRulesTest {
 
         StringBuilder sb = new StringBuilder();
         Formatter f = new Formatter(sb);
-        f.format("{%s: %s, %s: [{%s: 1, %s: '2', %s: 3, %s: 4, " +
+        f.format("{%s: %s, %s: [{%s: '2', %s: {%s: 1, %s: 3, %s: 4}, " +
                 "%s: [[{%s: '1.1', %s: '>', %s: 1}, {%s: '2.1', %s: '>', %s: '3.1'}], [{%s: '1.3', %s: '>', %s: 4.3}]]}]}",
                 Constants.Fields.Common.FUNCTION,
                 Constants.Values.Functions.NEW_RULES,
                 Constants.Fields.NewRules.RULES,
-                Constants.Fields.NewRules.NODE_ID,
                 Constants.Fields.NewRules.CONTROLLER_ID,
+                Constants.Fields.NewRules.COMMAND,
+                Constants.Fields.NewRules.NODE_ID,
                 Constants.Fields.NewRules.COMMAND_ID,
                 Constants.Fields.NewRules.VALUE,
                 Constants.Fields.NewRules.CLAUSES,

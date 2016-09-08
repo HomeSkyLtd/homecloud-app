@@ -39,10 +39,11 @@ public class RuleResponse extends SimpleResponse {
                 JSONArray rulesJSON = obj.getJSONArray(Constants.Fields.RuleResponse.RULES);
                 for (int i = 0; i < rulesJSON.length(); ++i) {
                     JSONObject ruleJSON = rulesJSON.getJSONObject(i);
-                    int nodeId = ruleJSON.getInt(Constants.Fields.NewRules.NODE_ID);
                     String controllerId = ruleJSON.getString(Constants.Fields.NewRules.CONTROLLER_ID);
-                    int commandId = ruleJSON.getInt(Constants.Fields.NewRules.COMMAND_ID);
-                    BigDecimal value = new BigDecimal(ruleJSON.getString(Constants.Fields.NewRules.VALUE));
+                    JSONObject commandJSON = ruleJSON.getJSONObject(Constants.Fields.NewRules.COMMAND);
+                    int nodeId = commandJSON.getInt(Constants.Fields.NewRules.NODE_ID);
+                    int commandId = commandJSON.getInt(Constants.Fields.NewRules.COMMAND_ID);
+                    BigDecimal value = new BigDecimal(commandJSON.getString(Constants.Fields.NewRules.VALUE));
                     List<List<Proposition>> clause = new ArrayList<>();
                     JSONArray clauseJSON = ruleJSON.getJSONArray(Constants.Fields.NewRules.CLAUSES);
                     for (int j = 0; j < clauseJSON.length(); ++j) {
@@ -76,22 +77,7 @@ public class RuleResponse extends SimpleResponse {
         writer.name(Constants.Fields.RuleResponse.RULES);
         writer.beginArray();
         for (Rule rule : mRules) {
-            writer.beginObject();
-            writer.name(Constants.Fields.NewRules.NODE_ID).value(rule.getNodeId());
-            writer.name(Constants.Fields.NewRules.CONTROLLER_ID).value(rule.getControllerId());
-            writer.name(Constants.Fields.NewRules.COMMAND_ID).value(rule.getCommandId());
-            writer.name(Constants.Fields.NewRules.VALUE).value(rule.getValue());
-            writer.name(Constants.Fields.NewRules.CLAUSES);
-            writer.beginArray();
-            for (List<Proposition> orStatement : rule.getClause()) {
-                writer.beginArray();
-                for (Proposition proposition : orStatement) {
-                    proposition.writeJSON(writer);
-                }
-                writer.endArray();
-            }
-            writer.endArray();
-            writer.endObject();
+            rule.writeJSON(writer);
         }
         writer.endArray();
     }

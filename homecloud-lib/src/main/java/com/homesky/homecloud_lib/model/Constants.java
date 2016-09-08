@@ -45,6 +45,7 @@ public class Constants {
         }
 
         public static class NewRules{
+            public static final String COMMAND = "command";
             public static final String RULES = "rules";
             public static final String NODE_ID = "nodeId";
             public static final String CONTROLLER_ID = "controllerId";
@@ -63,6 +64,7 @@ public class Constants {
         }
 
         public static class RuleResponse{
+            public static final String COMMAND = "command";
             public static final String NODE_ID = "nodeId";
             public static final String CONTROLLER_ID = "controllerId";
             public static final String COMMAND_ID = "commandId";

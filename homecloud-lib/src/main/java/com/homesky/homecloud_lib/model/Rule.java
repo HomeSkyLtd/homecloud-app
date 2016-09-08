@@ -7,34 +7,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Rule{
-    int mNodeId, mCommandId;
     String mControllerId;
-    BigDecimal mValue;
     List<List<Proposition>> mClause;
+    Command mCommand;
 
     public Rule(int nodeId, String controllerId, int commandId,
                 BigDecimal value, List<List<Proposition>> clause) {
-        mNodeId = nodeId;
+        mCommand = new Command(nodeId, commandId, value);
         mControllerId = controllerId;
-        mCommandId = commandId;
-        mValue = value;
         mClause = clause;
-    }
-
-    public int getNodeId() {
-        return mNodeId;
-    }
-
-    public void setNodeId(int nodeId) {
-        mNodeId = nodeId;
-    }
-
-    public int getCommandId() {
-        return mCommandId;
-    }
-
-    public void setCommandId(int commandId) {
-        mCommandId = commandId;
     }
 
     public String getControllerId() {
@@ -43,14 +24,6 @@ public class Rule{
 
     public void setControllerId(String controllerId) {
         mControllerId = controllerId;
-    }
-
-    public BigDecimal getValue() {
-        return mValue;
-    }
-
-    public void setValue(BigDecimal value) {
-        mValue = value;
     }
 
     public List<List<Proposition>> getClause() {
@@ -63,10 +36,13 @@ public class Rule{
 
     public void writeJSON(JsonWriter writer) throws IOException {
         writer.beginObject();
-        writer.name(Constants.Fields.NewRules.NODE_ID).value(mNodeId);
+        writer.name(Constants.Fields.NewRules.COMMAND);
+        writer.beginObject();
+        writer.name(Constants.Fields.NewRules.NODE_ID).value(mCommand.getNodeId());
+        writer.name(Constants.Fields.NewRules.COMMAND_ID).value(mCommand.getCommandId());
+        writer.name(Constants.Fields.NewRules.VALUE).value(mCommand.getValue());
+        writer.endObject();
         writer.name(Constants.Fields.NewRules.CONTROLLER_ID).value(mControllerId);
-        writer.name(Constants.Fields.NewRules.COMMAND_ID).value(mCommandId);
-        writer.name(Constants.Fields.NewRules.VALUE).value(mValue);
         writer.name(Constants.Fields.NewRules.CLAUSES);
         writer.beginArray();
         for(List<Proposition> orStatement : mClause){
@@ -78,5 +54,40 @@ public class Rule{
         }
         writer.endArray();
         writer.endObject();
+    }
+
+    public static class Command{
+        private int mNodeId, mCommandId;
+        private BigDecimal mValue;
+
+        public Command(int nodeId, int commandId, BigDecimal value) {
+            mNodeId = nodeId;
+            mCommandId = commandId;
+            mValue = value;
+        }
+
+        public int getNodeId() {
+            return mNodeId;
+        }
+
+        public void setNodeId(int nodeId) {
+            mNodeId = nodeId;
+        }
+
+        public int getCommandId() {
+            return mCommandId;
+        }
+
+        public void setCommandId(int commandId) {
+            mCommandId = commandId;
+        }
+
+        public BigDecimal getValue() {
+            return mValue;
+        }
+
+        public void setValue(BigDecimal value) {
+            mValue = value;
+        }
     }
 }
