@@ -8,6 +8,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
+import com.homesky.homecloud_lib.model.notification.LearntRulesNotification;
+import com.homesky.homecloud_lib.model.notification.Notification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,21 +31,34 @@ public class MessageService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 //        super.onMessageReceived(remoteMessage);
-        Log.d(TAG, "From: " + remoteMessage.getData());
+        Log.d(TAG, "Contents: " + remoteMessage.getData());
         String jsonStr = remoteMessage.getData().get("data");
         try {
             JSONObject msgObj = new JSONObject(jsonStr);
+
             switch(msgObj.getString(Constants.Fields.Common.NOTIFICATION)){
-                case Constants.Values.Notifications.ACTION_RESULT:
+                case Constants.Values.Notifications.ACTION_RESULT: {
                     Intent i = new Intent(NOTIF_RESULT);
                     ActionResultNotification notification = ActionResultNotification.from(jsonStr);
+                    if (notification == null)
+                        Log.e(TAG, "Action result notification in invalid format");
+                    else {
+                        i.putExtra(NOTIF_MESSAGE, notification);
+                        broadcaster.sendBroadcast(i);
+                    }
+                    break;
+                }
+                case Constants.Values.Notifications.LEARNT_RULES: {
+                    Intent i = new Intent(NOTIF_RESULT);
+                    LearntRulesNotification notification = LearntRulesNotification.from(jsonStr);
                     if(notification == null)
-                        Log.e(TAG, "Action result in invalid format");
+                        Log.e(TAG, "Learnt rule notification in invalid format");
                     else{
                         i.putExtra(NOTIF_MESSAGE, notification);
                         broadcaster.sendBroadcast(i);
                     }
                     break;
+                }
                 default:
                     Log.e(TAG, "Invalid notification received");
             }

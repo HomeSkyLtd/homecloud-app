@@ -118,6 +118,10 @@ public class Constants {
             public static final String RESULT = "result";
             public static final String COMMAND_ID = "commandId";
         }
+
+        public static class LearntRules{
+            public static final String QUANTITY = "quantity";
+        }
     }
 
     public static class Values {
@@ -140,6 +144,7 @@ public class Constants {
 
         public static class Notifications {
             public static final String ACTION_RESULT = "actionResult";
+            public static final String LEARNT_RULES = "learntRules";
         }
     }
 }

@@ -38,6 +38,7 @@ import com.homesky.homecloud.command.SetNodeExtraCommand;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
+import com.homesky.homecloud_lib.model.notification.Notification;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
@@ -94,7 +95,7 @@ public class MainActivityFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                ActionResultNotification s = (ActionResultNotification)intent.getSerializableExtra(MessageService.NOTIF_MESSAGE);
+                Notification s = (Notification)intent.getSerializableExtra(MessageService.NOTIF_MESSAGE);
                 Log.d(TAG, "Received notification: " + s.toString());
                 mResponseTextView.setText(s.toString());
             }

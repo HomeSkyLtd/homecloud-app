@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ActionResultNotification implements Serializable {
+public class ActionResultNotification implements Serializable, Notification {
     private static final String TAG = "ActionResultNotif";
 
     private int mResult;
