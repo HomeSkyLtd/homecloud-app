@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
+import com.homesky.homecloud_lib.model.notification.DetectedNodeNotification;
 import com.homesky.homecloud_lib.model.notification.LearntRulesNotification;
 import com.homesky.homecloud_lib.model.notification.Notification;
 
@@ -53,6 +54,17 @@ public class MessageService extends FirebaseMessagingService {
                     LearntRulesNotification notification = LearntRulesNotification.from(jsonStr);
                     if(notification == null)
                         Log.e(TAG, "Learnt rule notification in invalid format");
+                    else{
+                        i.putExtra(NOTIF_MESSAGE, notification);
+                        broadcaster.sendBroadcast(i);
+                    }
+                    break;
+                }
+                case Constants.Values.Notifications.DETECTED_NODE: {
+                    Intent i = new Intent(NOTIF_RESULT);
+                    DetectedNodeNotification notification = DetectedNodeNotification.from(jsonStr);
+                    if(notification == null)
+                        Log.e(TAG, "Detected node notification in invalid format");
                     else{
                         i.putExtra(NOTIF_MESSAGE, notification);
                         broadcaster.sendBroadcast(i);

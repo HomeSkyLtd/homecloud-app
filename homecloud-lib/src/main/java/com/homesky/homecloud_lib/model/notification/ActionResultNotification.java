@@ -39,6 +39,14 @@ public class ActionResultNotification implements Serializable, Notification {
         mAction = action;
     }
 
+    public int getResult() {
+        return mResult;
+    }
+
+    public Action getAction() {
+        return mAction;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

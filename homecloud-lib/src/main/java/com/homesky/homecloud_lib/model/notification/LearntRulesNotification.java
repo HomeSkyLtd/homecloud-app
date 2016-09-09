@@ -31,6 +31,10 @@ public class LearntRulesNotification implements Serializable, Notification {
 
     }
 
+    public int getNumberOfRules() {
+        return mNumberOfRules;
+    }
+
     @Override
     public String toString() {
         return Constants.Fields.LearntRules.QUANTITY + ": " + mNumberOfRules;
