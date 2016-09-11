@@ -105,12 +105,7 @@ public class HomecloudWrapper {
     }
 
     public SimpleResponse newAdmin(final String username, final String password){
-        return callSR(new FunctionCommand() {
-            @Override
-            public SimpleResponse execute() {
-                return hc.newAdmin(username, password);
-            }
-        });
+        return hc.newAdmin(username, password);
     }
 
     /**
