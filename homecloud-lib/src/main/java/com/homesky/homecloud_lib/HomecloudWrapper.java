@@ -21,8 +21,8 @@ public class HomecloudWrapper {
         SimpleResponse execute();
     }
 
-    public HomecloudWrapper(){
-        hc = new Homecloud();
+    public HomecloudWrapper(String url){
+        hc = new Homecloud.Builder().url(url).build();
     }
 
     public void setUrl(String url) {

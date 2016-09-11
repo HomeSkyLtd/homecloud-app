@@ -1,16 +1,20 @@
 package com.homesky.homecloud;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.homesky.homecloud_lib.Homecloud;
+import com.homesky.homecloud_lib.HomecloudWrapper;
 
 public class HomecloudHolder {
-    private static Homecloud instance = null;
+    private static final String TAG = "HomecloudHolder";
 
-    private static String url;
-    private static String username;
-    private static String password;
-    private static String token;
+    private static HomecloudWrapper instance = null;
+
+    private static String url = null;
+    private static String username = null;
+    private static String password = null;
+    private static String token = null;
 
     public static void setUrl(String url) {
         HomecloudHolder.url = url;
@@ -34,15 +38,22 @@ public class HomecloudHolder {
             instance.setToken(token);
     }
 
-    public static Homecloud getInstance(){
+    public static synchronized HomecloudWrapper getInstance(){
+        if(url == null){
+            Log.e(TAG, "Trying to instantiate Homecloud without url");
+            return null;
+        }
         if(instance == null) {
-            instance = new Homecloud.Builder()
-                    .url(url)
-                    .username(username)
-                    .password(password)
-                    .token(token)
-                    .build();
-
+//            instance = new Homecloud.Builder()
+//                    .url(url)
+//                    .username(username)
+//                    .password(password)
+//                    .token(token)
+//                    .build();
+            instance = new HomecloudWrapper(url);
+            instance.setUsername(username);
+            instance.setPassword(password);
+            instance.setToken(token);
         }
         return instance;
     }

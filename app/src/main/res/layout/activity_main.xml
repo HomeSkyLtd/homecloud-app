@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 grid:layout_columnWeight="1"
                 grid:layout_gravity="center_vertical"
-                android:text="Login"/>
+                android:text="Set login params"/>
 
             <Button
                 android:id="@+id/logout_button"

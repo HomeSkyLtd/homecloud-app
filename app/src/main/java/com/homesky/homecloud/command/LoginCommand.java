@@ -7,6 +7,7 @@ public class LoginCommand implements Command{
 
     @Override
     public SimpleResponse execute() {
-        return HomecloudHolder.getInstance().login();
+//        return HomecloudHolder.getInstance().login();
+        return null;
     }
 }

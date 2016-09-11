@@ -90,7 +90,7 @@ public class MainActivityFragment extends Fragment {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, (token == null) ? "null" : token);
 
-        HomecloudHolder.setUrl("http://192.168.1.126:3000/");
+        HomecloudHolder.setUrl("http://192.168.1.34:3000/");
 
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -136,8 +136,8 @@ public class MainActivityFragment extends Fragment {
                 HomecloudHolder.getInstance().setPassword(password);
                 HomecloudHolder.getInstance().setToken(token);
 
-                LoginCommand command = new LoginCommand();
-                new RequestTask().execute(command);
+                mResponseTextView.setText("Login params set");
+
             }
         });
 
