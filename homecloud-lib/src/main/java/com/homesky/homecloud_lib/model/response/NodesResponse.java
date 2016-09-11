@@ -35,62 +35,64 @@ public class NodesResponse extends SimpleResponse{
             int status = obj.getInt(Constants.Fields.Common.STATUS);
             String errorMessage = obj.getString(Constants.Fields.Common.ERROR_MESSAGE);
 
-            JSONArray nodesJSON = obj.getJSONArray(Constants.Fields.NodesResponse.NODES);
-            for(int i = 0 ; i < nodesJSON.length() ; ++i){
-                JSONObject nodeJSON = nodesJSON.getJSONObject(i);
-                int nodeId = nodeJSON.getInt(Constants.Fields.NodesResponse.NODE_ID);
-                String controllerID = nodeJSON.getString(Constants.Fields.NodesResponse.CONTROLLER_ID);
-                String nodeClass = nodeJSON.getString(Constants.Fields.NodesResponse.NODE_CLASS);
-                int accepted = nodeJSON.getInt(Constants.Fields.NodesResponse.ACCEPTED);
-                int alive = nodeJSON.getInt(Constants.Fields.NodesResponse.ALIVE);
+            if(status == 200) {
+                JSONArray nodesJSON = obj.getJSONArray(Constants.Fields.NodesResponse.NODES);
+                for (int i = 0; i < nodesJSON.length(); ++i) {
+                    JSONObject nodeJSON = nodesJSON.getJSONObject(i);
+                    int nodeId = nodeJSON.getInt(Constants.Fields.NodesResponse.NODE_ID);
+                    String controllerID = nodeJSON.getString(Constants.Fields.NodesResponse.CONTROLLER_ID);
+                    String nodeClass = nodeJSON.getString(Constants.Fields.NodesResponse.NODE_CLASS);
+                    int accepted = nodeJSON.getInt(Constants.Fields.NodesResponse.ACCEPTED);
+                    int alive = nodeJSON.getInt(Constants.Fields.NodesResponse.ALIVE);
 
-                Map<String, String> extra = new HashMap<>();
-                JSONObject extraJSON = nodeJSON.getJSONObject(Constants.Fields.NodesResponse.EXTRA);
-                JSONArray extraKeys = extraJSON.names();
-                for(int j = 0 ; j < extraKeys.length() ; ++j){
-                    extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                    Map<String, String> extra = new HashMap<>();
+                    JSONObject extraJSON = nodeJSON.getJSONObject(Constants.Fields.NodesResponse.EXTRA);
+                    JSONArray extraKeys = extraJSON.names();
+                    for (int j = 0; j < extraKeys.length(); ++j) {
+                        extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                    }
+
+                    List<DataType> dataType = new ArrayList<>();
+                    JSONArray dataTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.DATA_TYPE);
+                    for (int j = 0; j < dataTypeJSON.length(); ++j) {
+                        JSONObject unitDataTypeJSON = dataTypeJSON.getJSONObject(j);
+                        int id = unitDataTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
+                        String measureStrategy = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.MEASURE_STRATEGY);
+                        String type = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
+                        String dataCategory = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.DATA_CATEGORY);
+                        String unit = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
+
+                        JSONArray rangeJSON = unitDataTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
+                        BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
+                        dataType.add(new DataType(id, measureStrategy, type, range, dataCategory, unit));
+                    }
+
+                    List<CommandType> commandType = new ArrayList<>();
+                    JSONArray commandTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.COMMAND_TYPE);
+                    for (int j = 0; j < commandTypeJSON.length(); ++j) {
+                        JSONObject unitCommandTypeJSON = commandTypeJSON.getJSONObject(j);
+                        int id = unitCommandTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
+                        String type = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
+                        String commandCategory = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.COMMAND_CATEGORY);
+                        String unit = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
+
+                        JSONArray rangeJSON = unitCommandTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
+                        BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
+                        commandType.add(new CommandType(id, type, range, commandCategory, unit));
+                    }
+
+                    nodes.add(new Node.Builder()
+                            .setNodeId(nodeId)
+                            .setControllerId(controllerID)
+                            .setNodeClass(nodeClass)
+                            .setAccepted(accepted)
+                            .setAlive(alive)
+                            .setExtra(extra)
+                            .setDataType(dataType)
+                            .setCommandType(commandType)
+                            .build()
+                    );
                 }
-
-                List<DataType> dataType = new ArrayList<>();
-                JSONArray dataTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.DATA_TYPE);
-                for(int j = 0 ; j < dataTypeJSON.length() ; ++j){
-                    JSONObject unitDataTypeJSON = dataTypeJSON.getJSONObject(j);
-                    int id = unitDataTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
-                    String measureStrategy = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.MEASURE_STRATEGY);
-                    String type = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
-                    String dataCategory = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.DATA_CATEGORY);
-                    String unit = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
-
-                    JSONArray rangeJSON = unitDataTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
-                    BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
-                    dataType.add(new DataType(id, measureStrategy, type, range, dataCategory, unit));
-                }
-
-                List<CommandType> commandType = new ArrayList<>();
-                JSONArray commandTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.COMMAND_TYPE);
-                for(int j = 0 ; j < commandTypeJSON.length() ; ++j){
-                    JSONObject unitCommandTypeJSON = commandTypeJSON.getJSONObject(j);
-                    int id = unitCommandTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
-                    String type = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
-                    String commandCategory = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.COMMAND_CATEGORY);
-                    String unit = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
-
-                    JSONArray rangeJSON = unitCommandTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
-                    BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
-                    commandType.add(new CommandType(id, type, range, commandCategory, unit));
-                }
-
-                nodes.add(new Node.Builder()
-                        .setNodeId(nodeId)
-                        .setControllerId(controllerID)
-                        .setNodeClass(nodeClass)
-                        .setAccepted(accepted)
-                        .setAlive(alive)
-                        .setExtra(extra)
-                        .setDataType(dataType)
-                        .setCommandType(commandType)
-                        .build()
-                );
             }
             return new NodesResponse(status, errorMessage, nodes);
         }
