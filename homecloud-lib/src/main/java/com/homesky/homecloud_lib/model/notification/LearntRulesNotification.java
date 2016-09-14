@@ -9,15 +9,20 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+/**
+ * Represents the contents of the Notify Learnt Rules notification, as defined in the Homecloud protocol.
+ */
 public class LearntRulesNotification implements Serializable, Notification {
     private static final String TAG = "LearntRulesNotif";
 
     private int mNumberOfRules;
 
-    public LearntRulesNotification(int numberOfRules) {
-        mNumberOfRules = numberOfRules;
-    }
-
+    /**
+     * Builds an {@link LearntRulesNotification} object representing the JSON payload received as part of the
+     * Notify Learnt Rules notification.
+     * @param jsonStr The JSON payload received as part of the notification, as a String.
+     * @return The {@link LearntRulesNotification} object representing the payload.
+     */
     public static LearntRulesNotification from(String jsonStr){
         try{
             JSONObject obj = new JSONObject(jsonStr);
@@ -31,6 +36,14 @@ public class LearntRulesNotification implements Serializable, Notification {
 
     }
 
+    public LearntRulesNotification(int numberOfRules) {
+        mNumberOfRules = numberOfRules;
+    }
+
+    /**
+     * Gets the number of learnt rules.
+     * @return The number of learnt rules.
+     */
     public int getNumberOfRules() {
         return mNumberOfRules;
     }

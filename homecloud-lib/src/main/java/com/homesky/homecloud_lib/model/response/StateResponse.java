@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents the response from the getHouseState function
+ * Represents the response from the getHouseState function, containing information about house state.
  */
 public class StateResponse extends SimpleResponse {
     private static final String TAG = "SimpleResponse";
@@ -30,9 +30,9 @@ public class StateResponse extends SimpleResponse {
     }
 
     /**
-     * Builds a StateResponse object from a JSON string
+     * Builds a {@link StateResponse} object from a JSON string
      * @param jsonStr The JSON string encoding the house's state
-     * @return a StateResponse object representing the house's state
+     * @return a {@link StateResponse} object representing the house's state
      */
     public static StateResponse from(String jsonStr){
         if(jsonStr == null) return null;
@@ -118,47 +118,69 @@ public class StateResponse extends SimpleResponse {
         writer.endArray();
     }
 
+    /**
+     * Represents the state of a node.
+     */
     public static class NodeState {
         private int mNodeId;
         private String mControllerId;
         private Map<Integer, BigDecimal> mData, mCommand;
 
-        public NodeState(int nodeId, String controllerId, Map<Integer, BigDecimal> data, Map<Integer, BigDecimal> command) {
+        NodeState(int nodeId, String controllerId, Map<Integer, BigDecimal> data, Map<Integer, BigDecimal> command) {
             mNodeId = nodeId;
             mControllerId = controllerId;
             mData = data;
             mCommand = command;
         }
 
+        /**
+         * Gets the node id associated to the state.
+         * @return The node id associated to the state.
+         */
         public int getNodeId() {
             return mNodeId;
         }
 
-        public void setNodeId(int nodeId) {
-            mNodeId = nodeId;
-        }
-
+        /**
+         * Gets the controller id associated to the node.
+         * @return The controller id associated to the node.
+         */
         public String getControllerId() {
             return mControllerId;
         }
 
-        public void setControllerId(String controllerId) {
-            mControllerId = controllerId;
-        }
-
+        /**
+         * Gets the values of the data collected by the node in a map format, if it is a sensor. The
+         * map maps data ids with their corresponding values.
+         * @return A {@link Map} associating data ids and their corresponding values.
+         */
         public Map<Integer, BigDecimal> getData() {
             return mData;
         }
 
-        public void setData(Map<Integer, BigDecimal> data) {
-            mData = data;
-        }
-
+        /**
+         * Gets the values associated to the commands supported by a node in a map format, if it is a
+         * an actuator. The map maps command ids with their corresponding values.
+         * @return A {@link Map} associating command ids and their corresponding values.
+         */
         public Map<Integer, BigDecimal> getCommand() {
             return mCommand;
         }
 
-        public void setCommand(Map<Integer, BigDecimal> command) {
+
+        void setControllerId(String controllerId) {
+            mControllerId = controllerId;
+        }
+
+        void setNodeId(int nodeId) {
+            mNodeId = nodeId;
+        }
+
+        void setData(Map<Integer, BigDecimal> data) {
+            mData = data;
+        }
+
+        void setCommand(Map<Integer, BigDecimal> command) {
             mCommand = command;
         }
     }

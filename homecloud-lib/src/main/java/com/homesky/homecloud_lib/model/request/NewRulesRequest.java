@@ -10,10 +10,17 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Request representing the newRules function, as defined in the HomeCloud protocol.
+ */
 public class NewRulesRequest extends RequestModel {
 
     List<Rule> mRules;
 
+    /**
+     * Base constructor.
+     * @param rules A list of Rule objects to be added.
+     */
     public NewRulesRequest(List<Rule> rules) {
         super(Constants.Values.Functions.NEW_RULES);
         mRules = rules;

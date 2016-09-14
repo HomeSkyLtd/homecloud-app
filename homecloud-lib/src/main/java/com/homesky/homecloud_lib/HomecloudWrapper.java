@@ -41,6 +41,11 @@ public class HomecloudWrapper {
         hc.setToken(token);
     }
 
+    public String getToken() {
+        return hc.getToken();
+    }
+
+
     /**
      * Calls a function and returns a SimpleResponse
      * @param command The {@link FunctionCommand} object containing the function to be called

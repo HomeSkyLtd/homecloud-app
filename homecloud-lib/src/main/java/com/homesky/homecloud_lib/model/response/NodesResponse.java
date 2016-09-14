@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a response from the server including node information.
+ */
 public class NodesResponse extends SimpleResponse{
     private static final String TAG = "NodesResponse";
 
@@ -26,6 +29,11 @@ public class NodesResponse extends SimpleResponse{
         mNodes = nodes;
     }
 
+    /**
+     * Creates a {@link NodesResponse} instance from the JSON payload received as response from the server.
+     * @param jsonStr The JSON response in string format.
+     * @return A {@link NodesResponse} object representing the response.
+     */
     public static NodesResponse from(String jsonStr){
         if(jsonStr == null) return null;
 
@@ -160,6 +168,9 @@ public class NodesResponse extends SimpleResponse{
         writer.endArray();
     }
 
+    /**
+     * Represents a node (sensor or actuator) in the house.
+     */
     public static class Node{
         int mNodeId, mAccepted, mAlive;
         String mControllerId, mNodeClass;
@@ -233,12 +244,15 @@ public class NodesResponse extends SimpleResponse{
         }
     }
 
+    /**
+     * Represents a data type in a node declaration.
+     */
     public static class DataType{
         int  mId;
         String mMeasureStrategy, mType, mDataCategory, mUnit;
         BigDecimal[] mRange;
 
-        public DataType(int id, String measureStrategy, String type, BigDecimal[] range, String dataCategory, String unit) {
+        DataType(int id, String measureStrategy, String type, BigDecimal[] range, String dataCategory, String unit) {
             mId = id;
             mMeasureStrategy = measureStrategy;
             mType = type;
@@ -246,19 +260,110 @@ public class NodesResponse extends SimpleResponse{
             mDataCategory = dataCategory;
             mUnit = unit;
         }
+
+        /**
+         * Gets the data id.
+         * @return The data id.
+         */
+        public int getId() {
+            return mId;
+        }
+
+        /**
+         * Gets the measure strategy (periodic or event-based).
+         * @return The measure strategy.
+         */
+        public String getMeasureStrategy() {
+            return mMeasureStrategy;
+        }
+
+        /**
+         * Gets the data type (integer, decimal, etc.).
+         * @return The data type.
+         */
+        public String getType() {
+            return mType;
+        }
+
+        /**
+         * Gets the data category (temperature, humidity, etc.).
+         * @return The data category.
+         */
+        public String getDataCategory() {
+            return mDataCategory;
+        }
+
+        /**
+         * Gets the data unit.
+         * @return The data unit.
+         */
+        public String getUnit() {
+            return mUnit;
+        }
+
+        /**
+         * Gets the data range.
+         * @return An array in the form {min, max}.
+         */
+        public BigDecimal[] getRange() {
+            return mRange;
+        }
     }
 
+    /**
+     * Represents a command type in a node declaration.
+     */
     public static class CommandType{
         int mId;
         String mType, mCommandCategory, mUnit;
         BigDecimal[] mRange;
 
-        public CommandType(int id, String type, BigDecimal[] range, String commandCategory, String unit) {
+        CommandType(int id, String type, BigDecimal[] range, String commandCategory, String unit) {
             mId = id;
             mType = type;
             mRange = range;
             mCommandCategory = commandCategory;
             mUnit = unit;
+        }
+
+        /**
+         * Gets the command id.
+         * @return The command id.
+         */
+        public int getId() {
+            return mId;
+        }
+
+        /**
+         * Gets the command type (integer, decimal, etc.).
+         * @return The command type.
+         */
+        public String getType() {
+            return mType;
+        }
+
+        /**
+         * Gets the command category (on/off, temperature, etc.).
+         * @return The command category.
+         */
+        public String getCommandCategory() {
+            return mCommandCategory;
+        }
+
+        /**
+         * Gets the command unit.
+         * @return The command unit.
+         */
+        public String getUnit() {
+            return mUnit;
+        }
+
+        /**
+         * Gets the range of values accepted by the command.
+         * @return An array in the form {min, max}.
+         */
+        public BigDecimal[] getRange() {
+            return mRange;
         }
     }
 }

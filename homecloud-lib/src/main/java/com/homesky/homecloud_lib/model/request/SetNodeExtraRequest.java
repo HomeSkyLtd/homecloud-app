@@ -7,11 +7,20 @@ import com.homesky.homecloud_lib.model.Constants;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Request representing the setNodeExtra function, as defined in the HomeCloud protocol.
+ */
 public class SetNodeExtraRequest extends RequestModel {
     Map<String, String> mExtra;
     private int mNodeId;
     private String mControllerId;
 
+    /**
+     * Base constructor.
+     * @param extra A map containing extra information for the node.
+     * @param nodeId The id of the node associated to the provided extra information.
+     * @param controllerId The id of the controller associated to the node.
+     */
     public SetNodeExtraRequest(Map<String, String> extra, int nodeId, String controllerId){
         super(Constants.Values.Functions.SET_NODE_EXTRA);
         mExtra = extra;

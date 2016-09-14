@@ -7,27 +7,54 @@ import com.homesky.homecloud_lib.model.Constants;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Represents a logic proposition. A proposition is an expression in the form "LHS Operator RHS"
+ */
 public class Proposition {
     private String mLhs, mRhs, mOperator;
     private boolean mIsLhsValue, mIsRhsValue;
 
+    /**
+     * Builds a proposition.
+     * @param operator The operator (<, >, <=, >=, ==, !=).
+     * @param lhs The left-hand side of the expression (another node id).
+     * @param rhs The left-hand side of the expression (another node id).
+     */
     public Proposition(String operator, String lhs, String rhs) {
         mOperator = operator;
         mLhs = lhs;
         mRhs = rhs;
     }
 
+    /**
+     * Builds a proposition.
+     * @param operator The operator (<, >, <=, >=, ==, !=).
+     * @param lhs The left-hand side of the expression (a numeric value).
+     * @param rhs The left-hand side of the expression (another node id).
+     */
     public Proposition(String operator, BigDecimal lhs, String rhs) {
         this(operator, lhs.toString(), rhs);
         mIsLhsValue = true;
     }
 
+    /**
+     * Builds a proposition.
+     * @param operator The operator (<, >, <=, >=, ==, !=).
+     * @param lhs The left-hand side of the expression (another node id).
+     * @param rhs The left-hand side of the expression (a numeric value).
+     */
     public Proposition(String operator, String lhs, BigDecimal rhs) {
         this(operator, lhs, rhs.toString());
         mIsRhsValue = true;
 
     }
 
+    /**
+     * Builds a proposition.
+     * @param operator The operator (<, >, <=, >=, ==, !=).
+     * @param lhs The left-hand side of the expression (a numeric value).
+     * @param rhs The left-hand side of the expression (a numeric value).
+     */
     public Proposition(String operator, BigDecimal lhs, BigDecimal rhs) {
         this(operator, lhs.toString(), rhs.toString());
         mIsLhsValue = true;
@@ -50,44 +77,88 @@ public class Proposition {
         }
     }
 
+    /**
+     * Returns the left-hand side of the expression.
+     * @return The LHS of the expression.
+     */
     public String getLhs() {
         return mLhs;
     }
 
+    /**
+     * Sets the left-hand side of the expression as another node id.
+     * @param lhs The node id representing the LHS of the expression.
+     */
     public void setLhs(String lhs) {
         mLhs = lhs;
+        mIsLhsValue = false;
     }
 
+    /**
+     * Sets the left-hand side of the expression as a numeric value.
+     * @param lhs The numeric value representing the LHS of the expression.
+     */
+    public void setLhs(Number lhs) {
+        mLhs = lhs.toString();
+        mIsLhsValue = false;
+    }
+
+    /**
+     * Returns the right-hand side of the expression.
+     * @return The RHS of the expression.
+     */
     public String getRhs() {
         return mRhs;
     }
 
+    /**
+     * Sets the right-hand side of the expression as another node id.
+     * @param rhs The node id representing the RHS of the expression.
+     */
     public void setRhs(String rhs) {
         mRhs = rhs;
     }
 
+    /**
+     * Sets the right-hand side of the expression as a numeric value.
+     * @param rhs The numeric value representing the RHS of the expression.
+     */
+    public void setRhs(Number rhs) {
+        mLhs = rhs.toString();
+        mIsLhsValue = false;
+    }
+
+    /**
+     * Gets the operator associated to the proposition.
+     * @return The operator associated to the proposition.
+     */
     public String getOperator() {
         return mOperator;
     }
 
+    /**
+     * Sets the operator of the proposition.
+     * @param operator The operator to be used in the proposition.
+     */
     public void setOperator(String operator) {
         mOperator = operator;
     }
 
+    /**
+     * Returns whether the LHS is a numeric value or the id of another node.
+     * @return true if the LHS is a numeric value, or false if it refers to a node id.
+     */
     public boolean isLhsValue() {
         return mIsLhsValue;
     }
 
-    public void setLhsValue(boolean lhsValue) {
-        mIsLhsValue = lhsValue;
-    }
+    /**
+     * Returns whether the RHS is a numeric value or the id of another node.
+     * @return true if the RHS is a numeric value, or false if it refers to a node id.
+     */
 
     public boolean isRhsValue() {
         return mIsRhsValue;
-    }
-
-    public void setRhsValue(boolean rhsValue) {
-        mIsRhsValue = rhsValue;
     }
 
     public void writeJSON(JsonWriter writer) throws IOException {

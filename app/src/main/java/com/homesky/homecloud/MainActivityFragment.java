@@ -90,7 +90,9 @@ public class MainActivityFragment extends Fragment {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, (token == null) ? "null" : token);
 
-        HomecloudHolder.setUrl("http://192.168.1.34:3000/");
+        HomecloudHolder.setUrl("http://ec2-52-67-3-31.sa-east-1.compute.amazonaws.com:3000/");
+        if(token != null)
+            HomecloudHolder.setToken(token);
 
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -123,6 +125,8 @@ public class MainActivityFragment extends Fragment {
         mCommandIdEditText = (EditText)v.findViewById(R.id.command_id_edit_text);
         mValueEditText = (EditText)v.findViewById(R.id.value_edit_text);
         mExtraEditText = (EditText)v.findViewById(R.id.extra_edit_text);
+
+        mTokenEditText.setText(HomecloudHolder.getInstance().getToken());
 
         mLoginButton = (Button)v.findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {

@@ -92,8 +92,8 @@ public class Homecloud {
     }
 
     /**
-     * Logs in with the server using the credentials provided on initialization
-     * @return A {@link SimpleResponse} object representing the response
+     * Logs in with the server using the credentials provided on initialization.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse login(){
         RequestModel loginReq = new LoginRequest(mUsername, mPassword, mToken);
@@ -102,8 +102,8 @@ public class Homecloud {
     }
 
     /**
-     * Logs out the user. Subsequent calls to methods may require logging in again
-     * @return A {@link SimpleResponse} object representing the response
+     * Logs out the user. Subsequent calls to methods may require logging in again.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse logout(){
         RequestModel logoutReq = new LogoutRequest(mToken);
@@ -113,10 +113,10 @@ public class Homecloud {
     }
 
     /**
-     * Creates a new user associated to the same house as the admin invoking this function
-     * @param username The username associated to the new user
-     * @param password The password associated to the new user
-     * @return A {@link SimpleResponse} object representing the response
+     * Creates a new user associated to the same house as the admin invoking this function.
+     * @param username The username associated to the new user.
+     * @param password The password associated to the new user.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse newUser(String username, String password){
         RequestModel newUserReq = new NewUserRequest(username, password);
@@ -126,9 +126,9 @@ public class Homecloud {
 
     /**
      * Creates a new admin associated to a new house.
-     * @param username The username associated to the new admin
-     * @param password The password associated to the new admin
-     * @return A {@link SimpleResponse} object representing the response
+     * @param username The username associated to the new admin.
+     * @param password The password associated to the new admin.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse newAdmin(String username, String password){
         RequestModel newAdminReq = new NewAdminRequest(username, password);
@@ -137,9 +137,9 @@ public class Homecloud {
     }
 
     /**
-     * Registers an existing controller to the house associated to the agent making the request
-     * @param controllerId The id of the controller to be associated
-     * @return A {@link SimpleResponse} object representing the response
+     * Registers an existing controller to the house associated to the agent making the request.
+     * @param controllerId The id of the controller to be associated.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse registerController(String controllerId){
         RequestModel registerControllerReq = new RegisterControllerRequest(controllerId);
@@ -148,8 +148,8 @@ public class Homecloud {
     }
 
     /**
-     * Gets the state of the house associated to the logged agent
-     * @return A {@link StateResponse} object representing the state of the house
+     * Gets the state of the house associated to the logged agent.
+     * @return A {@link StateResponse} object representing the state of the house.
      */
     public StateResponse getHouseState(){
         RequestModel getHouseStateReq = new HouseStateRequest();
@@ -158,12 +158,12 @@ public class Homecloud {
     }
 
     /**
-     * Sends an action command to the server
-     * @param nodeId The id of the target node
-     * @param controllerId The id of the controller associated to the target node
-     * @param commandId The id of the command associated to the node
-     * @param value The desired value of the command
-     * @return A {@link SimpleResponse} object representing the response
+     * Sends an action command to the server.
+     * @param nodeId The id of the target node.
+     * @param controllerId The id of the controller associated to the target node.
+     * @param commandId The id of the command associated to the node.
+     * @param value The desired value of the command.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse newAction(int nodeId, String controllerId, int commandId, BigDecimal value){
         RequestModel newActionReq = new NewActionRequest(nodeId, controllerId, commandId, value);
@@ -172,8 +172,8 @@ public class Homecloud {
     }
 
     /**
-     * Get the automation rules for the house associated to the agent making the request
-     * @return A {@link RuleResponse} object representing the rules stored for the house
+     * Get the automation rules for the house associated to the agent making the request.
+     * @return A {@link RuleResponse} object representing the rules stored for the house.
      */
     public RuleResponse getRules(){
         RequestModel getRulesReq = new GetRulesRequest();
@@ -182,8 +182,8 @@ public class Homecloud {
     }
 
     /**
-     * Create a new automation rule for the house
-     * @param rules A list of Rule objects to be added
+     * Create a new automation rule for the house.
+     * @param rules A list of Rule objects to be added.
      */
     public SimpleResponse newRules(List<Rule> rules){
         RequestModel newRulesReq = new NewRulesRequest(rules);
@@ -192,8 +192,8 @@ public class Homecloud {
     }
 
     /**
-     * Get learnt rules from the server
-     * @return A {@link RuleResponse} object representing the rules learnt for the house
+     * Get learnt rules from the server.
+     * @return A {@link RuleResponse} object representing the rules learnt for the house.
      */
     public RuleResponse getLearntRules(){
         RequestModel getLearntRulesReq = new GetLearntRulesRequest();
@@ -202,11 +202,11 @@ public class Homecloud {
     }
 
     /**
-     * Set extra information for a node
-     * @param extra A map containing extra information for the node
-     * @param nodeId The id of the node associated to the provided extra information
-     * @param controllerId The id of the controller associated to the node
-     * @return A {@link SimpleResponse} object representing the response
+     * Set extra information for a node.
+     * @param extra A map containing extra information for the node.
+     * @param nodeId The id of the node associated to the provided extra information.
+     * @param controllerId The id of the controller associated to the node.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse setNodeExtra(Map<String, String> extra, int nodeId, String controllerId){
         RequestModel setNodeExtraReq = new SetNodeExtraRequest(extra, nodeId, controllerId);
@@ -215,8 +215,8 @@ public class Homecloud {
     }
 
     /**
-     * Get information about nodes registered to the house id of the agent making the request
-     * @return A {@link NodesResponse} object containing information of the nodes
+     * Get information about nodes registered to the house id of the agent making the request.
+     * @return A {@link NodesResponse} object containing information of the nodes.
      */
     public NodesResponse getNodesInfo(){
         RequestModel getNodesInfoReq = new GetNodesInfoRequest();
@@ -225,11 +225,11 @@ public class Homecloud {
     }
 
     /**
-     * Accept or reject the new node on the house of the agent making this request
-     * @param nodeId The id of the target node
-     * @param controllerId The controller associated to the target node
-     * @param accept Whether or not the node will be accepted (1) or rejected (0)
-     * @return A {@link SimpleResponse} object representing the response
+     * Accept or reject the new node on the house of the agent making this request.
+     * @param nodeId The id of the target node.
+     * @param controllerId The controller associated to the target node.
+     * @param accept Whether or not the node will be accepted (1) or rejected (0).
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse acceptNode(int nodeId, String controllerId, int accept){
         RequestModel acceptNodeReq = new AcceptNodeRequest(nodeId, controllerId, accept);
@@ -238,10 +238,10 @@ public class Homecloud {
     }
 
     /**
-     * Remove the node from the house associated to the agent makint the request
-     * @param nodeId The id of the node to be removed
-     * @param controllerId The id of the controller associated to the node to be removed
-     * @return A {@link SimpleResponse} object representing the response
+     * Remove the node from the house associated to the agent makint the request.
+     * @param nodeId The id of the node to be removed.
+     * @param controllerId The id of the controller associated to the node to be removed.
+     * @return A {@link SimpleResponse} object representing the response.
      */
     public SimpleResponse removeNode(int nodeId, String controllerId){
         RequestModel removeNodeReq = new RemoveNodeRequest(nodeId, controllerId);

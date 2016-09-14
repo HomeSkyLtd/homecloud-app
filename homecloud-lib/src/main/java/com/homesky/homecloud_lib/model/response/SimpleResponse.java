@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
- * Base class representing a response from the server.
+ * Base class representing a response from the server. Contains a status code and a error message.
  */
 public class SimpleResponse {
     private static final String TAG = "SimpleResponse";
@@ -25,10 +25,18 @@ public class SimpleResponse {
         this.mErrorMessage = errorMessage;
     }
 
+    /**
+     * Gets the status code of the response (200, 403, etc.).
+     * @return The status code of the response.
+     */
     public int getStatus() {
         return mStatus;
     }
 
+    /**
+     * Gets the error message associated to the response. If status = 200 (OK), returns an empty string.
+     * @return The error message associated to the response (may be empty).
+     */
     public String getErrorMessage() {
         return mErrorMessage;
     }

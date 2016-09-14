@@ -16,6 +16,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a response from the server including rules information.
+ */
 public class RuleResponse extends SimpleResponse {
     private static final String TAG = "RuleResponse";
 
@@ -26,6 +29,11 @@ public class RuleResponse extends SimpleResponse {
         mRules = rules;
     }
 
+    /**
+     * Creates a {@link RuleResponse} instance from the JSON payload received as response from the server.
+     * @param jsonStr The JSON response in string format.
+     * @return A {@link RuleResponse} object representing the response.
+     */
     public static RuleResponse from(String jsonStr) {
         if (jsonStr == null) return null;
 
