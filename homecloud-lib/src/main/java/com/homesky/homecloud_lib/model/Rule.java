@@ -6,11 +6,25 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Represents an automation rule.
+ */
 public class Rule{
     String mControllerId;
     List<List<Proposition>> mClause;
     Command mCommand;
 
+    /**
+     * Builds a rule associating a target node, whose state will be affected by the activation of the
+     * rule, and the conditions that trigger it.
+     * @param nodeId The target node id, whose state will be changed as result of triggering the rule.
+     * @param controllerId The target node's controller id.
+     * @param commandId The node's command id affected by the rule.
+     * @param value The desired value that the node's specified command should take after the rule is
+     *              triggered.
+     * @param clause The condition to trigger the rule, represented in CNF form (a list of lists containing
+     *               {@link Proposition} objects).
+     */
     public Rule(int nodeId, String controllerId, int commandId,
                 BigDecimal value, List<List<Proposition>> clause) {
         mCommand = new Command(nodeId, commandId, value);
