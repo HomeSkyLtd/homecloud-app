@@ -56,39 +56,43 @@ public class NodesResponse extends SimpleResponse{
                     Map<String, String> extra = new HashMap<>();
                     JSONObject extraJSON = nodeJSON.getJSONObject(Constants.Fields.NodesResponse.EXTRA);
                     JSONArray extraKeys = extraJSON.names();
-                    for (int j = 0; j < extraKeys.length(); ++j) {
-                        extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                    if(extraKeys != null) {
+                        for (int j = 0; j < extraKeys.length(); ++j) {
+                            extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                        }
                     }
 
                     List<DataType> dataType = new ArrayList<>();
-                    JSONArray dataTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.DATA_TYPE);
-                    for (int j = 0; j < dataTypeJSON.length(); ++j) {
-                        JSONObject unitDataTypeJSON = dataTypeJSON.getJSONObject(j);
-                        int id = unitDataTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
-                        String measureStrategy = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.MEASURE_STRATEGY);
-                        String type = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
-                        String dataCategory = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.DATA_CATEGORY);
-                        String unit = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
+                    if(nodeJSON.has(Constants.Fields.NodesResponse.DATA_TYPE)) {
+                        JSONArray dataTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.DATA_TYPE);
+                        for (int j = 0; j < dataTypeJSON.length(); ++j) {
+                            JSONObject unitDataTypeJSON = dataTypeJSON.getJSONObject(j);
+                            int id = unitDataTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
+                            String measureStrategy = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.MEASURE_STRATEGY);
+                            String type = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
+                            String dataCategory = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.DATA_CATEGORY);
+                            String unit = unitDataTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
 
-                        JSONArray rangeJSON = unitDataTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
-                        BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
-                        dataType.add(new DataType(id, measureStrategy, type, range, dataCategory, unit));
+                            JSONArray rangeJSON = unitDataTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
+                            BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
+                            dataType.add(new DataType(id, measureStrategy, type, range, dataCategory, unit));
+                        }
                     }
-
                     List<CommandType> commandType = new ArrayList<>();
-                    JSONArray commandTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.COMMAND_TYPE);
-                    for (int j = 0; j < commandTypeJSON.length(); ++j) {
-                        JSONObject unitCommandTypeJSON = commandTypeJSON.getJSONObject(j);
-                        int id = unitCommandTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
-                        String type = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
-                        String commandCategory = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.COMMAND_CATEGORY);
-                        String unit = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
+                    if(nodeJSON.has(Constants.Fields.NodesResponse.COMMAND_TYPE)) {
+                        JSONArray commandTypeJSON = nodeJSON.getJSONArray(Constants.Fields.NodesResponse.COMMAND_TYPE);
+                        for (int j = 0; j < commandTypeJSON.length(); ++j) {
+                            JSONObject unitCommandTypeJSON = commandTypeJSON.getJSONObject(j);
+                            int id = unitCommandTypeJSON.getInt(Constants.Fields.NodesResponse.ID);
+                            String type = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.TYPE);
+                            String commandCategory = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.COMMAND_CATEGORY);
+                            String unit = unitCommandTypeJSON.getString(Constants.Fields.NodesResponse.UNIT);
 
-                        JSONArray rangeJSON = unitCommandTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
-                        BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
-                        commandType.add(new CommandType(id, type, range, commandCategory, unit));
+                            JSONArray rangeJSON = unitCommandTypeJSON.getJSONArray(Constants.Fields.NodesResponse.RANGE);
+                            BigDecimal[] range = {new BigDecimal(rangeJSON.getString(0)), new BigDecimal(rangeJSON.getString(1))};
+                            commandType.add(new CommandType(id, type, range, commandCategory, unit));
+                        }
                     }
-
                     nodes.add(new Node.Builder()
                             .setNodeId(nodeId)
                             .setControllerId(controllerID)
