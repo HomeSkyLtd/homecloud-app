@@ -1,7 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
-import com.homesky.homecloud_lib.Homecloud;
+import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ public class NewActionCommand implements Command{
     }
 
     @Override
-    public SimpleResponse execute() throws Homecloud.NetworkException {
+    public SimpleResponse execute() throws NetworkException {
         return HomecloudHolder.getInstance().newAction(mNodeId, mControllerId, mCommandId, mValue);
     }
 }

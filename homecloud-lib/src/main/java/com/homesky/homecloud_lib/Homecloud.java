@@ -2,7 +2,7 @@ package com.homesky.homecloud_lib;
 
 import android.util.Log;
 
-import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
 import com.homesky.homecloud_lib.model.request.AcceptRuleRequest;
@@ -97,7 +97,7 @@ public class Homecloud {
      * Logs in with the server using the credentials provided on initialization.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse login() throws NetworkException{
+    public SimpleResponse login() throws NetworkException {
         RequestModel loginReq = new LoginRequest(mUsername, mPassword, mToken);
         String responseStr = makeRequest(loginReq);
         return SimpleResponse.from(responseStr);
@@ -355,12 +355,6 @@ public class Homecloud {
             h.setPassword(newPassword);
             h.setToken(newToken);
             return h;
-        }
-    }
-
-    public static class NetworkException extends Exception{
-        public NetworkException(String msg){
-            super(msg);
         }
     }
 

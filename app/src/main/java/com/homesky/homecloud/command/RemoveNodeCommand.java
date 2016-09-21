@@ -1,7 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
-import com.homesky.homecloud_lib.Homecloud;
+import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 public class RemoveNodeCommand implements Command{
@@ -14,7 +14,7 @@ public class RemoveNodeCommand implements Command{
     }
 
     @Override
-    public SimpleResponse execute() throws Homecloud.NetworkException {
+    public SimpleResponse execute() throws NetworkException {
         return HomecloudHolder.getInstance().removeNode(mNodeId, mControllerId);
     }
 }

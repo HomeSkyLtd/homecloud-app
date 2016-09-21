@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,6 @@ import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.GetLearntRulesCommand;
 import com.homesky.homecloud.command.GetNodesInfoCommand;
 import com.homesky.homecloud.command.GetRulesCommand;
-import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewActionCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
@@ -35,16 +32,11 @@ import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud.command.RemoveNodeCommand;
 import com.homesky.homecloud.command.SetNodeExtraCommand;
-import com.homesky.homecloud_lib.Homecloud;
+import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
-import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
 import com.homesky.homecloud_lib.model.notification.Notification;
-import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
-import com.homesky.homecloud_lib.model.response.StateResponse;
-
-import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -335,7 +327,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 return commands[0].execute();
             }
-            catch (Homecloud.NetworkException e) {
+            catch (NetworkException e) {
                 Log.e(TAG, "Received NetworkException", e);
                 return null;
             }

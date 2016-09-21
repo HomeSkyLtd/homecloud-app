@@ -1,13 +1,10 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
-import com.homesky.homecloud_lib.Homecloud;
-import com.homesky.homecloud_lib.model.Proposition;
+import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Rule;
-import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class NewRulesCommand implements Command{
@@ -18,7 +15,7 @@ public class NewRulesCommand implements Command{
     }
 
     @Override
-    public SimpleResponse execute() throws Homecloud.NetworkException {
+    public SimpleResponse execute() throws NetworkException {
         return HomecloudHolder.getInstance().newRules(mRules);
     }
 }

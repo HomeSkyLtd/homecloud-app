@@ -2,6 +2,8 @@ package com.homesky.homecloud_lib;
 
 import android.util.Log;
 
+import com.homesky.homecloud_lib.exceptions.NetworkException;
+import com.homesky.homecloud_lib.exceptions.NotProperlyInitializedException;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
 import com.homesky.homecloud_lib.model.response.NodesResponse;
@@ -19,7 +21,7 @@ public class HomecloudWrapper {
     private Homecloud hc;
 
     interface FunctionCommand {
-        SimpleResponse execute() throws Homecloud.NetworkException;
+        SimpleResponse execute() throws NetworkException;
     }
 
     public HomecloudWrapper(String url){
@@ -52,10 +54,10 @@ public class HomecloudWrapper {
      * @param command The {@link FunctionCommand} object containing the function to be called
      * @return The {@link SimpleResponse} object representing the response
      */
-    private SimpleResponse callFunctionCommand(FunctionCommand command) throws Homecloud.NetworkException {
+    private SimpleResponse callFunctionCommand(FunctionCommand command) throws NetworkException {
         synchronized (this){
             // First, check if the Homecloud object is properly initialized
-            if(!hc.isInitialized()) return null;
+            if(!hc.isInitialized()) throw new NotProperlyInitializedException();
             // Then, try executing the command
             SimpleResponse firstTry = command.execute();
             if(firstTry == null) {
@@ -79,23 +81,23 @@ public class HomecloudWrapper {
         }
     }
 
-    private SimpleResponse callSR(FunctionCommand command) throws Homecloud.NetworkException {
+    private SimpleResponse callSR(FunctionCommand command) throws NetworkException {
         return callFunctionCommand(command);
     }
 
-    private NodesResponse callNR(FunctionCommand command) throws Homecloud.NetworkException{
+    private NodesResponse callNR(FunctionCommand command) throws NetworkException {
         return (NodesResponse)callFunctionCommand(command);
     }
 
-    private StateResponse callStR(FunctionCommand command) throws Homecloud.NetworkException{
+    private StateResponse callStR(FunctionCommand command) throws NetworkException {
         return (StateResponse) callFunctionCommand(command);
     }
 
-    private RuleResponse callRR(FunctionCommand command) throws Homecloud.NetworkException{
+    private RuleResponse callRR(FunctionCommand command) throws NetworkException {
         return (RuleResponse) callFunctionCommand(command);
     }
 
-    private ConflictingRuleResponse callCRR(FunctionCommand command) throws Homecloud.NetworkException{
+    private ConflictingRuleResponse callCRR(FunctionCommand command) throws NetworkException {
         return (ConflictingRuleResponse) callFunctionCommand(command);
     }
 
@@ -103,22 +105,22 @@ public class HomecloudWrapper {
      * Logs out the user. Subsequent calls to methods may require logging in again
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse logout() throws Homecloud.NetworkException {
+    public SimpleResponse logout() throws NetworkException {
         synchronized (this) {
             return hc.logout();
         }
     }
 
-    public SimpleResponse newUser(final String username, final String password) throws Homecloud.NetworkException{
+    public SimpleResponse newUser(final String username, final String password) throws NetworkException {
         return callSR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.newUser(username, password);
             }
         });
     }
 
-    public SimpleResponse newAdmin(final String username, final String password) throws Homecloud.NetworkException{
+    public SimpleResponse newAdmin(final String username, final String password) throws NetworkException {
         return hc.newAdmin(username, password);
     }
 
@@ -127,10 +129,10 @@ public class HomecloudWrapper {
      * @param controllerId The id of the controller to be associated
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse registerController(final String controllerId) throws Homecloud.NetworkException{
+    public SimpleResponse registerController(final String controllerId) throws NetworkException {
         return callSR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.registerController(controllerId);
             }
         });
@@ -145,10 +147,10 @@ public class HomecloudWrapper {
      * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse newAction(final int nodeId, final String controllerId, final int commandId, final BigDecimal value)
-            throws Homecloud.NetworkException{
+            throws NetworkException {
         return callSR(new FunctionCommand()  {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.newAction(nodeId, controllerId, commandId, value);
             }
         });
@@ -159,10 +161,10 @@ public class HomecloudWrapper {
      * @param rules A list of Rule objects to be added
      * @return A {@link ConflictingRuleResponse} object representing possible conflicting rule.
      */
-    public SimpleResponse newRules(final List<Rule> rules) throws Homecloud.NetworkException{
+    public SimpleResponse newRules(final List<Rule> rules) throws NetworkException {
         return callCRR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.newRules(rules);
             }
         });
@@ -176,10 +178,10 @@ public class HomecloudWrapper {
      * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse setNodeExtra(final Map<String, String> extra, final int nodeId, final String controllerId)
-            throws Homecloud.NetworkException{
+            throws NetworkException {
         return callSR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException{
+            public SimpleResponse execute() throws NetworkException {
                 return hc.setNodeExtra(extra, nodeId, controllerId);
             }
         });
@@ -193,10 +195,10 @@ public class HomecloudWrapper {
      * @return A {@link SimpleResponse} object representing the response
      */
     public SimpleResponse acceptNode(final int nodeId, final String controllerId, final int accept)
-            throws Homecloud.NetworkException{
+            throws NetworkException {
         return callSR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.acceptNode(nodeId, controllerId, accept);
             }
         });
@@ -208,10 +210,10 @@ public class HomecloudWrapper {
      * @param controllerId The id of the controller associated to the node to be removed
      * @return A {@link SimpleResponse} object representing the response
      */
-    public SimpleResponse removeNode(final int nodeId, final String controllerId) throws Homecloud.NetworkException{
+    public SimpleResponse removeNode(final int nodeId, final String controllerId) throws NetworkException {
         return callSR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.removeNode(nodeId, controllerId);
             }
         });
@@ -221,10 +223,10 @@ public class HomecloudWrapper {
      * Get information about nodes registered to the house id of the agent making the request
      * @return A {@link NodesResponse} object containing information of the nodes
      */
-    public NodesResponse getNodesInfo() throws Homecloud.NetworkException {
+    public NodesResponse getNodesInfo() throws NetworkException {
         return callNR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.getNodesInfo();
             }
         });
@@ -234,10 +236,10 @@ public class HomecloudWrapper {
      * Gets the state of the house associated to the logged agent
      * @return A {@link StateResponse} object representing the state of the house
      */
-    public StateResponse getHouseState() throws Homecloud.NetworkException{
+    public StateResponse getHouseState() throws NetworkException {
         return callStR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.getHouseState();
             }
         });
@@ -247,10 +249,10 @@ public class HomecloudWrapper {
      * Get the automation rules for the house associated to the agent making the request
      * @return A {@link RuleResponse} object representing the rules stored for the house
      */
-    public RuleResponse getRules() throws Homecloud.NetworkException{
+    public RuleResponse getRules() throws NetworkException {
         return callRR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.getRules();
             }
         });
@@ -260,10 +262,10 @@ public class HomecloudWrapper {
      * Get learnt rules from the server
      * @return A {@link RuleResponse} object representing the rules learnt for the house
      */
-    public RuleResponse getLearntRules() throws Homecloud.NetworkException{
+    public RuleResponse getLearntRules() throws NetworkException {
         return callRR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.getLearntRules();
             }
         });
@@ -279,10 +281,10 @@ public class HomecloudWrapper {
      * @return A {@link ConflictingRuleResponse} object containing a possible conflicting rule.
      */
     public ConflictingRuleResponse acceptRule(final int accept, final int nodeId, final int commandId, final BigDecimal value,
-                                              final String controllerId) throws Homecloud.NetworkException{
+                                              final String controllerId) throws NetworkException {
         return callCRR(new FunctionCommand() {
             @Override
-            public SimpleResponse execute() throws Homecloud.NetworkException {
+            public SimpleResponse execute() throws NetworkException {
                 return hc.acceptRule(accept, nodeId, commandId, value, controllerId);
             }
         });
