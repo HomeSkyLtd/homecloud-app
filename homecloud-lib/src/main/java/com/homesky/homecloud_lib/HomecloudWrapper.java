@@ -3,6 +3,7 @@ package com.homesky.homecloud_lib;
 import android.util.Log;
 
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
 import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
@@ -90,6 +91,10 @@ public class HomecloudWrapper {
         return (RuleResponse) callFunctionCommand(command);
     }
 
+    private ConflictingRuleResponse callCRR(FunctionCommand command){
+        return (ConflictingRuleResponse) callFunctionCommand(command);
+    }
+
     /**
      * Logs out the user. Subsequent calls to methods may require logging in again
      * @return A {@link SimpleResponse} object representing the response
@@ -147,9 +152,10 @@ public class HomecloudWrapper {
     /**
      * Create a new automation rule for the house
      * @param rules A list of Rule objects to be added
+     * @return A {@link ConflictingRuleResponse} object representing possible conflicting rule.
      */
     public SimpleResponse newRules(final List<Rule> rules){
-        return callSR(new FunctionCommand() {
+        return callCRR(new FunctionCommand() {
             @Override
             public SimpleResponse execute() {
                 return hc.newRules(rules);

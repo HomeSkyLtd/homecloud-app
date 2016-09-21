@@ -233,13 +233,12 @@ public class MainActivityFragment extends Fragment {
                 List<List<Proposition>> clause = new ArrayList<>();
                 List<Proposition> orStatement = new ArrayList<Proposition>();
                 clause.add(orStatement);
-                orStatement.add(new Proposition(">", "1.1", 10));
-                orStatement.add(new Proposition("==", "1.1", "2.1"));
+                orStatement.add(new Proposition("==", "0.1", 0));
 
                 int nodeId = 1;
-                int commandId = 2;
-                String controllerId = "3";
-                BigDecimal value = new BigDecimal(4);
+                int commandId = 0;
+                String controllerId = "57d952ec1c059e0e89ec3a9e";
+                BigDecimal value = new BigDecimal(0);
                 Rule rule = new Rule(nodeId, controllerId, commandId, value, clause);
                 ArrayList<Rule> rules = new ArrayList<>();
                 rules.add(rule);

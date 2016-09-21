@@ -48,6 +48,14 @@ public class Rule{
         mClause = clause;
     }
 
+    public Command getCommand() {
+        return mCommand;
+    }
+
+    public void setCommand(Command command) {
+        mCommand = command;
+    }
+
     public void writeJSON(JsonWriter writer) throws IOException {
         writer.beginObject();
         writer.name(Constants.Fields.NewRules.COMMAND);

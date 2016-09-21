@@ -126,6 +126,19 @@ public class Constants {
         public static class DetectedNode{
             public static final String QUANTITY = "quantity";
         }
+
+        public static class ConflictingRulesResponse{
+            public static final String CONFLICTING_RULE = "conflictingRule";
+            public static final String COMMAND = "command";
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String COMMAND_ID = "commandId";
+            public static final String VALUE = "value";
+            public static final String CLAUSES = "clauses";
+            public static final String LHS = "lhs";
+            public static final String OPERATOR = "operator";
+            public static final String RHS = "rhs";
+        }
     }
 
     public static class Values {

@@ -19,6 +19,7 @@ import com.homesky.homecloud_lib.model.request.RegisterControllerRequest;
 import com.homesky.homecloud_lib.model.request.RemoveNodeRequest;
 import com.homesky.homecloud_lib.model.request.RequestModel;
 import com.homesky.homecloud_lib.model.request.SetNodeExtraRequest;
+import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
 import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
@@ -184,11 +185,12 @@ public class Homecloud {
     /**
      * Create a new automation rule for the house.
      * @param rules A list of Rule objects to be added.
+     * @return A {@link ConflictingRuleResponse} object representing possible conflicting rule.
      */
-    public SimpleResponse newRules(List<Rule> rules){
+    public ConflictingRuleResponse newRules(List<Rule> rules){
         RequestModel newRulesReq = new NewRulesRequest(rules);
         String responseStr = makeRequest(newRulesReq);
-        return SimpleResponse.from(responseStr);
+        return ConflictingRuleResponse.from(responseStr);
     }
 
     /**
