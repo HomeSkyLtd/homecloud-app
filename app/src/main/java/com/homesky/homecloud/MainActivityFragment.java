@@ -35,6 +35,7 @@ import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud.command.RemoveNodeCommand;
 import com.homesky.homecloud.command.SetNodeExtraCommand;
+import com.homesky.homecloud_lib.Homecloud;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.notification.ActionResultNotification;
@@ -331,7 +332,13 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected SimpleResponse doInBackground(Command... commands) {
-            return commands[0].execute();
+            try {
+                return commands[0].execute();
+            }
+            catch (Homecloud.NetworkException e) {
+                Log.e(TAG, "Received NetworkException", e);
+                return null;
+            }
         }
 
         @Override

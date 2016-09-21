@@ -1,6 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
+import com.homesky.homecloud_lib.Homecloud;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 public class RegisterControllerCommand implements Command {
@@ -11,7 +12,7 @@ public class RegisterControllerCommand implements Command {
     }
 
     @Override
-    public SimpleResponse execute() {
+    public SimpleResponse execute() throws Homecloud.NetworkException {
         return HomecloudHolder.getInstance().registerController(mControllerId);
     }
 }

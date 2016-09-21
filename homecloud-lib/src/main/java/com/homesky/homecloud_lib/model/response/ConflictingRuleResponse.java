@@ -29,7 +29,7 @@ public class ConflictingRuleResponse extends SimpleResponse{
     }
 
     /**
-     * Gets the conflicting rule.
+     * Gets the conflicting rule. Returns null if there is no conflicting rule.
      * @return A {@link Rule} object representing the conflicting rule.
      */
     public Rule getConflictingRule() {

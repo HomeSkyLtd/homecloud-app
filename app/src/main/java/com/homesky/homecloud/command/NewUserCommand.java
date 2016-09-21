@@ -1,6 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
+import com.homesky.homecloud_lib.Homecloud;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 public class NewUserCommand implements Command {
@@ -12,7 +13,7 @@ public class NewUserCommand implements Command {
         mPassword = password;
     }
     @Override
-    public SimpleResponse execute() {
+    public SimpleResponse execute() throws Homecloud.NetworkException {
         return HomecloudHolder.getInstance().newUser(mUsername, mPassword);
     }
 }

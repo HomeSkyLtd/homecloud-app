@@ -1,6 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
+import com.homesky.homecloud_lib.Homecloud;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
 public class AcceptNodeCommand implements Command{
@@ -14,7 +15,7 @@ public class AcceptNodeCommand implements Command{
     }
 
     @Override
-    public SimpleResponse execute() {
+    public SimpleResponse execute() throws Homecloud.NetworkException {
         return HomecloudHolder.getInstance().acceptNode(mNodeId, mControllerId, mAccept);
     }
 }

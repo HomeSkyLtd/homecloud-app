@@ -5,6 +5,7 @@ import android.util.Log;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
+import com.homesky.homecloud_lib.model.request.AcceptRuleRequest;
 import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
 import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
 import com.homesky.homecloud_lib.model.request.GetRulesRequest;
@@ -96,7 +97,7 @@ public class Homecloud {
      * Logs in with the server using the credentials provided on initialization.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse login(){
+    public SimpleResponse login() throws NetworkException{
         RequestModel loginReq = new LoginRequest(mUsername, mPassword, mToken);
         String responseStr = makeRequest(loginReq);
         return SimpleResponse.from(responseStr);
@@ -106,7 +107,7 @@ public class Homecloud {
      * Logs out the user. Subsequent calls to methods may require logging in again.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse logout(){
+    public SimpleResponse logout() throws NetworkException{
         RequestModel logoutReq = new LogoutRequest(mToken);
         String responseStr = makeRequest(logoutReq);
         mCookie = null;
@@ -119,7 +120,7 @@ public class Homecloud {
      * @param password The password associated to the new user.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse newUser(String username, String password){
+    public SimpleResponse newUser(String username, String password) throws NetworkException{
         RequestModel newUserReq = new NewUserRequest(username, password);
         String responseStr = makeRequest(newUserReq);
         return SimpleResponse.from(responseStr);
@@ -131,7 +132,7 @@ public class Homecloud {
      * @param password The password associated to the new admin.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse newAdmin(String username, String password){
+    public SimpleResponse newAdmin(String username, String password) throws NetworkException{
         RequestModel newAdminReq = new NewAdminRequest(username, password);
         String responseStr = makeRequest(newAdminReq);
         return SimpleResponse.from(responseStr);
@@ -142,7 +143,7 @@ public class Homecloud {
      * @param controllerId The id of the controller to be associated.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse registerController(String controllerId){
+    public SimpleResponse registerController(String controllerId) throws NetworkException{
         RequestModel registerControllerReq = new RegisterControllerRequest(controllerId);
         String responseStr = makeRequest(registerControllerReq);
         return SimpleResponse.from(responseStr);
@@ -152,7 +153,7 @@ public class Homecloud {
      * Gets the state of the house associated to the logged agent.
      * @return A {@link StateResponse} object representing the state of the house.
      */
-    public StateResponse getHouseState(){
+    public StateResponse getHouseState() throws NetworkException{
         RequestModel getHouseStateReq = new HouseStateRequest();
         String responseStr = makeRequest(getHouseStateReq);
         return StateResponse.from(responseStr);
@@ -166,7 +167,8 @@ public class Homecloud {
      * @param value The desired value of the command.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse newAction(int nodeId, String controllerId, int commandId, BigDecimal value){
+    public SimpleResponse newAction(int nodeId, String controllerId, int commandId, BigDecimal value)
+            throws NetworkException{
         RequestModel newActionReq = new NewActionRequest(nodeId, controllerId, commandId, value);
         String responseStr = makeRequest(newActionReq);
         return SimpleResponse.from(responseStr);
@@ -176,7 +178,7 @@ public class Homecloud {
      * Get the automation rules for the house associated to the agent making the request.
      * @return A {@link RuleResponse} object representing the rules stored for the house.
      */
-    public RuleResponse getRules(){
+    public RuleResponse getRules() throws NetworkException{
         RequestModel getRulesReq = new GetRulesRequest();
         String responseStr = makeRequest(getRulesReq);
         return RuleResponse.from(responseStr);
@@ -187,7 +189,7 @@ public class Homecloud {
      * @param rules A list of Rule objects to be added.
      * @return A {@link ConflictingRuleResponse} object representing possible conflicting rule.
      */
-    public ConflictingRuleResponse newRules(List<Rule> rules){
+    public ConflictingRuleResponse newRules(List<Rule> rules) throws NetworkException{
         RequestModel newRulesReq = new NewRulesRequest(rules);
         String responseStr = makeRequest(newRulesReq);
         return ConflictingRuleResponse.from(responseStr);
@@ -197,7 +199,7 @@ public class Homecloud {
      * Get learnt rules from the server.
      * @return A {@link RuleResponse} object representing the rules learnt for the house.
      */
-    public RuleResponse getLearntRules(){
+    public RuleResponse getLearntRules() throws NetworkException{
         RequestModel getLearntRulesReq = new GetLearntRulesRequest();
         String responseStr = makeRequest(getLearntRulesReq);
         return RuleResponse.from(responseStr);
@@ -210,7 +212,8 @@ public class Homecloud {
      * @param controllerId The id of the controller associated to the node.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse setNodeExtra(Map<String, String> extra, int nodeId, String controllerId){
+    public SimpleResponse setNodeExtra(Map<String, String> extra, int nodeId, String controllerId)
+            throws NetworkException{
         RequestModel setNodeExtraReq = new SetNodeExtraRequest(extra, nodeId, controllerId);
         String responseStr = makeRequest(setNodeExtraReq);
         return SimpleResponse.from(responseStr);
@@ -220,7 +223,7 @@ public class Homecloud {
      * Get information about nodes registered to the house id of the agent making the request.
      * @return A {@link NodesResponse} object containing information of the nodes.
      */
-    public NodesResponse getNodesInfo(){
+    public NodesResponse getNodesInfo() throws NetworkException{
         RequestModel getNodesInfoReq = new GetNodesInfoRequest();
         String responseStr = makeRequest(getNodesInfoReq);
         return NodesResponse.from(responseStr);
@@ -233,7 +236,7 @@ public class Homecloud {
      * @param accept Whether or not the node will be accepted (1) or rejected (0).
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse acceptNode(int nodeId, String controllerId, int accept){
+    public SimpleResponse acceptNode(int nodeId, String controllerId, int accept) throws NetworkException{
         RequestModel acceptNodeReq = new AcceptNodeRequest(nodeId, controllerId, accept);
         String responseStr = makeRequest(acceptNodeReq);
         return SimpleResponse.from(responseStr);
@@ -245,13 +248,29 @@ public class Homecloud {
      * @param controllerId The id of the controller associated to the node to be removed.
      * @return A {@link SimpleResponse} object representing the response.
      */
-    public SimpleResponse removeNode(int nodeId, String controllerId){
+    public SimpleResponse removeNode(int nodeId, String controllerId) throws NetworkException{
         RequestModel removeNodeReq = new RemoveNodeRequest(nodeId, controllerId);
         String responseStr = makeRequest(removeNodeReq);
         return SimpleResponse.from(responseStr);
     }
 
-    private String makeRequest(RequestModel request){
+    /**
+     * Accepts or rejects the rule proposed by the machine learning system.
+     * @param accept 0 if the rule is to be rejected, 1 otherwise.
+     * @param nodeId The target node id used in the rule.
+     * @param commandId The command id of the target node used in the rule.
+     * @param value The value of the command used in the rule.
+     * @param controllerId The controller id associated to the target node.
+     * @return A {@link ConflictingRuleResponse} object containing a possible conflicting rule.
+     */
+    public ConflictingRuleResponse acceptRule(int accept, int nodeId, int commandId, BigDecimal value,
+                                              String controllerId) throws NetworkException{
+        RequestModel removeNodeReq = new AcceptRuleRequest(accept, nodeId, commandId, value, controllerId);
+        String responseStr = makeRequest(removeNodeReq);
+        return ConflictingRuleResponse.from(responseStr);
+    }
+
+    private String makeRequest(RequestModel request) throws NetworkException{
         // Print log message
         if(mCookie != null)
             Log.d(TAG, "Sending " + request.toString() + " to " + mUrl + " with cookie " + mCookie);
@@ -298,7 +317,7 @@ public class Homecloud {
         }
         catch(IOException e){
             Log.e(TAG, "Error making request", e);
-            return null;
+            throw new NetworkException(e.toString());
         }
         return responseBody;
     }
@@ -336,6 +355,12 @@ public class Homecloud {
             h.setPassword(newPassword);
             h.setToken(newToken);
             return h;
+        }
+    }
+
+    public static class NetworkException extends Exception{
+        public NetworkException(String msg){
+            super(msg);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.homesky.homecloud.command;
 
 import com.homesky.homecloud.HomecloudHolder;
+import com.homesky.homecloud_lib.Homecloud;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
@@ -17,7 +18,7 @@ public class NewRulesCommand implements Command{
     }
 
     @Override
-    public SimpleResponse execute() {
+    public SimpleResponse execute() throws Homecloud.NetworkException {
         return HomecloudHolder.getInstance().newRules(mRules);
     }
 }
