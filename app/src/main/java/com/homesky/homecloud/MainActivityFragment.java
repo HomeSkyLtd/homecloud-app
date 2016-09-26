@@ -304,11 +304,14 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
-                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
-                String controllerId = mControllerIdEditText.getText().toString();
-                int accept = 1;
-                AcceptNodeCommand command = new AcceptNodeCommand(nodeId, controllerId, accept);
-                new RequestTask().execute(command);
+                boolean isEmpty = (mNodeIdEditText.length()==0);
+                if(!isEmpty) {
+                    int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                    String controllerId = mControllerIdEditText.getText().toString();
+                    int accept = 1;
+                    AcceptNodeCommand command = new AcceptNodeCommand(nodeId, controllerId, accept);
+                    new RequestTask().execute(command);
+                }
             }
         });
 
@@ -317,10 +320,13 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 clearResponseTextView();
-                int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
-                String controllerId = mControllerIdEditText.getText().toString();
-                RemoveNodeCommand command = new RemoveNodeCommand(nodeId, controllerId);
-                new RequestTask().execute(command);
+                boolean isEmpty = (mNodeIdEditText.length()==0);
+                if(!isEmpty) {
+                    int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                    String controllerId = mControllerIdEditText.getText().toString();
+                    RemoveNodeCommand command = new RemoveNodeCommand(nodeId, controllerId);
+                    new RequestTask().execute(command);
+                }
             }
         });
 
