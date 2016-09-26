@@ -26,7 +26,7 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk=23)
 public class NewRulesTest {
 
     @Test
