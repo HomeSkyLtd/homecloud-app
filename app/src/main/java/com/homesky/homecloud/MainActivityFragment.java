@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -55,6 +56,7 @@ public class MainActivityFragment extends Fragment {
     EditText mCommandIdEditText;
     EditText mValueEditText;
     EditText mExtraEditText;
+    Button mQRButton;
     Button mLoginButton;
     Button mLogoutButton;
     Button mNewUserButton;
@@ -120,6 +122,23 @@ public class MainActivityFragment extends Fragment {
         mExtraEditText = (EditText)v.findViewById(R.id.extra_edit_text);
 
         mTokenEditText.setText(HomecloudHolder.getInstance().getToken());
+
+        mQRButton = (Button)v.findViewById(R.id.camera_button);
+        mQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
+
+                    startActivityForResult(intent, 0);
+                } catch (Exception e) {
+                    Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+                    Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
+                    startActivity(marketIntent);
+                }
+            }
+        });
 
         mLoginButton = (Button)v.findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +326,20 @@ public class MainActivityFragment extends Fragment {
 
         mResponseTextView = (TextView)v.findViewById(R.id.response_text_view);
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == getActivity().RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT");
+                mControllerIdEditText.setText(contents);
+            }
+            if(resultCode == getActivity().RESULT_CANCELED){
+                //handle cancel
+            }
+        }
     }
 
     @Override

@@ -81,6 +81,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/controller_id_edit_text"/>
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/camera_button"
+                android:text="QR"/>
         </LinearLayout>
 
         <LinearLayout
