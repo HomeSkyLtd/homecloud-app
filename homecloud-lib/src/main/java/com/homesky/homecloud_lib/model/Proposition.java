@@ -3,6 +3,7 @@ package com.homesky.homecloud_lib.model;
 import android.util.JsonWriter;
 
 import com.homesky.homecloud_lib.model.Constants;
+import com.homesky.homecloud_lib.model.enums.OperatorEnum;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -11,7 +12,8 @@ import java.math.BigDecimal;
  * Represents a logic proposition. A proposition is an expression in the form "LHS Operator RHS"
  */
 public class Proposition {
-    private String mLhs, mRhs, mOperator;
+    private String mLhs, mRhs;
+    private OperatorEnum mOperator;
     private boolean mIsLhsValue, mIsRhsValue;
 
     /**
@@ -20,7 +22,7 @@ public class Proposition {
      * @param lhs The left-hand side of the expression (another node id).
      * @param rhs The left-hand side of the expression (another node id).
      */
-    public Proposition(String operator, String lhs, String rhs) {
+    public Proposition(OperatorEnum operator, String lhs, String rhs) {
         mOperator = operator;
         mLhs = lhs;
         mRhs = rhs;
@@ -32,7 +34,7 @@ public class Proposition {
      * @param lhs The left-hand side of the expression (a numeric value).
      * @param rhs The left-hand side of the expression (another node id).
      */
-    public Proposition(String operator, BigDecimal lhs, String rhs) {
+    public Proposition(OperatorEnum operator, BigDecimal lhs, String rhs) {
         this(operator, lhs.toString(), rhs);
         mIsLhsValue = true;
     }
@@ -43,7 +45,7 @@ public class Proposition {
      * @param lhs The left-hand side of the expression (another node id).
      * @param rhs The left-hand side of the expression (a numeric value).
      */
-    public Proposition(String operator, String lhs, BigDecimal rhs) {
+    public Proposition(OperatorEnum operator, String lhs, BigDecimal rhs) {
         this(operator, lhs, rhs.toString());
         mIsRhsValue = true;
 
@@ -55,13 +57,13 @@ public class Proposition {
      * @param lhs The left-hand side of the expression (a numeric value).
      * @param rhs The left-hand side of the expression (a numeric value).
      */
-    public Proposition(String operator, BigDecimal lhs, BigDecimal rhs) {
+    public Proposition(OperatorEnum operator, BigDecimal lhs, BigDecimal rhs) {
         this(operator, lhs.toString(), rhs.toString());
         mIsLhsValue = true;
         mIsRhsValue = true;
     }
 
-    public Proposition(String operator, Object lhs, Object rhs){
+    public Proposition(OperatorEnum operator, Object lhs, Object rhs){
         mOperator = operator;
         if(lhs instanceof String)
             mLhs = (String)lhs;
@@ -132,7 +134,7 @@ public class Proposition {
      * Gets the operator associated to the proposition.
      * @return The operator associated to the proposition.
      */
-    public String getOperator() {
+    public OperatorEnum getOperator() {
         return mOperator;
     }
 
@@ -140,7 +142,7 @@ public class Proposition {
      * Sets the operator of the proposition.
      * @param operator The operator to be used in the proposition.
      */
-    public void setOperator(String operator) {
+    public void setOperator(OperatorEnum operator) {
         mOperator = operator;
     }
 
@@ -172,7 +174,7 @@ public class Proposition {
         else
             writer.name(Constants.Fields.RuleResponse.RHS).value(mRhs);
 
-        writer.name(Constants.Fields.RuleResponse.OPERATOR).value(mOperator);
+        writer.name(Constants.Fields.RuleResponse.OPERATOR).value(mOperator.getRepresentation());
         writer.endObject();
     }
 }

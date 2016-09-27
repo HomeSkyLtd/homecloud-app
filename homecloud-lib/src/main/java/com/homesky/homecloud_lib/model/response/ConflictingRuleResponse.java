@@ -6,6 +6,7 @@ import android.util.Log;
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.enums.OperatorEnum;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +70,8 @@ public class ConflictingRuleResponse extends SimpleResponse{
                         for(int j = 0 ; j < orStatementJSON.length() ; ++j){
                             JSONObject propositionJSON = orStatementJSON.getJSONObject(j);
                             orStatement.add(new Proposition(
-                                    propositionJSON.getString(Constants.Fields.ConflictingRulesResponse.OPERATOR),
+                                    OperatorEnum.fromRepresentation(
+                                            propositionJSON.getString(Constants.Fields.ConflictingRulesResponse.OPERATOR)),
                                     propositionJSON.get(Constants.Fields.ConflictingRulesResponse.LHS),
                                     propositionJSON.get(Constants.Fields.ConflictingRulesResponse.RHS)
                             ));

@@ -5,6 +5,7 @@ import android.util.JsonWriter;
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.enums.OperatorEnum;
 import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.util.JSONComparator;
 
@@ -33,9 +34,9 @@ public class NewRulesTest {
     public void json_isCorrect(){
         List<List<Proposition>> clause = new ArrayList<>();
         Proposition[] orStatement1 = new Proposition[] {
-                new Proposition(">", "1.1", new BigDecimal(1)),
-                new Proposition(">", "2.1", "3.1")};
-        Proposition[] orStatement2 = new Proposition[] {new Proposition(">", "1.3", new BigDecimal(4.3))};
+                new Proposition(OperatorEnum.fromRepresentation(">"), "1.1", new BigDecimal(1)),
+                new Proposition(OperatorEnum.fromRepresentation(">"), "2.1", "3.1")};
+        Proposition[] orStatement2 = new Proposition[] {new Proposition(OperatorEnum.fromRepresentation(">"), "1.3", new BigDecimal(4.3))};
         clause.add(Arrays.asList(orStatement1));
         clause.add(Arrays.asList(orStatement2));
         Rule rule = new Rule(1, "2", 3, new BigDecimal(4), clause);

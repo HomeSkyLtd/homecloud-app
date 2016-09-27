@@ -6,6 +6,7 @@ import android.util.Log;
 import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.enums.OperatorEnum;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +61,8 @@ public class RuleResponse extends SimpleResponse {
                         for (int k = 0; k < orStatementJSON.length(); ++k) {
                             JSONObject propositionJSON = orStatementJSON.getJSONObject(k);
                             orStatement.add(new Proposition(
-                                    propositionJSON.getString(Constants.Fields.RuleResponse.OPERATOR),
+                                    OperatorEnum.fromRepresentation(
+                                            propositionJSON.getString(Constants.Fields.RuleResponse.OPERATOR)),
                                     propositionJSON.get(Constants.Fields.RuleResponse.LHS),
                                     propositionJSON.get(Constants.Fields.RuleResponse.RHS)));
                             //orStatement.add(orStatementJSON.getString(k));
@@ -77,6 +79,10 @@ public class RuleResponse extends SimpleResponse {
             Log.e(TAG, "Error parsing JSON", e);
             return null;
         }
+    }
+
+    public List<Rule> getRules() {
+        return mRules;
     }
 
     @Override
