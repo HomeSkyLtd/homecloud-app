@@ -25,6 +25,7 @@ import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.GetLearntRulesCommand;
 import com.homesky.homecloud.command.GetNodesInfoCommand;
 import com.homesky.homecloud.command.GetRulesCommand;
+import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewActionCommand;
 import com.homesky.homecloud.command.NewAdminCommand;
@@ -36,6 +37,7 @@ import com.homesky.homecloud.command.SetNodeExtraCommand;
 import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Proposition;
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.enums.OperatorEnum;
 import com.homesky.homecloud_lib.model.notification.Notification;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 
@@ -148,11 +150,12 @@ public class MainActivityFragment extends Fragment {
                 String username = mUsernameEditText.getText().toString();
                 String password = mPasswordEditText.getText().toString();
                 String token = mTokenEditText.getText().toString();
-                HomecloudHolder.getInstance().setUsername(username);
-                HomecloudHolder.getInstance().setPassword(password);
-                HomecloudHolder.getInstance().setToken(token);
+                HomecloudHolder.setUsername(username);
+                HomecloudHolder.setPassword(password);
+                HomecloudHolder.setToken(token);
 
-                mResponseTextView.setText("Login params set");
+                LoginCommand command = new LoginCommand();
+                new RequestTask().execute(command);
 
             }
         });
@@ -245,7 +248,7 @@ public class MainActivityFragment extends Fragment {
                 List<List<Proposition>> clause = new ArrayList<>();
                 List<Proposition> orStatement = new ArrayList<Proposition>();
                 clause.add(orStatement);
-                orStatement.add(new Proposition("==", "0.1", 0));
+                orStatement.add(new Proposition(OperatorEnum.EQ, "0.1", 0));
 
                 int nodeId = 1;
                 int commandId = 0;

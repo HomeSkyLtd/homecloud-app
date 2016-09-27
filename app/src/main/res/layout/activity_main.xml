@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 grid:layout_columnWeight="1"
                 grid:layout_gravity="center_vertical"
-                android:text="Set login params"/>
+                android:text="Login"/>
 
             <Button
                 android:id="@+id/logout_button"
