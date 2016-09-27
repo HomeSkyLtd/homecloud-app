@@ -17,7 +17,7 @@ import java.util.Formatter;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk=23)
 public class ConflictingRuleResponseTest {
     @Test
     public void json_isCorrect(){

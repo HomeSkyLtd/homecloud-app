@@ -118,6 +118,10 @@ public class StateResponse extends SimpleResponse {
         writer.endArray();
     }
 
+    public List<NodeState> getState() {
+        return mState;
+    }
+
     /**
      * Represents the state of a node.
      */

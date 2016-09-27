@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk=23)
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {

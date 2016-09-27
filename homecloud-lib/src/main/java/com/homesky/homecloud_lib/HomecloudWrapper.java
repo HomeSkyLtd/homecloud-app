@@ -5,6 +5,8 @@ import android.util.Log;
 import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.exceptions.NotProperlyInitializedException;
 import com.homesky.homecloud_lib.model.Rule;
+import com.homesky.homecloud_lib.model.request.LoginRequest;
+import com.homesky.homecloud_lib.model.request.RequestModel;
 import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
 import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
@@ -99,6 +101,17 @@ public class HomecloudWrapper {
 
     private ConflictingRuleResponse callCRR(FunctionCommand command) throws NetworkException {
         return (ConflictingRuleResponse) callFunctionCommand(command);
+    }
+
+    /**
+     * Logs in with the server using the credentials provided on initialization.
+     * @return A {@link SimpleResponse} object representing the response.
+     */
+    public SimpleResponse login() throws NetworkException {
+        synchronized (this){
+            if(!hc.isInitialized()) throw new NotProperlyInitializedException();
+            return hc.login();
+        }
     }
 
     /**
