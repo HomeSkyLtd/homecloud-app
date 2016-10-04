@@ -260,7 +260,7 @@
                 android:layout_height="wrap_content"
                 grid:layout_columnWeight="1"
                 grid:layout_gravity="center_vertical"
-                android:text="Get nodes info"/>
+                android:text="Get nodes mNodeInfo"/>
 
             <Button
                 android:id="@+id/accept_node_button"

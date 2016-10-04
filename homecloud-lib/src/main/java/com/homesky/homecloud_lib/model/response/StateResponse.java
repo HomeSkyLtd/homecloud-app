@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,7 +126,7 @@ public class StateResponse extends SimpleResponse {
     /**
      * Represents the state of a node.
      */
-    public static class NodeState {
+    public static class NodeState implements Serializable {
         private int mNodeId;
         private String mControllerId;
         private Map<Integer, BigDecimal> mData, mCommand;

@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -197,7 +198,7 @@ public class NodesResponse extends SimpleResponse{
     /**
      * Represents a node (sensor or actuator) in the house.
      */
-    public static class Node{
+    public static class Node implements Serializable {
         int mNodeId, mAccepted, mAlive;
         String mControllerId;
         EnumSet<NodeClassEnum> mNodeClass;
