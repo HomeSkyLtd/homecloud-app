@@ -93,6 +93,10 @@ public class Homecloud {
         else return true;
     }
 
+    public boolean isLogged() {
+        return mCookie != null;
+    }
+
     /**
      * Logs in with the server using the credentials provided on initialization.
      * @return A {@link SimpleResponse} object representing the response.
