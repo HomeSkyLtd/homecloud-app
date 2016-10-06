@@ -43,4 +43,9 @@ public class EnumUtil {
         }
         return TextUtils.join(" | ", names);
     }
+
+    public static <T extends Enum<T> & SingleValueEnum> String getEnumPrettyName(long code, Class<T> type) {
+        String name = getEnumFromCode(code, type).name();
+        return name.charAt(0) + name.substring(1).toLowerCase();
+    }
 }
