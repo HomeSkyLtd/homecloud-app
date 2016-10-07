@@ -45,7 +45,15 @@ public class EnumUtil {
     }
 
     public static <T extends Enum<T> & SingleValueEnum> String getEnumPrettyName(long code, Class<T> type) {
-        String name = getEnumFromCode(code, type).name();
-        return name.charAt(0) + name.substring(1).toLowerCase();
+        String[] words = getEnumFromCode(code, type).name().split("_");
+        StringBuffer sb = new StringBuffer();
+
+        for (String w : words) {
+            sb.append(w.charAt(0));
+            sb.append(w.substring(1).toLowerCase());
+            sb.append(" ");
+        }
+
+        return sb.toString();
     }
 }
