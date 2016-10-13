@@ -50,6 +50,8 @@ public class HomecloudWrapper {
         return hc.getToken();
     }
 
+    public boolean isLogged() { return hc.isLogged(); }
+
 
     /**
      * Calls a function and returns a SimpleResponse

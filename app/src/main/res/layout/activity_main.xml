@@ -156,7 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="key:value"
+                android:hint="key:valueTextView"
                 android:id="@+id/extra_edit_text"/>
         </LinearLayout>
 
