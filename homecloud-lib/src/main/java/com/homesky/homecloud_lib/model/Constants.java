@@ -170,7 +170,7 @@ public class Constants {
 
         public static class Notifications {
             public static final String ACTION_RESULT = "actionResult";
-            public static final String LEARNT_RULES = "learntRules";
+            public static final String LEARNT_RULES = "newRules";
             public static final String DETECTED_NODE = "detectedNode";
         }
     }
