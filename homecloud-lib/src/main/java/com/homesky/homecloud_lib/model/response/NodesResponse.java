@@ -198,7 +198,7 @@ public class NodesResponse extends SimpleResponse{
     /**
      * Represents a node (sensor or actuator) in the house.
      */
-    public static class Node implements Serializable {
+    public static class Node {
         int mNodeId, mAccepted, mAlive;
         String mControllerId;
         EnumSet<NodeClassEnum> mNodeClass;
@@ -306,10 +306,17 @@ public class NodesResponse extends SimpleResponse{
         }
     }
 
+    public interface Type {
+        int getId();
+        TypeEnum getType();
+        String getUnit();
+        BigDecimal[] getRange();
+    };
+
     /**
      * Represents a data type in a node declaration.
      */
-    public static class DataType{
+    public static class DataType implements Type {
         int  mId;
         MeasureStrategyEnum mMeasureStrategy;
         TypeEnum mType;
@@ -379,7 +386,7 @@ public class NodesResponse extends SimpleResponse{
     /**
      * Represents a command type in a node declaration.
      */
-    public static class CommandType{
+    public static class CommandType implements Type {
         int mId;
         TypeEnum mType;
         CommandCategoryEnum mCommandCategory;
