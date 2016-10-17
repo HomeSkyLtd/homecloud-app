@@ -6,12 +6,13 @@ import com.homesky.homecloud_lib.model.Constants;
 import com.homesky.homecloud_lib.model.enums.OperatorEnum;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Represents a logic proposition. A proposition is an expression in the form "LHS Operator RHS"
  */
-public class Proposition {
+public class Proposition implements Serializable {
     private String mLhs, mRhs;
     private OperatorEnum mOperator;
     private boolean mIsLhsValue, mIsRhsValue;
