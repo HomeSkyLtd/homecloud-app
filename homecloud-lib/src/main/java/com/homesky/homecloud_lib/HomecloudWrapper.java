@@ -56,6 +56,10 @@ public class HomecloudWrapper {
         return hc.getUsername();
     }
 
+    public void invalidateSession() {
+        hc.invalidateCookie();
+    }
+
 
     /**
      * Calls a function and returns a SimpleResponse

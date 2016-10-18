@@ -93,6 +93,10 @@ public class Homecloud {
         else return true;
     }
 
+    void invalidateCookie(){
+        mCookie = null;
+    }
+
     public boolean isLogged() {
         return mCookie != null;
     }
