@@ -95,7 +95,9 @@ public class HomecloudWrapper {
 
     private NodesResponse callNR(FunctionCommand command) throws NetworkException {
         SimpleResponse sr = callFunctionCommand(command);
-        if(sr instanceof NodesResponse)
+        if(sr == null)
+            return null;
+        else if(sr instanceof NodesResponse)
             return (NodesResponse)sr;
         else{
             return new NodesResponse(sr.getStatus(), sr.getErrorMessage(), null);
@@ -104,7 +106,9 @@ public class HomecloudWrapper {
 
     private StateResponse callStR(FunctionCommand command) throws NetworkException {
         SimpleResponse sr = callFunctionCommand(command);
-        if(sr instanceof StateResponse)
+        if(sr == null)
+            return null;
+        else if(sr instanceof StateResponse)
             return (StateResponse) callFunctionCommand(command);
         else
             return new StateResponse(sr.getStatus(), sr.getErrorMessage(), null);
@@ -112,7 +116,9 @@ public class HomecloudWrapper {
 
     private RuleResponse callRR(FunctionCommand command) throws NetworkException {
         SimpleResponse sr = callFunctionCommand(command);
-        if(sr instanceof RuleResponse)
+        if(sr == null)
+            return null;
+        else if(sr instanceof RuleResponse)
             return (RuleResponse) callFunctionCommand(command);
         else
             return new RuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
@@ -120,7 +126,9 @@ public class HomecloudWrapper {
 
     private ConflictingRuleResponse callCRR(FunctionCommand command) throws NetworkException {
         SimpleResponse sr = callFunctionCommand(command);
-        if(sr instanceof ConflictingRuleResponse)
+        if(sr == null)
+            return null;
+        else if(sr instanceof ConflictingRuleResponse)
             return (ConflictingRuleResponse) callFunctionCommand(command);
         else
             return new ConflictingRuleResponse(sr.getStatus(), sr.getErrorMessage(), null);

@@ -156,7 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="key:valueTextView"
+                android:hint="key:value"
                 android:id="@+id/extra_edit_text"/>
         </LinearLayout>
 
@@ -260,7 +260,7 @@
                 android:layout_height="wrap_content"
                 grid:layout_columnWeight="1"
                 grid:layout_gravity="center_vertical"
-                android:text="Get nodes mNodeInfo"/>
+                android:text="Get nodes info"/>
 
             <Button
                 android:id="@+id/accept_node_button"

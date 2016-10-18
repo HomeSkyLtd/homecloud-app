@@ -66,11 +66,13 @@ public class NodesResponse extends SimpleResponse{
                     int alive = nodeJSON.getInt(Constants.Fields.NodesResponse.ALIVE);
 
                     Map<String, String> extra = new HashMap<>();
-                    JSONObject extraJSON = nodeJSON.getJSONObject(Constants.Fields.NodesResponse.EXTRA);
-                    JSONArray extraKeys = extraJSON.names();
-                    if(extraKeys != null) {
-                        for (int j = 0; j < extraKeys.length(); ++j) {
-                            extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                    if(nodeJSON.has(Constants.Fields.NodesResponse.EXTRA)) {
+                        JSONObject extraJSON = nodeJSON.getJSONObject(Constants.Fields.NodesResponse.EXTRA);
+                        JSONArray extraKeys = extraJSON.names();
+                        if (extraKeys != null) {
+                            for (int j = 0; j < extraKeys.length(); ++j) {
+                                extra.put(extraKeys.getString(j), extraJSON.getString(extraKeys.getString(j)));
+                            }
                         }
                     }
 
