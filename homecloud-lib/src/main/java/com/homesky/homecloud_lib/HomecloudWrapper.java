@@ -52,6 +52,10 @@ public class HomecloudWrapper {
 
     public boolean isLogged() { return hc.isLogged(); }
 
+    public String getUsername() {
+        return hc.getUsername();
+    }
+
 
     /**
      * Calls a function and returns a SimpleResponse
