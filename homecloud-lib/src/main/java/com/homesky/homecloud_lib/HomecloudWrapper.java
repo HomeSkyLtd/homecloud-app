@@ -113,7 +113,7 @@ public class HomecloudWrapper {
         if(sr == null)
             return null;
         else if(sr instanceof StateResponse)
-            return (StateResponse) callFunctionCommand(command);
+            return (StateResponse)sr;
         else
             return new StateResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
@@ -123,7 +123,7 @@ public class HomecloudWrapper {
         if(sr == null)
             return null;
         else if(sr instanceof RuleResponse)
-            return (RuleResponse) callFunctionCommand(command);
+            return (RuleResponse)sr;
         else
             return new RuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
@@ -133,7 +133,7 @@ public class HomecloudWrapper {
         if(sr == null)
             return null;
         else if(sr instanceof ConflictingRuleResponse)
-            return (ConflictingRuleResponse) callFunctionCommand(command);
+            return (ConflictingRuleResponse)sr;
         else
             return new ConflictingRuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
