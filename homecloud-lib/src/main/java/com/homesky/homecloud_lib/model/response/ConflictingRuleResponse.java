@@ -24,7 +24,7 @@ public class ConflictingRuleResponse extends SimpleResponse{
     private static final String TAG = "ConflictingRuleResp";
     private Rule mConflictingRule;
 
-    protected ConflictingRuleResponse(int status, String errorMessage, Rule conflictingRule) {
+    public ConflictingRuleResponse(int status, String errorMessage, Rule conflictingRule) {
         super(status, errorMessage);
         mConflictingRule = conflictingRule;
     }

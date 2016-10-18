@@ -25,7 +25,7 @@ public class StateResponse extends SimpleResponse {
 
     List<NodeState> mState;
 
-    protected StateResponse(int status, String errorMessage, List<NodeState> state) {
+    public StateResponse(int status, String errorMessage, List<NodeState> state) {
         super(status, errorMessage);
         mState = state;
     }

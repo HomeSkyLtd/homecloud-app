@@ -90,19 +90,36 @@ public class HomecloudWrapper {
     }
 
     private NodesResponse callNR(FunctionCommand command) throws NetworkException {
-        return (NodesResponse)callFunctionCommand(command);
+        SimpleResponse sr = callFunctionCommand(command);
+        if(sr instanceof NodesResponse)
+            return (NodesResponse)sr;
+        else{
+            return new NodesResponse(sr.getStatus(), sr.getErrorMessage(), null);
+        }
     }
 
     private StateResponse callStR(FunctionCommand command) throws NetworkException {
-        return (StateResponse) callFunctionCommand(command);
+        SimpleResponse sr = callFunctionCommand(command);
+        if(sr instanceof StateResponse)
+            return (StateResponse) callFunctionCommand(command);
+        else
+            return new StateResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
 
     private RuleResponse callRR(FunctionCommand command) throws NetworkException {
-        return (RuleResponse) callFunctionCommand(command);
+        SimpleResponse sr = callFunctionCommand(command);
+        if(sr instanceof RuleResponse)
+            return (RuleResponse) callFunctionCommand(command);
+        else
+            return new RuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
 
     private ConflictingRuleResponse callCRR(FunctionCommand command) throws NetworkException {
-        return (ConflictingRuleResponse) callFunctionCommand(command);
+        SimpleResponse sr = callFunctionCommand(command);
+        if(sr instanceof ConflictingRuleResponse)
+            return (ConflictingRuleResponse) callFunctionCommand(command);
+        else
+            return new ConflictingRuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
 
     /**
@@ -176,7 +193,7 @@ public class HomecloudWrapper {
      * @param rules A list of Rule objects to be added
      * @return A {@link ConflictingRuleResponse} object representing possible conflicting rule.
      */
-    public SimpleResponse newRules(final List<Rule> rules) throws NetworkException {
+    public ConflictingRuleResponse newRules(final List<Rule> rules) throws NetworkException {
         return callCRR(new FunctionCommand() {
             @Override
             public SimpleResponse execute() throws NetworkException {

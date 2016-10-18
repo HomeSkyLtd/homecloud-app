@@ -32,7 +32,7 @@ public class NodesResponse extends SimpleResponse{
 
     private List<Node> mNodes;
 
-    protected NodesResponse(int status, String errorMessage, List<Node> nodes) {
+    public NodesResponse(int status, String errorMessage, List<Node> nodes) {
         super(status, errorMessage);
         mNodes = nodes;
     }

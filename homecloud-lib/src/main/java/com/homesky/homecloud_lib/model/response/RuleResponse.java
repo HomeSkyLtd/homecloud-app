@@ -25,7 +25,7 @@ public class RuleResponse extends SimpleResponse {
 
     private List<Rule> mRules;
 
-    protected RuleResponse(int status, String errorMessage, List<Rule> rules) {
+    public RuleResponse(int status, String errorMessage, List<Rule> rules) {
         super(status, errorMessage);
         mRules = rules;
     }
