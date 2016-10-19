@@ -67,6 +67,14 @@ public class Constants {
             public static final String VALUE = "value";
         }
 
+        public static class RemoveRule{
+            public static final String COMMAND = "command";
+            public static final String NODE_ID = "nodeId";
+            public static final String CONTROLLER_ID = "controllerId";
+            public static final String COMMAND_ID = "commandId";
+            public static final String VALUE = "value";
+        }
+
         public static class SetNodeExtra{
             public static final String NODE_ID = "nodeId";
             public static final String CONTROLLER_ID = "controllerId";
@@ -166,6 +174,7 @@ public class Constants {
             public static final String ACCEPT_NODE = "acceptNode";
             public static final String REMOVE_NODE = "removeNode";
             public static final String ACCEPT_RULE = "acceptRule";
+            public static final String REMOVE_RULE = "removeRule";
         }
 
         public static class Notifications {

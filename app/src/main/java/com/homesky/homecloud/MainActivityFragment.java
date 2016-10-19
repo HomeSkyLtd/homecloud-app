@@ -33,6 +33,7 @@ import com.homesky.homecloud.command.NewRulesCommand;
 import com.homesky.homecloud.command.NewUserCommand;
 import com.homesky.homecloud.command.RegisterControllerCommand;
 import com.homesky.homecloud.command.RemoveNodeCommand;
+import com.homesky.homecloud.command.RemoveRuleCommand;
 import com.homesky.homecloud.command.SetNodeExtraCommand;
 import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Proposition;
@@ -69,6 +70,7 @@ public class MainActivityFragment extends Fragment {
     Button mGetRulesButton;
     Button mNewRulesButton;
     Button mGetLearntRulesButton;
+    Button mRemoveRuleButton;
     Button mSetNodeExtraButton;
     Button mGetNodesInfoButton;
     Button mAcceptNodeButton;
@@ -269,6 +271,24 @@ public class MainActivityFragment extends Fragment {
                 clearResponseTextView();
                 GetLearntRulesCommand command = new GetLearntRulesCommand();
                 new RequestTask().execute(command);
+            }
+        });
+
+        mRemoveRuleButton = (Button)v.findViewById(R.id.remove_rule_button);
+        mRemoveRuleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+                boolean isEmpty = (mNodeIdEditText.length()==0) || (mCommandIdEditText.length() == 0);
+                if(!isEmpty) {
+                    int nodeId = Integer.parseInt(mNodeIdEditText.getText().toString());
+                    String controllerId = mControllerIdEditText.getText().toString();
+                    int commandId = Integer.parseInt(mCommandIdEditText.getText().toString());
+                    BigDecimal value = new BigDecimal(mValueEditText.getText().toString());
+                    RemoveRuleCommand command = new RemoveRuleCommand(
+                            new Rule(nodeId, controllerId, commandId, value, null));
+                    new RequestTask().execute(command);
+                }
             }
         });
 

@@ -18,6 +18,7 @@ import com.homesky.homecloud_lib.model.request.NewRulesRequest;
 import com.homesky.homecloud_lib.model.request.NewUserRequest;
 import com.homesky.homecloud_lib.model.request.RegisterControllerRequest;
 import com.homesky.homecloud_lib.model.request.RemoveNodeRequest;
+import com.homesky.homecloud_lib.model.request.RemoveRuleRequest;
 import com.homesky.homecloud_lib.model.request.RequestModel;
 import com.homesky.homecloud_lib.model.request.SetNodeExtraRequest;
 import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
@@ -211,6 +212,18 @@ public class Homecloud {
         RequestModel getLearntRulesReq = new GetLearntRulesRequest();
         String responseStr = makeRequest(getLearntRulesReq);
         return RuleResponse.from(responseStr);
+    }
+
+    /**
+     * Removes the specified rule from the database
+     * @param rule The rule to be removed from the database
+     * @return A {@link SimpleResponse} object representing the response.
+     * @throws NetworkException Thrown in case of network connection problems
+     */
+    public SimpleResponse removeRule(Rule rule) throws NetworkException{
+        RequestModel removeRuleReq = new RemoveRuleRequest(rule);
+        String responseStr = makeRequest(removeRuleReq);
+        return SimpleResponse.from(responseStr);
     }
 
     /**

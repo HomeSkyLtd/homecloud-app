@@ -247,6 +247,14 @@
                 android:text="Get learnt rules"/>
 
             <Button
+                android:id="@+id/remove_rule_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Remove rule"/>
+
+            <Button
                 android:id="@+id/set_node_extra_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

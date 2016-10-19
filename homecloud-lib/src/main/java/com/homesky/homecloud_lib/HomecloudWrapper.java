@@ -320,6 +320,21 @@ public class HomecloudWrapper {
     }
 
     /**
+     * Removes the specified rule from the database
+     * @param rule The rule to be removed from the database
+     * @return A {@link SimpleResponse} object representing the response.
+     * @throws NetworkException Thrown in case of network connection problems
+     */
+    public SimpleResponse removeRule(final Rule rule) throws NetworkException{
+        return callSR(new FunctionCommand() {
+            @Override
+            public SimpleResponse execute() throws NetworkException {
+                return hc.removeRule(rule);
+            }
+        });
+    }
+
+    /**
      * Accepts or rejects the rule proposed by the machine learning system.
      * @param accept 0 if the rule is to be rejected, 1 otherwise.
      * @param nodeId The target node id used in the rule.
