@@ -155,6 +155,10 @@ public class Constants {
             public static final String OPERATOR = "operator";
             public static final String RHS = "rhs";
         }
+
+        public static class GetControllers{
+            public static final String CONTROLLERS = "controllers";
+        }
     }
 
     public static class Values {
@@ -175,6 +179,7 @@ public class Constants {
             public static final String REMOVE_NODE = "removeNode";
             public static final String ACCEPT_RULE = "acceptRule";
             public static final String REMOVE_RULE = "removeRule";
+            public static final String GET_CONTROLLERS = "getControllers";
         }
 
         public static class Notifications {

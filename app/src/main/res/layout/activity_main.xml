@@ -286,6 +286,14 @@
                 grid:layout_gravity="center_vertical"
                 android:text="Remove node"/>
 
+            <Button
+                android:id="@+id/get_controllers_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Get controllers"/>
+
         </android.support.v7.widget.GridLayout>
 
 

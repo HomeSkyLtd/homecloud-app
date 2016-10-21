@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.homesky.homecloud.command.AcceptNodeCommand;
 import com.homesky.homecloud.command.Command;
+import com.homesky.homecloud.command.GetControllersCommand;
 import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.GetLearntRulesCommand;
 import com.homesky.homecloud.command.GetNodesInfoCommand;
@@ -75,6 +76,7 @@ public class MainActivityFragment extends Fragment {
     Button mGetNodesInfoButton;
     Button mAcceptNodeButton;
     Button mRemoveNodeButton;
+    Button mGetControllersButton;
     TextView mResponseTextView;
 
     BroadcastReceiver mReceiver;
@@ -350,6 +352,16 @@ public class MainActivityFragment extends Fragment {
                     RemoveNodeCommand command = new RemoveNodeCommand(nodeId, controllerId);
                     new RequestTask().execute(command);
                 }
+            }
+        });
+
+        mGetControllersButton = (Button)v.findViewById(R.id.get_controllers_button);
+        mGetControllersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+                GetControllersCommand command = new GetControllersCommand();
+                new RequestTask().execute(command);
             }
         });
 

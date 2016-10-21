@@ -8,6 +8,7 @@ import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.LoginRequest;
 import com.homesky.homecloud_lib.model.request.RequestModel;
 import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
+import com.homesky.homecloud_lib.model.response.ControllerDataResponse;
 import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
@@ -136,6 +137,16 @@ public class HomecloudWrapper {
             return (ConflictingRuleResponse)sr;
         else
             return new ConflictingRuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
+    }
+
+    private ControllerDataResponse callCDR(FunctionCommand command) throws NetworkException {
+        SimpleResponse sr = callFunctionCommand(command);
+        if(sr == null)
+            return null;
+        else if(sr instanceof ControllerDataResponse)
+            return (ControllerDataResponse) sr;
+        else
+            return new ControllerDataResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
 
     /**
@@ -349,6 +360,20 @@ public class HomecloudWrapper {
             @Override
             public SimpleResponse execute() throws NetworkException {
                 return hc.acceptRule(accept, nodeId, commandId, value, controllerId);
+            }
+        });
+    }
+
+    /**
+     * Gets the controllers associated to the current agent.
+     * @return A {@link ControllerDataResponse} containing the data of the associated controllers.
+     * @throws NetworkException
+     */
+    public ControllerDataResponse getControllers() throws NetworkException{
+        return callCDR(new FunctionCommand() {
+            @Override
+            public SimpleResponse execute() throws NetworkException {
+                return hc.getControllers();
             }
         });
     }

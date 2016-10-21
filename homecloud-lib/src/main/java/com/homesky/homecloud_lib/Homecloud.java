@@ -6,6 +6,7 @@ import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
 import com.homesky.homecloud_lib.model.request.AcceptRuleRequest;
+import com.homesky.homecloud_lib.model.request.GetControllers;
 import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
 import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
 import com.homesky.homecloud_lib.model.request.GetRulesRequest;
@@ -22,6 +23,7 @@ import com.homesky.homecloud_lib.model.request.RemoveRuleRequest;
 import com.homesky.homecloud_lib.model.request.RequestModel;
 import com.homesky.homecloud_lib.model.request.SetNodeExtraRequest;
 import com.homesky.homecloud_lib.model.response.ConflictingRuleResponse;
+import com.homesky.homecloud_lib.model.response.ControllerDataResponse;
 import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
@@ -289,6 +291,17 @@ public class Homecloud {
         RequestModel removeNodeReq = new AcceptRuleRequest(accept, nodeId, commandId, value, controllerId);
         String responseStr = makeRequest(removeNodeReq);
         return ConflictingRuleResponse.from(responseStr);
+    }
+
+    /**
+     * Gets the controllers associated to the current agent.
+     * @return A {@link ControllerDataResponse} containing the data of the associated controllers.
+     * @throws NetworkException
+     */
+    public ControllerDataResponse getControllers() throws NetworkException{
+        RequestModel getControllersReq = new GetControllers();
+        String responseStr = makeRequest(getControllersReq);
+        return ControllerDataResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request) throws NetworkException{
