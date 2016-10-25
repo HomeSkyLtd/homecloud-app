@@ -57,4 +57,8 @@ public class ControllerDataResponse extends SimpleResponse {
         }
         writer.endArray();
     }
+
+    public List<String> getControllerIds() {
+        return mControllerIds;
+    }
 }
