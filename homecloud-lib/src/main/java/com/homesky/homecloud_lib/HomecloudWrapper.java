@@ -13,6 +13,7 @@ import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
+import com.homesky.homecloud_lib.model.response.UserDataResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -147,6 +148,16 @@ public class HomecloudWrapper {
             return (ControllerDataResponse) sr;
         else
             return new ControllerDataResponse(sr.getStatus(), sr.getErrorMessage(), null);
+    }
+
+    private UserDataResponse callUDR(FunctionCommand command) throws NetworkException {
+        SimpleResponse sr = callFunctionCommand(command);
+        if(sr == null)
+            return null;
+        else if(sr instanceof UserDataResponse)
+            return (UserDataResponse) sr;
+        else
+            return new UserDataResponse(sr.getStatus(), sr.getErrorMessage(), null);
     }
 
     /**
@@ -366,7 +377,7 @@ public class HomecloudWrapper {
 
     /**
      * Gets the controllers associated to the current agent.
-     * @return A {@link ControllerDataResponse} containing the data of the associated controllers.
+     * @return A {@link ControllerDataResponse} object containing the data of the associated controllers.
      * @throws NetworkException
      */
     public ControllerDataResponse getControllers() throws NetworkException{
@@ -374,6 +385,20 @@ public class HomecloudWrapper {
             @Override
             public SimpleResponse execute() throws NetworkException {
                 return hc.getControllers();
+            }
+        });
+    }
+
+    /**
+     * Gets the users associated to the same house id as the current admin.
+     * @return A {@link UserDataResponse} object containing the data of the associated users.
+     * @throws NetworkException
+     */
+    public UserDataResponse getUsers() throws NetworkException{
+        return callUDR(new FunctionCommand() {
+            @Override
+            public SimpleResponse execute() throws NetworkException {
+                return hc.getUsers();
             }
         });
     }

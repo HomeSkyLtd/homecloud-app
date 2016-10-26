@@ -294,6 +294,14 @@
                 grid:layout_gravity="center_vertical"
                 android:text="Get controllers"/>
 
+            <Button
+                android:id="@+id/get_users_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center_vertical"
+                android:text="Get users"/>
+
         </android.support.v7.widget.GridLayout>
 
 

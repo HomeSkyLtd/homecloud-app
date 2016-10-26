@@ -6,9 +6,9 @@ import com.homesky.homecloud_lib.model.Constants;
 
 import java.io.IOException;
 
-public class GetControllers extends RequestModel {
+public class GetControllersRequest extends RequestModel {
 
-    public GetControllers() {
+    public GetControllersRequest() {
         super(Constants.Values.Functions.GET_CONTROLLERS);
     }
 

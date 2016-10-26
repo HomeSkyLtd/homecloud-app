@@ -26,6 +26,7 @@ import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.GetLearntRulesCommand;
 import com.homesky.homecloud.command.GetNodesInfoCommand;
 import com.homesky.homecloud.command.GetRulesCommand;
+import com.homesky.homecloud.command.GetUsersCommand;
 import com.homesky.homecloud.command.LoginCommand;
 import com.homesky.homecloud.command.LogoutCommand;
 import com.homesky.homecloud.command.NewActionCommand;
@@ -77,6 +78,7 @@ public class MainActivityFragment extends Fragment {
     Button mAcceptNodeButton;
     Button mRemoveNodeButton;
     Button mGetControllersButton;
+    Button mGetUsersButton;
     TextView mResponseTextView;
 
     BroadcastReceiver mReceiver;
@@ -361,6 +363,16 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 clearResponseTextView();
                 GetControllersCommand command = new GetControllersCommand();
+                new RequestTask().execute(command);
+            }
+        });
+
+        mGetUsersButton = (Button)v.findViewById(R.id.get_users_button);
+        mGetUsersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+                GetUsersCommand command = new GetUsersCommand();
                 new RequestTask().execute(command);
             }
         });

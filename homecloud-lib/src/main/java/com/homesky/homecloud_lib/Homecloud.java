@@ -6,10 +6,11 @@ import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
 import com.homesky.homecloud_lib.model.request.AcceptRuleRequest;
-import com.homesky.homecloud_lib.model.request.GetControllers;
+import com.homesky.homecloud_lib.model.request.GetControllersRequest;
 import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
 import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
 import com.homesky.homecloud_lib.model.request.GetRulesRequest;
+import com.homesky.homecloud_lib.model.request.GetUsersRequest;
 import com.homesky.homecloud_lib.model.request.HouseStateRequest;
 import com.homesky.homecloud_lib.model.request.LoginRequest;
 import com.homesky.homecloud_lib.model.request.LogoutRequest;
@@ -28,6 +29,7 @@ import com.homesky.homecloud_lib.model.response.NodesResponse;
 import com.homesky.homecloud_lib.model.response.RuleResponse;
 import com.homesky.homecloud_lib.model.response.SimpleResponse;
 import com.homesky.homecloud_lib.model.response.StateResponse;
+import com.homesky.homecloud_lib.model.response.UserDataResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -295,13 +297,24 @@ public class Homecloud {
 
     /**
      * Gets the controllers associated to the current agent.
-     * @return A {@link ControllerDataResponse} containing the data of the associated controllers.
+     * @return A {@link ControllerDataResponse} object containing the data of the associated controllers.
      * @throws NetworkException
      */
     public ControllerDataResponse getControllers() throws NetworkException{
-        RequestModel getControllersReq = new GetControllers();
+        RequestModel getControllersReq = new GetControllersRequest();
         String responseStr = makeRequest(getControllersReq);
         return ControllerDataResponse.from(responseStr);
+    }
+
+    /**
+     * Gets the users associated to the same house id as the current admin.
+     * @return A {@link UserDataResponse} object containing the data of the associated users.
+     * @throws NetworkException
+     */
+    public UserDataResponse getUsers() throws NetworkException{
+        RequestModel getUsersReq = new GetUsersRequest();
+        String responseStr = makeRequest(getUsersReq);
+        return UserDataResponse.from(responseStr);
     }
 
     private String makeRequest(RequestModel request) throws NetworkException{

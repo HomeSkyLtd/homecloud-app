@@ -159,6 +159,10 @@ public class Constants {
         public static class GetControllers{
             public static final String CONTROLLERS = "controllers";
         }
+
+        public static class GetUsers{
+            public static final String USERS = "users";
+        }
     }
 
     public static class Values {
@@ -180,6 +184,7 @@ public class Constants {
             public static final String ACCEPT_RULE = "acceptRule";
             public static final String REMOVE_RULE = "removeRule";
             public static final String GET_CONTROLLERS = "getControllers";
+            public static final String GET_USERS = "getUsers";
         }
 
         public static class Notifications {
