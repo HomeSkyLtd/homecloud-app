@@ -8,13 +8,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class AcceptRuleRequest extends RequestModel{
-    private int mAccept, mNodeId, mCommandId;
+    private int mNodeId, mCommandId;
     private BigDecimal mValue;
     private String mControllerId;
 
-    public AcceptRuleRequest(int accept, int nodeId, int commandId, BigDecimal value, String controllerId) {
+    public AcceptRuleRequest(int nodeId, int commandId, BigDecimal value, String controllerId) {
         super(Constants.Values.Functions.ACCEPT_RULE);
-        mAccept = accept;
         mNodeId = nodeId;
         mCommandId = commandId;
         mValue = value;
@@ -30,6 +29,5 @@ public class AcceptRuleRequest extends RequestModel{
         writer.name(Constants.Fields.AcceptRule.VALUE).value(mValue);
         writer.endObject();
         writer.name(Constants.Fields.AcceptRule.CONTROLLER_ID).value(mControllerId);
-        writer.name(Constants.Fields.AcceptNode.ACCEPT).value(mAccept);
     }
 }

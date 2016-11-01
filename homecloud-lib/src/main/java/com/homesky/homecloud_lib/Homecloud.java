@@ -280,17 +280,16 @@ public class Homecloud {
     }
 
     /**
-     * Accepts or rejects the rule proposed by the machine learning system.
-     * @param accept 0 if the rule is to be rejected, 1 otherwise.
+     * Accepts the rule proposed by the machine learning system.
      * @param nodeId The target node id used in the rule.
      * @param commandId The command id of the target node used in the rule.
      * @param value The value of the command used in the rule.
      * @param controllerId The controller id associated to the target node.
      * @return A {@link ConflictingRuleResponse} object containing a possible conflicting rule.
      */
-    public ConflictingRuleResponse acceptRule(int accept, int nodeId, int commandId, BigDecimal value,
+    public ConflictingRuleResponse acceptRule(int nodeId, int commandId, BigDecimal value,
                                               String controllerId) throws NetworkException{
-        RequestModel removeNodeReq = new AcceptRuleRequest(accept, nodeId, commandId, value, controllerId);
+        RequestModel removeNodeReq = new AcceptRuleRequest(nodeId, commandId, value, controllerId);
         String responseStr = makeRequest(removeNodeReq);
         return ConflictingRuleResponse.from(responseStr);
     }

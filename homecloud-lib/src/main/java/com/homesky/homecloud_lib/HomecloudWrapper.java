@@ -357,20 +357,19 @@ public class HomecloudWrapper {
     }
 
     /**
-     * Accepts or rejects the rule proposed by the machine learning system.
-     * @param accept 0 if the rule is to be rejected, 1 otherwise.
+     * Accepts the rule proposed by the machine learning system.
      * @param nodeId The target node id used in the rule.
      * @param commandId The command id of the target node used in the rule.
      * @param value The value of the command used in the rule.
      * @param controllerId The controller id associated to the target node.
      * @return A {@link ConflictingRuleResponse} object containing a possible conflicting rule.
      */
-    public ConflictingRuleResponse acceptRule(final int accept, final int nodeId, final int commandId, final BigDecimal value,
+    public ConflictingRuleResponse acceptRule(final int nodeId, final int commandId, final BigDecimal value,
                                               final String controllerId) throws NetworkException {
         return callCRR(new FunctionCommand() {
             @Override
             public SimpleResponse execute() throws NetworkException {
-                return hc.acceptRule(accept, nodeId, commandId, value, controllerId);
+                return hc.acceptRule(nodeId, commandId, value, controllerId);
             }
         });
     }
