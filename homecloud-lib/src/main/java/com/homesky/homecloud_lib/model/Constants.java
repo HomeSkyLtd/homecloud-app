@@ -163,6 +163,20 @@ public class Constants {
         public static class GetUsers{
             public static final String USERS = "users";
         }
+
+        public static class NewDataNotification{
+            public static final String NODE_ID = "nodeId";
+            public static final String DATA_ID = "dataId";
+            public static final String VALUE = "value";
+            public static final String DATA = "data";
+        }
+
+        public static class NewCommandNotification{
+            public static final String NODE_ID = "nodeId";
+            public static final String COMMAND_ID = "commandId";
+            public static final String VALUE = "value";
+            public static final String COMMAND = "command";
+        }
     }
 
     public static class Values {
