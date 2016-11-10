@@ -16,11 +16,11 @@ import java.util.List;
 public class ControllerDataResponse extends SimpleResponse {
     private static final String TAG = "ControllerDataResp";
 
-    List<String> mControllerIds;
+    List<Controller> mControllers;
 
-    public ControllerDataResponse(int status, String errorMessage, List<String> controllerIds) {
+    public ControllerDataResponse(int status, String errorMessage, List<Controller> controllers) {
         super(status, errorMessage);
-        mControllerIds = controllerIds;
+        mControllers = controllers;
     }
 
     public static ControllerDataResponse from(String jsonStr){
@@ -31,14 +31,17 @@ public class ControllerDataResponse extends SimpleResponse {
             int status = obj.getInt(Constants.Fields.Common.STATUS);
             String errorMessage = obj.getString(Constants.Fields.Common.ERROR_MESSAGE);
 
-            List<String> controllerIds = new ArrayList<>();
+            List<Controller> controllers = new ArrayList<>();
             if(status == 200){
-                JSONArray ids = obj.getJSONArray(Constants.Fields.GetControllers.CONTROLLERS);
-                for(int i = 0 ; i < ids.length() ; ++i){
-                    controllerIds.add(ids.getString(i));
+                JSONArray controllersJson = obj.getJSONArray(Constants.Fields.ControllerDataResponse.CONTROLLERS);
+                for(int i = 0 ; i < controllersJson.length() ; ++i){
+                    JSONObject controllerObjJson = controllersJson.getJSONObject(i);
+                    String id = controllerObjJson.getString(Constants.Fields.ControllerDataResponse.ID);
+                    String name = controllerObjJson.getString(Constants.Fields.ControllerDataResponse.NAME);
+                    controllers.add(new Controller(id, name));
                 }
             }
-            return new ControllerDataResponse(status, errorMessage, controllerIds);
+            return new ControllerDataResponse(status, errorMessage, controllers);
         }
         catch(JSONException e){
             Log.e(TAG, "Error parsing JSON", e);
@@ -52,13 +55,33 @@ public class ControllerDataResponse extends SimpleResponse {
         super.writeJSON(writer);
         writer.name(Constants.Fields.GetControllers.CONTROLLERS);
         writer.beginArray();
-        for(String id : mControllerIds){
-            writer.value(id);
+        for(Controller controller : mControllers){
+            writer.beginObject();
+            writer.name(Constants.Fields.ControllerDataResponse.ID).value(controller.getId());
+            writer.name(Constants.Fields.ControllerDataResponse.NAME).value(controller.getName());
+            writer.endObject();
         }
         writer.endArray();
     }
 
-    public List<String> getControllerIds() {
-        return mControllerIds;
+    public List<Controller> getControllers() {
+        return mControllers;
+    }
+
+    public static class Controller{
+        private String mId, mName;
+
+        public Controller(String id, String name) {
+            mId = id;
+            mName = name;
+        }
+
+        public String getId() {
+            return mId;
+        }
+
+        public String getName() {
+            return mName;
+        }
     }
 }

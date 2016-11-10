@@ -28,6 +28,7 @@ public class Constants {
 
         public static class RegisterController{
             public static final String CONTROLLER_ID = "controllerId";
+            public static final String NAME = "name";
         }
 
         public static class GetHouseState{
@@ -160,7 +161,13 @@ public class Constants {
             public static final String CONTROLLERS = "controllers";
         }
 
-        public static class GetUsers{
+        public static class ControllerDataResponse{
+            public static final String CONTROLLERS = "controllers";
+            public static final String ID = "id";
+            public static final String NAME = "name";
+        }
+
+            public static class GetUsers{
             public static final String USERS = "users";
         }
 

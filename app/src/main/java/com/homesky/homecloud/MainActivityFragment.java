@@ -93,7 +93,9 @@ public class MainActivityFragment extends Fragment {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, (token == null) ? "null" : token);
 
-        HomecloudHolder.setUrl("http://ec2-52-67-3-31.sa-east-1.compute.amazonaws.com:3000/");
+//        HomecloudHolder.setUrl("http://ec2-52-67-3-31.sa-east-1.compute.amazonaws.com:3000/");
+        HomecloudHolder.setUrl("http://192.168.1.34:3000/");
+
         if(token != null)
             HomecloudHolder.setToken(token);
 
