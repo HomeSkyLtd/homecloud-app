@@ -8,11 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewCommandNotification {
+public class NewCommandNotification implements Serializable, Notification {
     private static final String TAG = "NewCommandNotif";
 
     List<NodeCommand> mCommand;

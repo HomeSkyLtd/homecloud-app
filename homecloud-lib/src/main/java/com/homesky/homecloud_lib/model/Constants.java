@@ -212,6 +212,8 @@ public class Constants {
             public static final String ACTION_RESULT = "actionResult";
             public static final String LEARNT_RULES = "newRules";
             public static final String DETECTED_NODE = "detectedNode";
+            public static final String NEW_DATA = "newData";
+            public static final String NEW_COMMAND = "newCommand";
         }
     }
 }
