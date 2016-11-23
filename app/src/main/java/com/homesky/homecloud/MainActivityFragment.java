@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.homesky.homecloud.command.AcceptNodeCommand;
 import com.homesky.homecloud.command.Command;
+import com.homesky.homecloud.command.ForceRuleLearningCommand;
 import com.homesky.homecloud.command.GetControllersCommand;
 import com.homesky.homecloud.command.GetHouseStateCommand;
 import com.homesky.homecloud.command.GetLearntRulesCommand;
@@ -79,6 +80,7 @@ public class MainActivityFragment extends Fragment {
     Button mRemoveNodeButton;
     Button mGetControllersButton;
     Button mGetUsersButton;
+    Button mForceLearningButton;
     TextView mResponseTextView;
 
     BroadcastReceiver mReceiver;
@@ -94,7 +96,7 @@ public class MainActivityFragment extends Fragment {
         Log.d(TAG, (token == null) ? "null" : token);
 
 //        HomecloudHolder.setUrl("http://ec2-52-67-3-31.sa-east-1.compute.amazonaws.com:3000/");
-        HomecloudHolder.setUrl("http://192.168.1.34:3000/");
+        HomecloudHolder.setUrl("http://192.168.1.37:3000/");
 
         if(token != null)
             HomecloudHolder.setToken(token);
@@ -375,6 +377,16 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 clearResponseTextView();
                 GetUsersCommand command = new GetUsersCommand();
+                new RequestTask().execute(command);
+            }
+        });
+
+        mForceLearningButton = (Button)v.findViewById(R.id.force_learning_button);
+        mForceLearningButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearResponseTextView();
+                ForceRuleLearningCommand command = new ForceRuleLearningCommand();
                 new RequestTask().execute(command);
             }
         });

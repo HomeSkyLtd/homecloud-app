@@ -206,6 +206,7 @@ public class Constants {
             public static final String REMOVE_RULE = "removeRule";
             public static final String GET_CONTROLLERS = "getControllers";
             public static final String GET_USERS = "getUsers";
+            public static final String FORCE_RULE_LEARNING = "forceRuleLearning";
         }
 
         public static class Notifications {

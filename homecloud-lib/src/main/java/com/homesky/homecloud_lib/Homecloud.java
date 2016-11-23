@@ -6,6 +6,7 @@ import com.homesky.homecloud_lib.exceptions.NetworkException;
 import com.homesky.homecloud_lib.model.Rule;
 import com.homesky.homecloud_lib.model.request.AcceptNodeRequest;
 import com.homesky.homecloud_lib.model.request.AcceptRuleRequest;
+import com.homesky.homecloud_lib.model.request.ForceRuleLearning;
 import com.homesky.homecloud_lib.model.request.GetControllersRequest;
 import com.homesky.homecloud_lib.model.request.GetLearntRulesRequest;
 import com.homesky.homecloud_lib.model.request.GetNodesInfoRequest;
@@ -227,6 +228,17 @@ public class Homecloud {
     public SimpleResponse removeRule(Rule rule) throws NetworkException{
         RequestModel removeRuleReq = new RemoveRuleRequest(rule);
         String responseStr = makeRequest(removeRuleReq);
+        return SimpleResponse.from(responseStr);
+    }
+
+    /**
+     * Triggers the rule-learning procedure in the server
+     * @return A {@link SimpleResponse} object representing the response.
+     * @throws NetworkException Thrown in case of network connection problems
+     */
+    public SimpleResponse forceRuleLearning() throws NetworkException{
+        RequestModel forceRuleLearningReq = new ForceRuleLearning();
+        String responseStr = makeRequest(forceRuleLearningReq);
         return SimpleResponse.from(responseStr);
     }
 

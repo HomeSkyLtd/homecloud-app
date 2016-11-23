@@ -357,6 +357,20 @@ public class HomecloudWrapper {
     }
 
     /**
+     * Triggers the rule-learning procedure in the server
+     * @return A {@link SimpleResponse} object representing the response.
+     * @throws NetworkException Thrown in case of network connection problems
+     */
+    public SimpleResponse forceRuleLearning() throws NetworkException{
+        return callSR(new FunctionCommand() {
+            @Override
+            public SimpleResponse execute() throws NetworkException {
+                return hc.forceRuleLearning();
+            }
+        });
+    }
+
+    /**
      * Accepts the rule proposed by the machine learning system.
      * @param nodeId The target node id used in the rule.
      * @param commandId The command id of the target node used in the rule.
