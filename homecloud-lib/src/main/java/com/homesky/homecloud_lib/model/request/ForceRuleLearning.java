@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ForceRuleLearning extends RequestModel {
     public ForceRuleLearning() {
-        super(Constants.Values.Functions.GET_CONTROLLERS);
+        super(Constants.Values.Functions.FORCE_RULE_LEARNING);
     }
 
     @Override
