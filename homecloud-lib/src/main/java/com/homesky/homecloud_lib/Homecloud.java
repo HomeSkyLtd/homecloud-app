@@ -123,8 +123,13 @@ public class Homecloud {
      */
     public SimpleResponse logout() throws NetworkException{
         RequestModel logoutReq = new LogoutRequest(mToken);
-        String responseStr = makeRequest(logoutReq);
-        mCookie = null;
+        String responseStr = null;
+        try{
+            responseStr = makeRequest(logoutReq);
+        }
+        finally {
+            mCookie = null;
+        }
         return SimpleResponse.from(responseStr);
     }
 
