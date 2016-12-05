@@ -8,3 +8,6 @@ This repository consists of an Android Studio project with 2 sub-projects:
 
 ## Usage
 Just import this project on Android Studio. The sample app provided illustrates how to call the functions from the library.
+
+## Documentation
+The javadoc for this library can be found [here](https://homeskyltd.github.io/homecloud-app/).
