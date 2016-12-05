@@ -43,7 +43,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
+/**
+ * This class exposes the API for the Homecloud library. Please note that the methods on this class
+ * are not thread safe. A synchronized wrapper for this class is implemented in {@link HomecloudWrapper}.
+ */
 public class Homecloud {
     private static final String TAG = "Homecloud";
     public static final MediaType JSON

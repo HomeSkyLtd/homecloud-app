@@ -19,6 +19,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A wrapper for the {@link Homecloud} class that adds method synchronization to allow usage on
+ * multi-threaded applications.
+ */
 public class HomecloudWrapper {
     private static final String TAG = "HomecloudWrapper";
 
@@ -32,18 +36,36 @@ public class HomecloudWrapper {
         hc = new Homecloud.Builder().url(url).build();
     }
 
+    /**
+     * Sets the server url where the requests are to be sent.
+     * @param url The server url.
+     */
     public void setUrl(String url) {
         hc.setUrl(url);
     }
 
+    /**
+     * Sets the username to be used to authenticate the agent making the request. If you're getting
+     * a {@link NotProperlyInitializedException}, you probably forgot to call this method.
+     * @param username The username used to authenticate the agent.
+     */
     public void setUsername(String username) {
         hc.setUsername(username);
     }
 
+    /**
+     * Sets the password to be used to authenticate the agent making the request. If you're getting
+     * a {@link NotProperlyInitializedException}, you probably forgot to call this method.
+     * @param password The username used to authenticate the agent.
+     */
     public void setPassword(String password) {
         hc.setPassword(password);
     }
 
+    /**
+     * Sets the firebase token to be sent to the server to allow receiving push notifications.
+     * @param token The firebase token.
+     */
     public void setToken(String token) {
         hc.setToken(token);
     }

@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a response from the server containing information about registered users.
+ */
 public class UserDataResponse extends SimpleResponse {
     private static final String TAG = "UserDataRes";
     private List<String> mUsers;
@@ -22,6 +25,11 @@ public class UserDataResponse extends SimpleResponse {
         mUsers = users;
     }
 
+    /**
+     * Creates a {@link UserDataResponse} instance from the JSON payload received as response from the server.
+     * @param jsonStr The JSON response in string format.
+     * @return A {@link UserDataResponse} object representing the response.
+     */
     public static UserDataResponse from(String jsonStr) {
         if(jsonStr == null) return null;
 
@@ -59,6 +67,10 @@ public class UserDataResponse extends SimpleResponse {
         writer.endArray();
     }
 
+    /**
+     * Returns the list of registered users.
+     * @return A list of Strings with the users associated to the house.
+     */
     public List<String> getUsers() {
         return mUsers;
     }

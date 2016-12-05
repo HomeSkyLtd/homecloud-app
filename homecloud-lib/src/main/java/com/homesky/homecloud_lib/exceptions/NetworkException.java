@@ -1,7 +1,7 @@
 package com.homesky.homecloud_lib.exceptions;
 
 /**
- * Created by fabio on 21/09/2016.
+ * This exception is thrown if there was a network error when making a request.
  */
 public class NetworkException extends Exception {
     public NetworkException(String msg) {

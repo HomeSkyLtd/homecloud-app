@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a response from the server containing information about registered controllers.
+ */
 public class ControllerDataResponse extends SimpleResponse {
     private static final String TAG = "ControllerDataResp";
 
@@ -23,6 +26,11 @@ public class ControllerDataResponse extends SimpleResponse {
         mControllers = controllers;
     }
 
+    /**
+     * Creates a {@link ControllerDataResponse} instance from the JSON payload received as response from the server.
+     * @param jsonStr The JSON response in string format.
+     * @return A {@link ControllerDataResponse} object representing the response.
+     */
     public static ControllerDataResponse from(String jsonStr){
         if(jsonStr == null) return null;
 
@@ -64,10 +72,17 @@ public class ControllerDataResponse extends SimpleResponse {
         writer.endArray();
     }
 
+    /**
+     * Gets the list of registered controllers in a house.
+     * @return A list of {@link Controller} objects representing the registered controllers.
+     */
     public List<Controller> getControllers() {
         return mControllers;
     }
 
+    /**
+     * Represents a controller.
+     */
     public static class Controller{
         private String mId, mName;
 
@@ -76,10 +91,18 @@ public class ControllerDataResponse extends SimpleResponse {
             mName = name;
         }
 
+        /**
+         * Gets the controller id.
+         * @return A String representing the controller id.
+         */
         public String getId() {
             return mId;
         }
 
+        /**
+         * Gets the controller name (to facilitate identification from the user).
+         * @return A String representing the controller's name.
+         */
         public String getName() {
             return mName;
         }

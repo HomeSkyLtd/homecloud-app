@@ -1,0 +1,6 @@
+com.homesky.homecloud_lib
+com.homesky.homecloud_lib.exceptions
+com.homesky.homecloud_lib.model
+com.homesky.homecloud_lib.model.enums
+com.homesky.homecloud_lib.model.notification
+com.homesky.homecloud_lib.model.response
