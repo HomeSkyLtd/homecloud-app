@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Homecloud</string>
+
+    <string-array name="functions">
+        
+    </string-array>
 </resources>
