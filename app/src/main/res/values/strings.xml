@@ -2,6 +2,12 @@
     <string name="app_name">Homecloud</string>
 
     <string-array name="functions">
-        
+        <item>Login</item>
+        <item>Logout</item>
+        <item>New admin</item>
+        <item>Register controller</item>
+        <item>Get house state</item>
+        <item>New action</item>
+        <item>Accept node</item>
     </string-array>
 </resources>

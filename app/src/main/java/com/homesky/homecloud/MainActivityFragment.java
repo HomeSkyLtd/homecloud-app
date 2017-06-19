@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,8 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -54,6 +57,7 @@ import java.util.Map;
 public class MainActivityFragment extends Fragment {
     private static final String TAG = "MainActivityFragment";
 
+    Spinner mSpinner;
     EditText mUsernameEditText;
     EditText mPasswordEditText;
     EditText mTokenEditText;
@@ -134,6 +138,12 @@ public class MainActivityFragment extends Fragment {
         mExtraEditText = (EditText)v.findViewById(R.id.extra_edit_text);
 
         mTokenEditText.setText(HomecloudHolder.getInstance().getToken());
+
+        mSpinner = (Spinner)v.findViewById(R.id.function_spinner);
+        String[] functions = getResources().getStringArray(R.array.functions);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, functions);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(spinnerArrayAdapter);
 
         mQRButton = (Button)v.findViewById(R.id.camera_button);
         mQRButton.setOnClickListener(new View.OnClickListener() {
