@@ -183,6 +183,9 @@ public class MainActivityFragment extends Fragment {
                     case "New admin":
                         newAdmin();
                         break;
+                    case "Register controller":
+                        registerController();
+                        break;
                     case "Get house state":
                         getHouseState();
                         break;
