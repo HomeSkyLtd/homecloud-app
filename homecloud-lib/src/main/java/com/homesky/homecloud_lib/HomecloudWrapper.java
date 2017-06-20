@@ -16,6 +16,7 @@ import com.homesky.homecloud_lib.model.response.StateResponse;
 import com.homesky.homecloud_lib.model.response.UserDataResponse;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -128,7 +129,7 @@ public class HomecloudWrapper {
         else if(sr instanceof NodesResponse)
             return (NodesResponse)sr;
         else{
-            return new NodesResponse(sr.getStatus(), sr.getErrorMessage(), null);
+            return new NodesResponse(sr.getStatus(), sr.getErrorMessage(), new ArrayList<NodesResponse.Node>());
         }
     }
 
@@ -139,7 +140,7 @@ public class HomecloudWrapper {
         else if(sr instanceof StateResponse)
             return (StateResponse)sr;
         else
-            return new StateResponse(sr.getStatus(), sr.getErrorMessage(), null);
+            return new StateResponse(sr.getStatus(), sr.getErrorMessage(), new ArrayList<StateResponse.NodeState>());
     }
 
     private RuleResponse callRR(FunctionCommand command) throws NetworkException {
@@ -149,7 +150,7 @@ public class HomecloudWrapper {
         else if(sr instanceof RuleResponse)
             return (RuleResponse)sr;
         else
-            return new RuleResponse(sr.getStatus(), sr.getErrorMessage(), null);
+            return new RuleResponse(sr.getStatus(), sr.getErrorMessage(), new ArrayList<Rule>());
     }
 
     private ConflictingRuleResponse callCRR(FunctionCommand command) throws NetworkException {
@@ -169,7 +170,7 @@ public class HomecloudWrapper {
         else if(sr instanceof ControllerDataResponse)
             return (ControllerDataResponse) sr;
         else
-            return new ControllerDataResponse(sr.getStatus(), sr.getErrorMessage(), null);
+            return new ControllerDataResponse(sr.getStatus(), sr.getErrorMessage(), new ArrayList<ControllerDataResponse.Controller>());
     }
 
     private UserDataResponse callUDR(FunctionCommand command) throws NetworkException {
@@ -179,7 +180,7 @@ public class HomecloudWrapper {
         else if(sr instanceof UserDataResponse)
             return (UserDataResponse) sr;
         else
-            return new UserDataResponse(sr.getStatus(), sr.getErrorMessage(), null);
+            return new UserDataResponse(sr.getStatus(), sr.getErrorMessage(), new ArrayList<String>());
     }
 
     /**

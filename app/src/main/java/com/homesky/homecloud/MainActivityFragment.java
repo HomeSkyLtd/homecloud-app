@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,9 @@ public class MainActivityFragment extends Fragment {
 
     private Map<String, Integer> mLayoutMappings;
     private int mCurrentFunctionSelection = 0;
+    private String mToken;
 
+    EditText mUrlEditText;
     Spinner mSpinner;
     EditText mUsernameEditText;
     EditText mPasswordEditText;
@@ -90,14 +93,10 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, (token == null) ? "null" : token);
+        mToken = FirebaseInstanceId.getInstance().getToken();
 
-//        HomecloudHolder.setUrl("http://ec2-52-67-3-31.sa-east-1.compute.amazonaws.com:3000/");
-        HomecloudHolder.setUrl("http://192.168.137.1:3000/");
-
-        if(token != null)
-            HomecloudHolder.setToken(token);
+        if(mToken != null)
+            HomecloudHolder.setToken(mToken);
 
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -122,6 +121,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.activity_main, container, false);
 
+        mUrlEditText = (EditText)v.findViewById(R.id.url_edit_text);
         mUsernameEditText = (EditText)v.findViewById(R.id.username_edit_text);
         mPasswordEditText = (EditText)v.findViewById(R.id.password_edit_text);
         mTokenEditText = (EditText)v.findViewById(R.id.token_edit_text);
@@ -131,7 +131,8 @@ public class MainActivityFragment extends Fragment {
         mValueEditText = (EditText)v.findViewById(R.id.value_edit_text);
         mExtraEditText = (EditText)v.findViewById(R.id.extra_edit_text);
 
-        mTokenEditText.setText(HomecloudHolder.getInstance().getToken());
+        mTokenEditText.setText(mToken);
+
         mResponseTextView = (TextView)v.findViewById(R.id.response_text_view);
 
         mSpinner = (Spinner)v.findViewById(R.id.function_spinner);
@@ -155,6 +156,20 @@ public class MainActivityFragment extends Fragment {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mUrlEditText.getText().toString().equals(""))
+                    HomecloudHolder.setUrl("http://" + mUrlEditText.getText().toString());
+                else {
+                    mResponseTextView.setText("Please, specify the server url");
+                    return;
+                }
+
+                String username = mUsernameEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                String token = mTokenEditText.getText().toString();
+                HomecloudHolder.setUsername(username);
+                HomecloudHolder.setPassword(password);
+                HomecloudHolder.setToken(token);
+
                 int selectedIndex = mSpinner.getSelectedItemPosition();
                 String selectedItem = functions[selectedIndex];
                 clearResponseTextView();
@@ -168,8 +183,14 @@ public class MainActivityFragment extends Fragment {
                     case "New admin":
                         newAdmin();
                         break;
+                    case "Get house state":
+                        getHouseState();
+                        break;
                     case "New action":
                         newAction();
+                        break;
+                    case "Accept node":
+                        acceptNode();
                         break;
                     default:
                         mResponseTextView.setText("Invalid function specified");
@@ -220,13 +241,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void login() {
-        String username = mUsernameEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
-        String token = mTokenEditText.getText().toString();
-        HomecloudHolder.setUsername(username);
-        HomecloudHolder.setPassword(password);
-        HomecloudHolder.setToken(token);
-
         LoginCommand command = new LoginCommand();
         new RequestTask().execute(command);
     }
@@ -274,6 +288,8 @@ public class MainActivityFragment extends Fragment {
             NewActionCommand command = new NewActionCommand(nodeId, controllerId, commandId, value);
             new RequestTask().execute(command);
         }
+        else
+            mResponseTextView.setText("Node id and command id cannot be empty");
     }
 
     private void newRules() {
@@ -304,6 +320,8 @@ public class MainActivityFragment extends Fragment {
                     new Rule(nodeId, controllerId, commandId, value, null));
             new RequestTask().execute(command);
         }
+        else
+            mResponseTextView.setText("Node id and command id cannot be empty");
     }
 
     private void setNodeExtra() {
@@ -319,6 +337,8 @@ public class MainActivityFragment extends Fragment {
                 new RequestTask().execute(command);
             }
         }
+        else
+            mResponseTextView.setText("Node id cannot be empty");
     }
 
     private void acceptNode() {
@@ -330,6 +350,8 @@ public class MainActivityFragment extends Fragment {
             AcceptNodeCommand command = new AcceptNodeCommand(nodeId, controllerId, accept);
             new RequestTask().execute(command);
         }
+        else
+            mResponseTextView.setText("Node id cannot be empty");
     }
 
     private void removeNode() {
@@ -340,6 +362,8 @@ public class MainActivityFragment extends Fragment {
             RemoveNodeCommand command = new RemoveNodeCommand(nodeId, controllerId);
             new RequestTask().execute(command);
         }
+        else
+            mResponseTextView.setText("Node id cannot be empty");
     }
 
     private void getNodesInfo() {
