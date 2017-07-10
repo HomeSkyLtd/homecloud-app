@@ -18,6 +18,8 @@ public class HomecloudHolder {
 
     public static void setUrl(String url) {
         HomecloudHolder.url = url;
+        if(instance != null)
+            instance.setUrl(url);
     }
 
     public static void setUsername(String username) {
